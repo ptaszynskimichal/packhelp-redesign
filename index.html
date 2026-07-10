@@ -1478,9 +1478,67 @@
     white-space: nowrap;
   }
 
+  /* ---------- PASSWORD GATE ---------- */
+  .password-gate {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+  }
+
+  .password-gate-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    max-width: 320px;
+    width: 100%;
+    padding: 2rem;
+    text-align: center;
+    box-sizing: border-box;
+  }
+
+  .password-gate-title {
+    margin: 0;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  .password-gate-input {
+    width: 100%;
+    height: 48px;
+    padding: 0 16px;
+    border-radius: 8px;
+    border: 1px solid #E7E7E7;
+    font-size: 1rem;
+    font-family: inherit;
+    box-sizing: border-box;
+  }
+
+  .password-gate-error {
+    margin: 0;
+    color: #D33;
+    font-size: 0.875rem;
+  }
+
 </style>
 </head>
 <body>
+
+<div id="passwordGate" class="password-gate">
+  <form id="passwordGateForm" class="password-gate-form">
+    <p class="password-gate-title">This preview is password protected</p>
+    <input type="password" id="passwordGateInput" class="password-gate-input" placeholder="Enter password" autocomplete="off">
+    <button type="submit" class="btn-pill lg">Enter</button>
+    <p class="password-gate-error" id="passwordGateError" style="display:none;">Incorrect password, try again.</p>
+  </form>
+</div>
+
+<div id="siteContent" style="display:none;">
 
 <div class="announcement-bar">
   <span>The more products you add, the more you save. Code: <strong>BUNDLEUP</strong></span>
@@ -2173,6 +2231,40 @@
     restartTimer();
   })();
 
+</script>
+
+</div>
+
+<script>
+  (function () {
+    var CORRECT_PASSWORD = 'shipbox42';
+    var gate = document.getElementById('passwordGate');
+    var content = document.getElementById('siteContent');
+    var form = document.getElementById('passwordGateForm');
+    var input = document.getElementById('passwordGateInput');
+    var error = document.getElementById('passwordGateError');
+
+    function unlock() {
+      gate.style.display = 'none';
+      content.style.display = '';
+    }
+
+    if (sessionStorage.getItem('phGateOk') === '1') {
+      unlock();
+    }
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      if (input.value === CORRECT_PASSWORD) {
+        sessionStorage.setItem('phGateOk', '1');
+        unlock();
+      } else {
+        error.style.display = 'block';
+        input.value = '';
+        input.focus();
+      }
+    });
+  })();
 </script>
 
 </body>
