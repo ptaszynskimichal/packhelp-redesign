@@ -394,7 +394,7 @@
     margin: 0 auto;
     padding: 5rem 3rem;
     border-radius: 2rem;
-    background: linear-gradient(180deg, #1a1a1a 0%, #2c2c2c 55%, #3f3f3f 100%);
+    background: #0F0F0F;
     text-align: center;
   }
 
@@ -475,36 +475,6 @@
     color: #fff;
   }
 
-  .cta-checklist {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 0.75rem 2rem;
-    max-width: 44rem;
-    margin: 2rem auto 0;
-    padding: 0;
-    list-style: none;
-  }
-
-  .cta-checklist li {
-    display: flex;
-    align-items: center;
-    gap: 0.625rem;
-    text-align: left;
-    font-size: 0.9375rem;
-    color: rgba(255,255,255,.85);
-  }
-
-  .cta-checklist svg {
-    width: 18px;
-    height: 18px;
-    flex: none;
-    color: #2757FF;
-  }
-
-  @media (max-width: 700px) {
-    .cta-checklist { grid-template-columns: 1fr; }
-  }
-
   .cta-buttons {
     display: flex;
     align-items: center;
@@ -536,13 +506,46 @@
   @media (max-width: 700px) {
     .cta-card { padding: 3rem 1.5rem; }
     .cta-buttons { flex-direction: column; align-items: stretch; }
+    .cta-tiles { flex-direction: column; }
   }
 
-  /* ---------- CHART BLOCK SPACER (charts removed, height kept) ---------- */
-  .chart-block-spacer {
-    max-width: 44rem;
-    height: 380px;
+  .cta-tiles {
+    display: flex;
+    gap: 1px;
+    padding: 1px;
+    background: #0F0F0F;
+    max-width: 64rem;
     margin: 3.5rem auto 0;
+    border-radius: 1.25rem;
+    overflow: hidden;
+  }
+
+  .cta-tile {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 420px;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.75rem;
+    box-sizing: border-box;
+    background: #1B1B1B;
+    text-align: left;
+    transition: background 0.4s ease;
+  }
+
+  .cta-tile:hover {
+    background:
+      radial-gradient(55% 55% at 15% 20%, rgba(255,255,255,.05), transparent 70%),
+      radial-gradient(50% 50% at 85% 75%, rgba(255,255,255,.04), transparent 70%),
+      linear-gradient(180deg, #141414 0%, #1f1f1f 55%, #2a2a2a 100%);
+  }
+
+  .cta-tile-title {
+    margin: 0;
+    color: #fff;
+    font-size: 0.9375rem;
+    line-height: 1.5rem;
+    font-weight: 500;
   }
 
   /* ---------- SCROLL REVEAL ---------- */
@@ -592,6 +595,10 @@
     flex-direction: column;
     align-items: flex-start;
     justify-content: center;
+    min-width: 0;
+    padding-right: 24px;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
   h1.headline {
@@ -605,8 +612,8 @@
 
   .hero-subheading {
     margin: 1rem 0 0;
-    font-size: 1.125rem;
-    line-height: 1.625rem;
+    font-size: 1rem;
+    line-height: 1.5rem;
     color: var(--gray-500);
   }
 
@@ -614,7 +621,7 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin-top: 2rem;
+    margin-top: 1.25rem;
   }
 
   .hero-right {
@@ -682,9 +689,69 @@
     align-items: center;
     justify-content: flex-start;
     gap: 0.625rem;
-    margin-top: 1.25rem;
+    margin-top: 2rem;
     font-size: 0.8125rem;
     color: var(--gray-500);
+  }
+
+  .trust-logos-outer {
+    position: relative;
+    width: 100%;
+    margin-top: 1rem;
+    overflow: hidden;
+  }
+
+  .trust-logos-outer::before,
+  .trust-logos-outer::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 48px;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .trust-logos-outer::before {
+    left: 0;
+    background: linear-gradient(90deg, var(--bg) 0%, transparent 100%);
+  }
+
+  .trust-logos-outer::after {
+    right: 0;
+    background: linear-gradient(270deg, var(--bg) 0%, transparent 100%);
+  }
+
+  .trust-logos-track {
+    display: flex;
+    width: max-content;
+    animation: trust-logos-scroll 20s linear infinite;
+  }
+
+  .trust-logos {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+    gap: 1.75rem;
+    padding-right: 1.75rem;
+  }
+
+  .trust-logos img {
+    height: 40px;
+    width: 40px;
+    object-fit: contain;
+    opacity: 0.55;
+    filter: grayscale(100%);
+    transition: opacity 0.2s ease;
+  }
+
+  @keyframes trust-logos-scroll {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  .trust-logos img:hover {
+    opacity: 0.9;
   }
 
   .hero-inline-link {
@@ -1593,6 +1660,30 @@
           <div class="trust-line">
             <span><span class="trust-bold">Trusted by 125 300</span> global companies</span>
           </div>
+          <div class="trust-logos-outer">
+            <div class="trust-logos-track">
+              <div class="trust-logos">
+                <img src="https://img.logo.dev/hm.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="H&amp;M">
+                <img src="https://img.logo.dev/backmarket.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="Back Market">
+                <img src="https://img.logo.dev/hims.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="hims">
+                <img src="https://img.logo.dev/ubereats.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="Uber Eats">
+                <img src="https://img.logo.dev/heinz.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="Heinz">
+                <img src="https://img.logo.dev/vinted.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="Vinted">
+                <img src="https://img.logo.dev/glossier.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="Glossier">
+                <img src="https://img.logo.dev/oatly.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="Oatly">
+              </div>
+              <div class="trust-logos" aria-hidden="true">
+                <img src="https://img.logo.dev/hm.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="">
+                <img src="https://img.logo.dev/backmarket.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="">
+                <img src="https://img.logo.dev/hims.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="">
+                <img src="https://img.logo.dev/ubereats.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="">
+                <img src="https://img.logo.dev/heinz.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="">
+                <img src="https://img.logo.dev/vinted.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="">
+                <img src="https://img.logo.dev/glossier.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="">
+                <img src="https://img.logo.dev/oatly.com?token=pk_FonKU4KMQo6h0do32M2s_g&size=80&format=png" alt="">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -1894,13 +1985,6 @@
       <div class="cta-content">
         <p class="cta-text">One supplier for everything your brand ships. When packaging becomes a line in your P&amp;L, you need more than a webshop. A warehouse, an invoice that behaves, and people who answer.</p>
 
-        <ul class="cta-checklist">
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Thousands of products, one invoice</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Up to 120 days deferred, interest-free</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>Produce in bulk, call off deliveries</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>A packaging advisor replies within a day</li>
-        </ul>
-
         <div class="cta-buttons">
           <button class="btn-pill lg">
             <span class="cta-avatars">
@@ -1914,7 +1998,17 @@
           <button class="btn-pill lg outline-light">Get a quote<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
         </div>
 
-        <div class="chart-block-spacer"></div>
+        <div class="cta-tiles">
+          <div class="cta-tile">
+            <p class="cta-tile-title">Thousands of products, one invoice</p>
+          </div>
+          <div class="cta-tile">
+            <p class="cta-tile-title">Produce in bulk, call off deliveries</p>
+          </div>
+          <div class="cta-tile">
+            <p class="cta-tile-title">A packaging advisor replies within a day</p>
+          </div>
+        </div>
       </div>
     </div>
   </section>
