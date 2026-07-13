@@ -507,45 +507,422 @@
     .cta-card { padding: 3rem 1.5rem; }
     .cta-buttons { flex-direction: column; align-items: stretch; }
     .cta-tiles { flex-direction: column; }
+    .cta-tile { width: 100%; height: clamp(280px, 70vw, 480px); }
   }
 
   .cta-tiles {
     display: flex;
-    gap: 1px;
-    padding: 1px;
-    background: #0F0F0F;
-    max-width: 64rem;
+    gap: 1rem;
+    max-width: 100%;
+    width: fit-content;
     margin: 3.5rem auto 0;
-    border-radius: 1.25rem;
-    overflow: hidden;
   }
 
   .cta-tile {
-    flex: 1 1 0;
+    position: relative;
+    flex: 0 1 auto;
     min-width: 0;
-    min-height: 420px;
+    width: clamp(220px, 36vw, 460px);
+    height: clamp(280px, calc(40vw + 40px), 548px);
     display: flex;
-    align-items: flex-end;
-    padding: 1.75rem;
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 32px;
     box-sizing: border-box;
-    background: #1B1B1B;
+    border-radius: 1.25rem;
+    overflow: hidden;
     text-align: left;
-    transition: background 0.4s ease;
   }
 
-  .cta-tile:hover {
-    background:
-      radial-gradient(55% 55% at 15% 20%, rgba(255,255,255,.05), transparent 70%),
-      radial-gradient(50% 50% at 85% 75%, rgba(255,255,255,.04), transparent 70%),
-      linear-gradient(180deg, #141414 0%, #1f1f1f 55%, #2a2a2a 100%);
+  .cta-tile-gradient {
+    display: flex;
+    flex-direction: column;
+    background: linear-gradient(180deg, #EFE9FF 0%, #CDE6FF 100%);
+  }
+
+  .cta-tile-pills-wrap {
+    flex: 1 1 auto;
+    min-height: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .cta-tile-video-bg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.15);
+    z-index: 0;
+  }
+
+  .cta-tile-video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(0, 0, 0, 0.50) 0%, rgba(0, 0, 0, 0.00) 100%);
+    z-index: 1;
   }
 
   .cta-tile-title {
+    position: relative;
+    z-index: 2;
     margin: 0;
+    max-width: 240px;
     color: #fff;
-    font-size: 0.9375rem;
+    font-size: 1.25rem;
     line-height: 1.5rem;
+    font-weight: 400;
+  }
+
+  .cta-tile-gradient .cta-tile-title {
+    color: #000;
+  }
+
+  .cta-tile-composer {
+    position: absolute;
+    z-index: 2;
+    left: 32px;
+    right: 32px;
+    bottom: 32px;
+    max-width: 100%;
+    height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 8px 0 20px;
+    box-sizing: border-box;
+    border-radius: 999px;
+    border: 1px solid rgba(255, 255, 255, 0.10);
+    background: rgba(255, 255, 255, 0.10);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .cta-tile-composer-text {
+    flex: 1 1 auto;
+    min-width: 0;
+    color: #fff;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  .cta-tile-composer-send {
+    flex: none;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.16);
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .cta-tile-composer-send svg {
+    width: 18px;
+    height: 18px;
+  }
+
+  .cta-tile-composer-send.pulse {
+    animation: cta-send-pulse 0.5s ease;
+  }
+
+  @keyframes cta-send-pulse {
+    0% { transform: scale(1); }
+    40% { transform: scale(1.18); }
+    100% { transform: scale(1); }
+  }
+
+  .cta-tile-composer-text.is-placeholder {
+    color: rgba(255,255,255,.5);
+  }
+
+  .cta-tile-bubbles {
+    position: absolute;
+    z-index: 2;
+    right: 32px;
+    bottom: 108px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .cta-tile-bubble {
+    display: inline-flex;
+    padding: 12px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 999px;
+    background: #0E58FF;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 400;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(16px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .cta-tile-bubble.show {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .cta-tile-pills {
+    font-size: clamp(6px, 1vw, 12px);
+    display: flex;
+    flex-direction: column;
+    gap: 0.8em;
+  }
+
+  .cta-pill-row {
+    display: flex;
+    gap: 0.8em;
+  }
+
+  .cta-pill-row-1 {
+    margin-left: 3em;
+  }
+
+  .cta-pill-row-2 {
+    margin-left: 0;
+  }
+
+  .cta-pill-row-3 {
+    margin-left: 1.5em;
+  }
+
+  .cta-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.401em;
+    padding: 0.642em 0.963em 0.642em 0.642em;
+    border-radius: 999px;
+    border: 0.321em solid rgba(255,255,255,.40);
+    background: #FFF;
+    background-clip: padding-box;
+    color: #00061A;
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: "ABC Favorit", sans-serif;
+    font-size: 1em;
+    font-style: normal;
     font-weight: 500;
+    line-height: 132%;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .cta-section.is-visible .cta-pill {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .cta-pay-arrow {
+    width: 0;
+    height: 1em;
+    margin-left: 0;
+    flex: none;
+    opacity: 0;
+    overflow: hidden;
+    transition: width 0.3s ease, margin-left 0.3s ease, opacity 0.2s ease;
+  }
+
+  .cta-pay-arrow.show {
+    width: 1em;
+    margin-left: 0.4em;
+    opacity: 1;
+    transition: width 0.55s cubic-bezier(.34,1.56,.64,1), margin-left 0.55s cubic-bezier(.34,1.56,.64,1), opacity 0.25s ease;
+  }
+
+  .cta-pill-img {
+    display: flex;
+    flex: none;
+    width: 3.211em;
+    height: 3.131em;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    background: #F2F2F2;
+    overflow: hidden;
+  }
+
+  .cta-pill-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cta-pill-pay {
+    display: flex;
+    width: fit-content;
+    padding: 0.642em 2.667em;
+    justify-content: center;
+    align-items: center;
+    gap: 0;
+    border-radius: 999px;
+    border: 0.321em solid rgba(255,255,255,.40);
+    background: #0E58FF;
+    background-clip: padding-box;
+    color: #fff;
+  }
+
+  .cta-tile-shape {
+    position: absolute;
+    z-index: 2;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%) translateY(24px);
+    width: 380px;
+    max-width: calc(100% - 64px);
+    min-height: 200px;
+    padding: 32px 32px 0;
+    border-radius: 16px 16px 0 0;
+    border-top: 4px solid rgba(255, 255, 255, 0.40);
+    border-right: 4px solid rgba(255, 255, 255, 0.40);
+    border-left: 4px solid rgba(255, 255, 255, 0.40);
+    background: #FFF;
+    background-clip: padding-box;
+    opacity: 0;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .cta-section.is-visible .cta-tile-shape {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+
+  .cta-shape-header {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    flex-wrap: wrap;
+  }
+
+  .cta-shape-text,
+  .cta-shape-pill {
+    color: #000;
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: "ABC Favorit", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 132%;
+    letter-spacing: -0.28px;
+  }
+
+  .cta-shape-pill {
+    display: flex;
+    padding: 8px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 8px;
+  }
+
+  .cta-shape-pill-blue {
+    background: #CFE7FF;
+  }
+
+  .cta-shape-pill-purple {
+    background: #EDE8FF;
+  }
+
+  .cta-shape-divider {
+    width: 100%;
+    height: 1px;
+    margin-top: 16px;
+    background: #E1E1E1;
+  }
+
+  .cta-shape-list {
+    position: relative;
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .cta-shape-line {
+    position: absolute;
+    z-index: 0;
+    left: 8.5px;
+    top: 24px;
+    bottom: 24px;
+    width: 1px;
+    background: #D9D9D9;
+  }
+
+  .cta-shape-dot {
+    position: relative;
+    z-index: 1;
+    width: 17px;
+    height: 17px;
+    aspect-ratio: 1 / 1;
+    flex-shrink: 0;
+    border-radius: 50%;
+    background: #FFF;
+    border: 1px solid #D9D9D9;
+  }
+
+  @keyframes cta-dot-activate {
+    from { transform: scale(0); }
+    to { transform: scale(1); }
+  }
+
+  .cta-shape-dot-active {
+    background: #0E58FF;
+    border-color: #0E58FF;
+    animation: cta-dot-activate 0.5s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  .cta-shape-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .cta-section.is-visible .cta-shape-item {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .cta-shape-item-img {
+    display: flex;
+    width: 48px;
+    height: 48px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    background: #F2F2F2;
+    overflow: hidden;
+  }
+
+  .cta-shape-item-img img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .cta-shape-item-label {
+    color: #00061A;
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: "ABC Favorit", sans-serif;
+    font-size: 12.456px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 132%;
+    letter-spacing: -0.249px;
   }
 
   /* ---------- SCROLL REVEAL ---------- */
@@ -1075,7 +1452,7 @@
     margin: 0 0 0.5rem;
     font-size: 1.25rem;
     line-height: 1.5rem;
-    font-weight: 500;
+    font-weight: 400;
     color: var(--black);
   }
 
@@ -1338,6 +1715,41 @@
     transform: translate(-50%, -50%) rotate(0deg) scale(1);
   }
 
+  .section-badge {
+    display: none;
+    margin: 0 0 0.75rem;
+    padding: 0.25rem 0.75rem;
+    background: #F2F2F2;
+    color: var(--gray-500);
+    font-size: 0.8125rem;
+    font-weight: 400;
+    border-radius: 999px;
+  }
+
+  .categories-section .section-badge {
+    margin-left: calc((100vw - min(100vw, var(--max-w))) / 2 + 2rem);
+  }
+
+  .cta-content .section-badge {
+    background: #1B1B1B;
+    color: rgba(255,255,255,.7);
+    border: 1px solid rgba(255,255,255,.12);
+  }
+
+  body.show-badge .cta-content .section-badge {
+    display: block;
+    width: fit-content;
+    margin-left: max(0px, calc((100% - 44rem) / 2));
+  }
+
+  body.show-badge .section-badge {
+    display: inline-block;
+  }
+
+  body.short-hero .hero-visual {
+    height: 460px;
+  }
+
   .categories-heading {
     margin: 0 0 0.25rem;
     padding-left: calc((100vw - min(100vw, var(--max-w))) / 2 + 2rem);
@@ -1572,6 +1984,141 @@
     font-size: 0.875rem;
   }
 
+  /* ---------- SITE SETTINGS ---------- */
+  .site-settings-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.08);
+    box-shadow: 0 4px 16px rgba(0,0,0,.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--gray-500);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .site-settings-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,.18);
+  }
+
+  .site-settings-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .site-settings-panel {
+    position: fixed;
+    bottom: 92px;
+    right: 24px;
+    z-index: 1000;
+    width: 280px;
+    background: #fff;
+    border-radius: 1rem;
+    box-shadow: 0 8px 32px rgba(0,0,0,.18);
+    padding: 1.25rem;
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .site-settings-panel.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .site-settings-title {
+    margin: 0 0 1rem;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  .site-settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .site-settings-row + .site-settings-row {
+    margin-top: 1rem;
+  }
+
+  .site-settings-label {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--black);
+  }
+
+  .site-settings-desc {
+    margin: 0.125rem 0 0;
+    font-size: 0.75rem;
+    color: var(--gray-500);
+  }
+
+  .site-toggle {
+    position: relative;
+    display: inline-block;
+    width: 40px;
+    height: 24px;
+    flex: none;
+  }
+
+  .site-toggle input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .site-toggle-track {
+    position: absolute;
+    inset: 0;
+    background: #E1E1E1;
+    border-radius: 999px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .site-toggle-thumb {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,.2);
+    transition: transform 0.2s ease;
+  }
+
+  .site-toggle input:checked + .site-toggle-track {
+    background: #2757FF;
+  }
+
+  .site-toggle input:checked + .site-toggle-track .site-toggle-thumb {
+    transform: translateX(16px);
+  }
+
+  body.hide-captions .categories-subheading {
+    display: none;
+  }
+
+  body.hide-captions .categories-heading {
+    margin-bottom: 0.5rem;
+  }
+
 </style>
 </head>
 <body>
@@ -1757,6 +2304,7 @@
     <div class="faq-grid">
 
       <div class="faq-text">
+        <span class="section-badge">Why Packhelp</span>
         <h2 class="faq-heading">Everything your brand ships — made simple.</h2>
         <div class="faq-cta-row">
           <button class="btn-pill lg">Shop now<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
@@ -1790,6 +2338,7 @@
   </section>
 
   <section class="categories-section reveal">
+    <span class="section-badge">Custom packaging</span>
     <h2 class="categories-heading">Whatever you make, we pack it.</h2>
     <p class="categories-subheading">150+ packaging products across six families. Printed around your brand, at yours in days.</p>
 
@@ -1845,6 +2394,7 @@
   </section>
 
   <section class="categories-section reveal">
+    <span class="section-badge">Kits &amp; branded merch</span>
     <h2 class="categories-heading">The box was never meant to be empty.</h2>
     <p class="categories-subheading">130+ products, curated so you never scroll through 2,500 pens. Printed with your brand and packed into your box.</p>
 
@@ -1983,6 +2533,7 @@
       <div class="cta-grain"></div>
 
       <div class="cta-content">
+        <span class="section-badge">At any scale</span>
         <p class="cta-text">One supplier for everything your brand ships. When packaging becomes a line in your P&amp;L, you need more than a webshop. A warehouse, an invoice that behaves, and people who answer.</p>
 
         <div class="cta-buttons">
@@ -1999,14 +2550,78 @@
         </div>
 
         <div class="cta-tiles">
-          <div class="cta-tile">
+          <div class="cta-tile cta-tile-gradient">
             <p class="cta-tile-title">Thousands of products, one invoice</p>
+            <div class="cta-tile-pills-wrap">
+              <div class="cta-tile-pills">
+                <div class="cta-pill-row cta-pill-row-1">
+                  <span class="cta-pill" style="transition-delay: 0s"><span class="cta-pill-img"><img src="https://cdn-pim.packhelp.com/assets/694a8b84-0ce5-4de2-a4c1-271ffb31013b/2001862-ziplock-thumb?w=640&fit=min&auto=format" alt=""></span>Frosted Ziplock Bag</span>
+                  <span class="cta-pill" style="transition-delay: 0.15s"><span class="cta-pill-img"><img src="https://cdn-pim.packhelp.com/assets/a0e98036-3664-4d14-82be-146aa0b1a31c/603891-om-packaging-1?w=640&fit=min&auto=format" alt=""></span>Snap Lock Box</span>
+                </div>
+                <div class="cta-pill-row cta-pill-row-2">
+                  <span class="cta-pill" style="transition-delay: 0.3s"><span class="cta-pill-img"><img src="https://cdn-pim.packhelp.com/assets/1c8f331b-87b6-4fbb-9c9d-fea1d65ddcc7/128308-0428799-e-bd-2-f-4020-931-b-398-bdc-5-f-2-cfa-png?w=640&fit=min&auto=format" alt=""></span>Mailer Box</span>
+                  <span class="cta-pill" style="transition-delay: 0.45s"><span class="cta-pill-img"><img src="https://cdn-pim.packhelp.com/assets/0df7f906-e452-4388-a8d8-1b90d109de53/89199-718-caa-93-5442-48-c-4-9990-27-f-41-f-66-b-385-png?w=640&fit=min&auto=format" alt=""></span>Rigid Magnetic Box</span>
+                </div>
+                <div class="cta-pill-row cta-pill-row-3">
+                  <span class="cta-pill" style="transition-delay: 0.6s"><span class="cta-pill-img"><img src="https://cdn-pim.packhelp.com/assets/e78b410c-109d-4a65-b4a3-dd018790372e/240486-padded-envelope?w=640&fit=min&auto=format" alt=""></span>Eco Padded Enveloper</span>
+                  <span class="cta-pill cta-pill-pay" id="ctaPayPill" style="transition-delay: 0.75s">
+                    Pay Invoice
+                    <svg class="cta-pay-arrow" id="ctaPayArrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="cta-tile">
-            <p class="cta-tile-title">Produce in bulk, call off deliveries</p>
-          </div>
-          <div class="cta-tile">
+          <div class="cta-tile cta-tile-video">
+            <video class="cta-tile-video-bg" src="6668870.mp4" autoplay muted loop playsinline></video>
+            <div class="cta-tile-video-overlay"></div>
             <p class="cta-tile-title">A packaging advisor replies within a day</p>
+            <div class="cta-tile-bubbles">
+              <span class="cta-tile-bubble" id="ctaBubble1">At 8,000 units we can hold 9 business days.</span>
+              <span class="cta-tile-bubble" id="ctaBubble2">I'll lock the slot now, you confirm by Friday.</span>
+            </div>
+            <div class="cta-tile-composer">
+              <span class="cta-tile-composer-text" id="ctaComposerText"></span>
+              <span class="cta-tile-composer-send" id="ctaComposerSend">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+              </span>
+            </div>
+          </div>
+          <div class="cta-tile cta-tile-gradient">
+            <p class="cta-tile-title">Produce in bulk, call off deliveries</p>
+            <div class="cta-tile-shape">
+              <div class="cta-shape-header">
+                <span class="cta-shape-text">One</span>
+                <span class="cta-shape-pill cta-shape-pill-blue">production run</span>
+                <span class="cta-shape-text">.</span>
+                <span class="cta-shape-pill cta-shape-pill-purple">Unlimited</span>
+                <span class="cta-shape-text">call-offs.</span>
+              </div>
+              <div class="cta-shape-divider"></div>
+              <div class="cta-shape-list">
+                <div class="cta-shape-line"></div>
+                <div class="cta-shape-item" style="transition-delay: 0s">
+                  <span class="cta-shape-dot" id="ctaDot1"></span>
+                  <span class="cta-shape-item-img"><img src="https://cdn-pim.packhelp.com/assets/694a8b84-0ce5-4de2-a4c1-271ffb31013b/2001862-ziplock-thumb?w=640&fit=min&auto=format" alt=""></span>
+                  <span class="cta-shape-item-label">Frosted Ziplock Bag</span>
+                </div>
+                <div class="cta-shape-item" style="transition-delay: 0.5s">
+                  <span class="cta-shape-dot" id="ctaDot2"></span>
+                  <span class="cta-shape-item-img"><img src="https://cdn-pim.packhelp.com/assets/a0e98036-3664-4d14-82be-146aa0b1a31c/603891-om-packaging-1?w=640&fit=min&auto=format" alt=""></span>
+                  <span class="cta-shape-item-label">Snap Lock Box</span>
+                </div>
+                <div class="cta-shape-item" style="transition-delay: 1s">
+                  <span class="cta-shape-dot"></span>
+                  <span class="cta-shape-item-img"><img src="https://cdn-pim.packhelp.com/assets/e78b410c-109d-4a65-b4a3-dd018790372e/240486-padded-envelope?w=640&fit=min&auto=format" alt=""></span>
+                  <span class="cta-shape-item-label">Eco Padded Enveloper</span>
+                </div>
+                <div class="cta-shape-item" style="transition-delay: 1.5s">
+                  <span class="cta-shape-dot"></span>
+                  <span class="cta-shape-item-img"><img src="https://cdn-pim.packhelp.com/assets/0df7f906-e452-4388-a8d8-1b90d109de53/89199-718-caa-93-5442-48-c-4-9990-27-f-41-f-66-b-385-png?w=640&fit=min&auto=format" alt=""></span>
+                  <span class="cta-shape-item-label">Rigid Magnetic Box</span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -2225,6 +2840,125 @@
   })();
 
   (function () {
+    var el = document.getElementById('ctaComposerText');
+    var bubble1 = document.getElementById('ctaBubble1');
+    var bubble2 = document.getElementById('ctaBubble2');
+    var sendBtn = document.getElementById('ctaComposerSend');
+    if (!el || !bubble1 || !bubble2 || !sendBtn) { return; }
+
+    var phrases = ['Can lead time go under 2 weeks', 'if we bump to 8,000?'];
+    var phraseIndex = 0;
+    var charIndex = 0;
+
+    function pulseSend() {
+      sendBtn.classList.remove('pulse');
+      void sendBtn.offsetWidth;
+      sendBtn.classList.add('pulse');
+    }
+
+    function typeTick() {
+      var phrase = phrases[phraseIndex];
+      charIndex++;
+      el.textContent = phrase.slice(0, charIndex);
+
+      if (charIndex >= phrase.length) {
+        var isLastPhrase = phraseIndex === phrases.length - 1;
+        setTimeout(function () {
+          if (isLastPhrase) { pulseSend(); }
+          phraseIndex++;
+          charIndex = 0;
+          el.textContent = '';
+
+          if (phraseIndex >= phrases.length) {
+            showPlaceholder();
+            return;
+          }
+
+          setTimeout(typeTick, 400);
+        }, 1800);
+        return;
+      }
+
+      setTimeout(typeTick, 45);
+    }
+
+    function showPlaceholder() {
+      el.textContent = 'Type your message...';
+      el.classList.add('is-placeholder');
+
+      setTimeout(function () { bubble1.classList.add('show'); }, 500);
+      setTimeout(function () { bubble2.classList.add('show'); }, 1600);
+
+      setTimeout(resetSequence, 4200);
+    }
+
+    function resetSequence() {
+      bubble1.classList.remove('show');
+      bubble2.classList.remove('show');
+      el.classList.remove('is-placeholder');
+      el.textContent = '';
+      phraseIndex = 0;
+      charIndex = 0;
+      setTimeout(typeTick, 600);
+    }
+
+    typeTick();
+  })();
+
+  (function () {
+    var pill = document.getElementById('ctaPayPill');
+    var arrow = document.getElementById('ctaPayArrow');
+    if (!pill || !arrow) { return; }
+
+    function blinkLoop() {
+      setTimeout(function () {
+        arrow.classList.remove('show');
+        setTimeout(function () {
+          arrow.classList.add('show');
+          blinkLoop();
+        }, 3000);
+      }, 3000);
+    }
+
+    var arrowObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          setTimeout(function () {
+            arrow.classList.add('show');
+            blinkLoop();
+          }, 1000);
+          arrowObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    arrowObserver.observe(pill);
+  })();
+
+  (function () {
+    var shape = document.querySelector('.cta-tile-shape');
+    var dot1 = document.getElementById('ctaDot1');
+    var dot2 = document.getElementById('ctaDot2');
+    if (!shape || !dot1 || !dot2) { return; }
+
+    var dotObserver = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          setTimeout(function () {
+            dot1.classList.add('cta-shape-dot-active');
+          }, 700);
+          setTimeout(function () {
+            dot2.classList.add('cta-shape-dot-active');
+          }, 1300);
+          dotObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    dotObserver.observe(shape);
+  })();
+
+  (function () {
     var images = ['hero.png', 'hero2.png', 'hero3.png', null];
     var sizes = ['auto 100%', 'auto 100%', 'auto 100%', 'auto 100%'];
     var positions = ['right center', 'center center', 'center center', 'center center'];
@@ -2272,6 +3006,104 @@
     restartTimer();
   })();
 
+</script>
+
+<button id="siteSettingsBtn" class="site-settings-btn" aria-label="Site settings">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+</button>
+
+<div id="siteSettingsPanel" class="site-settings-panel">
+  <p class="site-settings-title">Page customization</p>
+  <div class="site-settings-row">
+    <div>
+      <p class="site-settings-label">Show captions</p>
+      <p class="site-settings-desc">Subheading copy under section titles</p>
+    </div>
+    <label class="site-toggle">
+      <input type="checkbox" id="toggleCaptions" checked>
+      <span class="site-toggle-track"><span class="site-toggle-thumb"></span></span>
+    </label>
+  </div>
+  <div class="site-settings-row">
+    <div>
+      <p class="site-settings-label">Custom packaging badge</p>
+      <p class="site-settings-desc">Small badge above "Whatever you make, we pack it."</p>
+    </div>
+    <label class="site-toggle">
+      <input type="checkbox" id="toggleBadge">
+      <span class="site-toggle-track"><span class="site-toggle-thumb"></span></span>
+    </label>
+  </div>
+  <div class="site-settings-row">
+    <div>
+      <p class="site-settings-label">Short hero</p>
+      <p class="site-settings-desc">Hero image height: 460px</p>
+    </div>
+    <label class="site-toggle">
+      <input type="checkbox" id="toggleShortHero">
+      <span class="site-toggle-track"><span class="site-toggle-thumb"></span></span>
+    </label>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('siteSettingsBtn');
+    var panel = document.getElementById('siteSettingsPanel');
+    var toggle = document.getElementById('toggleCaptions');
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      panel.classList.toggle('open');
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!panel.contains(e.target) && e.target !== btn) {
+        panel.classList.remove('open');
+      }
+    });
+
+    function applyCaptions(show) {
+      document.body.classList.toggle('hide-captions', !show);
+      toggle.checked = show;
+    }
+
+    var saved = localStorage.getItem('hideCaptions');
+    applyCaptions(saved !== '1');
+
+    toggle.addEventListener('change', function () {
+      applyCaptions(toggle.checked);
+      localStorage.setItem('hideCaptions', toggle.checked ? '0' : '1');
+    });
+
+    var badgeToggle = document.getElementById('toggleBadge');
+
+    function applyBadge(show) {
+      document.body.classList.toggle('show-badge', show);
+      badgeToggle.checked = show;
+    }
+
+    applyBadge(localStorage.getItem('showBadge') === '1');
+
+    badgeToggle.addEventListener('change', function () {
+      applyBadge(badgeToggle.checked);
+      localStorage.setItem('showBadge', badgeToggle.checked ? '1' : '0');
+    });
+
+    var shortHeroToggle = document.getElementById('toggleShortHero');
+
+    function applyShortHero(active) {
+      document.body.classList.toggle('short-hero', active);
+      shortHeroToggle.checked = active;
+    }
+
+    applyShortHero(localStorage.getItem('shortHero') === '1');
+
+    shortHeroToggle.addEventListener('change', function () {
+      applyShortHero(shortHeroToggle.checked);
+      localStorage.setItem('shortHero', shortHeroToggle.checked ? '1' : '0');
+    });
+  })();
 </script>
 
 </div>
