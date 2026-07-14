@@ -565,13 +565,18 @@
     background: linear-gradient(180deg, #EFE9FF 0%, #CDE6FF 100%);
   }
 
-  .cta-tile-pills-wrap {
-    flex: 1 1 auto;
-    min-height: 0;
-    width: 100%;
+  .cta-tile-video {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+  }
+
+  .cta-tile-pills-wrap {
+    position: absolute;
+    left: 32px;
+    right: 32px;
+    bottom: 32px;
+    transform: scale(0.9);
+    transform-origin: bottom left;
   }
 
   .cta-tile-video-bg {
@@ -2878,7 +2883,9 @@
         </div>
 
         <div class="cta-tiles">
-          <div class="cta-tile cta-tile-gradient">
+          <div class="cta-tile cta-tile-video">
+            <video class="cta-tile-video-bg" src="5817229.mp4" autoplay muted loop playsinline></video>
+            <div class="cta-tile-video-overlay"></div>
             <p class="cta-tile-title">Thousands of products, one invoice</p>
             <div class="cta-tile-pills-wrap">
               <div class="cta-tile-pills">
