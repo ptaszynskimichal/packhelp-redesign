@@ -503,25 +503,50 @@
     margin-left: 0;
   }
 
+  .cta-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .cta-avatars.sm {
+    margin-right: 0.5rem;
+  }
+
+  .cta-avatars.sm .cta-avatar {
+    width: 18px;
+    height: 18px;
+    border-width: 1.5px;
+    margin-left: -7px;
+  }
+
   @media (max-width: 700px) {
     .cta-card { padding: 3rem 1.5rem; }
     .cta-buttons { flex-direction: column; align-items: stretch; }
-    .cta-tiles { flex-direction: column; }
-    .cta-tile { width: 100%; height: clamp(280px, 70vw, 480px); }
+    .cta-content .cta-tiles { flex-direction: column; width: 100%; max-width: 100%; margin-left: 0; margin-right: 0; padding-left: 0; padding-right: 0; }
+    .cta-tiles .cta-tile { width: 100%; height: clamp(280px, 70vw, 480px); }
   }
 
   .cta-tiles {
     display: flex;
+    justify-content: safe center;
     gap: 1rem;
-    max-width: 100%;
-    width: fit-content;
-    margin: 3.5rem auto 0;
+    box-sizing: border-box;
+    width: calc(100% + 6rem);
+    margin-top: 3.5rem;
+    margin-left: -3rem;
+    margin-right: -3rem;
+    padding-left: 3rem;
+    padding-right: 3rem;
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
   }
 
   .cta-tile {
     position: relative;
-    flex: 0 1 auto;
-    min-width: 0;
+    flex: 0 0 auto;
     width: clamp(220px, 36vw, 460px);
     height: clamp(280px, calc(40vw + 40px), 548px);
     display: flex;
@@ -783,7 +808,7 @@
     transform: translateX(-50%) translateY(24px);
     width: 380px;
     max-width: calc(100% - 64px);
-    min-height: 200px;
+    max-height: calc(100% - 96px);
     padding: 32px 32px 0;
     border-radius: 16px 16px 0 0;
     border-top: 4px solid rgba(255, 255, 255, 0.40);
@@ -791,6 +816,7 @@
     border-left: 4px solid rgba(255, 255, 255, 0.40);
     background: #FFF;
     background-clip: padding-box;
+    overflow: hidden;
     opacity: 0;
     transition: opacity 0.6s ease, transform 0.6s ease;
   }
@@ -868,9 +894,18 @@
     height: 17px;
     aspect-ratio: 1 / 1;
     flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     border-radius: 50%;
     background: #FFF;
     border: 1px solid #D9D9D9;
+    color: transparent;
+  }
+
+  .cta-shape-dot svg {
+    width: 10px;
+    height: 10px;
   }
 
   @keyframes cta-dot-activate {
@@ -881,6 +916,7 @@
   .cta-shape-dot-active {
     background: #0E58FF;
     border-color: #0E58FF;
+    color: #fff;
     animation: cta-dot-activate 0.5s cubic-bezier(.34,1.56,.64,1);
   }
 
@@ -998,7 +1034,15 @@
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    width: 100%;
     margin-top: 1.25rem;
+  }
+
+  .hero-cta-buttons {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
   }
 
   .hero-right {
@@ -1007,6 +1051,7 @@
     align-items: center;
     justify-content: center;
     gap: 1rem;
+    min-width: 0;
   }
 
   .hero-visual {
@@ -1169,6 +1214,16 @@
     h1.headline { font-size: 2.25rem; line-height: 2.625rem; }
     .nav-links.desktop-only { display: none; }
     .sticky-bar { display: none; }
+
+    .hero-visual {
+      width: 100%;
+      height: auto;
+      aspect-ratio: 1 / 1;
+    }
+
+    body.short-hero .hero-visual {
+      height: auto;
+    }
   }
 
   /* ---------- THUMB STRIP ---------- */
@@ -1419,7 +1474,15 @@
     }
 
     .statement-tile-image-custom-wrap {
-      width: min(230px, 55%);
+      width: min(149px, 55%);
+    }
+
+    .statement-tile-custom-overlay {
+      width: min(149px, 55%);
+    }
+
+    .statement-tile-custom-overlay img {
+      width: 205px;
     }
   }
 
@@ -1434,6 +1497,10 @@
     display: flex;
     flex-direction: column;
     gap: 40px;
+  }
+
+  .statement-tile-d {
+    background: #F8F8F8;
   }
 
   .statement-tile-text {
@@ -1517,7 +1584,7 @@
     bottom: 0;
     left: 50%;
     transform: translateX(-50%) translateY(24px);
-    width: min(315px, 75%);
+    width: min(204px, 75%);
     max-height: 100%;
     overflow: hidden;
     opacity: 0;
@@ -1528,12 +1595,38 @@
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 630 / 724;
+    aspect-ratio: 408 / 680;
   }
 
   .statement-grid.is-visible .statement-tile-image-custom-wrap {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
+  }
+
+  .statement-tile-custom-overlay {
+    position: absolute;
+    z-index: 3;
+    bottom: 0;
+    left: 50%;
+    width: min(204px, 75%);
+    aspect-ratio: 408 / 680;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.7s ease;
+  }
+
+  .statement-grid.is-visible .statement-tile-custom-overlay {
+    opacity: 1;
+  }
+
+  .statement-tile-custom-overlay img {
+    width: 280px;
+    max-width: none;
+    height: auto;
   }
 
   .statement-tile-image-material {
@@ -1550,6 +1643,14 @@
   .statement-grid.is-visible .statement-tile-image-material {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
+  }
+
+  .statement-tile-live3d-video {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 
   .serif-word {
@@ -1845,6 +1946,7 @@
 
   .section-toolbar {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     justify-content: space-between;
     gap: 1rem;
@@ -1855,6 +1957,18 @@
 
   .section-toolbar .toggle-switch {
     margin-bottom: 0;
+  }
+
+  @media (max-width: 700px) {
+    .section-toolbar {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .section-toolbar > .btn-pill {
+      width: 100%;
+      justify-content: center;
+    }
   }
 
   .toggle-indicator {
@@ -2119,6 +2233,183 @@
     margin-bottom: 0.5rem;
   }
 
+  /* ---------- FOOTER ---------- */
+  .site-footer {
+    position: relative;
+    padding: 4rem 0 0;
+  }
+
+  .site-footer::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    border-top: 1px solid #E5E5E5;
+  }
+
+  .footer-inner {
+    padding: 0 2rem;
+    box-sizing: border-box;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3rem;
+    justify-content: space-between;
+  }
+
+  .footer-left {
+    flex: 0 1 420px;
+    max-width: 460px;
+  }
+
+  .footer-logo {
+    display: inline-flex;
+  }
+
+  .footer-logo img {
+    height: 26px;
+    width: auto;
+  }
+
+  .footer-newsletter-copy {
+    margin: 1.25rem 0 0;
+    font-size: 0.9375rem;
+    line-height: 1.4rem;
+    color: var(--gray-500);
+  }
+
+  .footer-newsletter {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 1rem;
+  }
+
+  .footer-newsletter-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    height: 2.5rem;
+    padding: 0 1rem;
+    border: none;
+    border-radius: 999px;
+    background: var(--cream);
+    font-family: inherit;
+    font-size: 0.8125rem;
+    color: var(--black);
+  }
+
+  .footer-newsletter-input::placeholder {
+    color: var(--gray-500);
+  }
+
+  .footer-newsletter-input:focus {
+    outline: none;
+  }
+
+  .footer-newsletter-btn {
+    flex: 0 0 auto;
+    height: 2.5rem;
+    padding: 0 1.25rem;
+    font-size: 0.8125rem;
+  }
+
+  .footer-badges {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 1.5rem;
+  }
+
+  .footer-badge {
+    display: flex;
+    padding: 8px;
+    border: 1px solid #D9D9D9;
+    border-radius: 8px;
+  }
+
+  .footer-badge img {
+    height: 44px;
+    width: auto;
+  }
+
+  .footer-links {
+    display: flex;
+    flex: 0 1 auto;
+    gap: 3.5rem;
+  }
+
+  .footer-col {
+    width: 200px;
+    flex: 0 0 auto;
+  }
+
+  .footer-col-group {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
+
+  .footer-col-title {
+    margin: 0 0 1.125rem;
+    font-size: 0.875rem;
+    font-weight: 400;
+    color: var(--gray-500);
+  }
+
+  .footer-col ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+
+  .footer-col a {
+    color: var(--black);
+    text-decoration: none;
+    font-size: 0.9375rem;
+  }
+
+  .footer-col a:hover {
+    text-decoration: underline;
+  }
+
+  .footer-bottom {
+    position: relative;
+    margin-top: 3.5rem;
+  }
+
+  .footer-bottom::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    border-top: 1px solid #E5E5E5;
+  }
+
+  .footer-bottom-inner {
+    padding: 1.5rem 2rem;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    font-size: 0.8125rem;
+    color: var(--gray-500);
+  }
+
+  @media (max-width: 700px) {
+    .site-footer { padding: 3rem 0 0; }
+    .footer-inner { padding: 0 1.5rem; }
+    .footer-bottom-inner { padding: 1.5rem; }
+    .footer-newsletter { flex-direction: column; align-items: stretch; }
+    .footer-links { flex-wrap: wrap; gap: 2rem 1.5rem; }
+  }
+
 </style>
 </head>
 <body>
@@ -2155,7 +2446,14 @@
 
   <div class="sticky-cta" id="stickyCta">
     <button class="btn-pill sm secondary">Get a quote</button>
-    <button class="btn-pill sm">Book an expert call</button>
+    <button class="btn-pill sm">
+      <span class="cta-avatars sm">
+        <span class="cta-avatar"><img src="https://i.pravatar.cc/48?img=32" alt=""></span>
+        <span class="cta-avatar"><img src="https://i.pravatar.cc/48?img=47" alt=""></span>
+        <span class="cta-avatar"><img src="https://i.pravatar.cc/48?img=65" alt=""></span>
+      </span>
+      Book an expert call
+    </button>
   </div>
 </div>
 
@@ -2188,7 +2486,14 @@
       <li><a href="#">Inspirations</a></li>
       <li><a href="#">Contact</a></li>
       <li><button class="btn-pill sm secondary">Get a quote</button></li>
-      <li><button class="btn-pill sm">Book an expert call</button></li>
+      <li><button class="btn-pill sm">
+        <span class="cta-avatars sm">
+          <span class="cta-avatar"><img src="https://i.pravatar.cc/48?img=32" alt=""></span>
+          <span class="cta-avatar"><img src="https://i.pravatar.cc/48?img=47" alt=""></span>
+          <span class="cta-avatar"><img src="https://i.pravatar.cc/48?img=65" alt=""></span>
+        </span>
+        Book an expert call
+      </button></li>
     </ul>
   </nav>
   </div>
@@ -2199,7 +2504,7 @@
         <h1 class="headline">Custom packaging, made to measure. And everything inside it.</h1>
         <p class="hero-subheading">Explore, design and order branded products your customers will love.</p>
         <div class="cta-row">
-          <div style="display:flex; align-items:center; gap:0.75rem;">
+          <div class="hero-cta-buttons">
             <button class="btn-pill lg">Shop now<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
             <button class="btn-pill lg secondary">Get a quote<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
             <a href="#" class="hero-inline-link">or Build your box</a>
@@ -2411,39 +2716,39 @@
     <div class="categories-grid" id="gearGrid">
 
       <div class="category-item">
-        <div class="category-thumb" style="--thumb-img:url('12802ec5def88cc057d2b234135160e3.jpg')"></div>
+        <div class="category-thumb" style="--thumb-img:url('onboarding-apparel.png')"></div>
         <h3 class="category-title">Apparel</h3>
         <p class="category-desc">Hoodies and tees people wear on weekends.</p>
       </div>
 
       <div class="category-item">
-        <div class="category-thumb" style="--thumb-img:url('9f93a641e7cbb0da2a3413e6b939db38.jpg')"></div>
-        <h3 class="category-title">Bags &amp; backpacks</h3>
-        <p class="category-desc">From tote to commuter.</p>
-      </div>
-
-      <div class="category-item">
-        <div class="category-thumb" style="--thumb-img:url('6038571a673766e7f2587c42626aca72.jpg')"></div>
+        <div class="category-thumb" style="--thumb-img:url('onboarding-notebook.png')"></div>
         <h3 class="category-title">Notebooks &amp; pens</h3>
         <p class="category-desc">The desk, upgraded.</p>
       </div>
 
       <div class="category-item">
-        <div class="category-thumb" style="--thumb-img:url('2ec5452afd258090676d0c800bc004f5.jpg')"></div>
+        <div class="category-thumb" style="--thumb-img:url('onboarding-bag.png')"></div>
+        <h3 class="category-title">Bags &amp; backpacks</h3>
+        <p class="category-desc">From tote to commuter.</p>
+      </div>
+
+      <div class="category-item">
+        <div class="category-thumb" style="--thumb-img:url('onboarding-drinkware.png')"></div>
         <h3 class="category-title">Drinkware</h3>
         <p class="category-desc">Bottles and mugs that stay on the desk.</p>
+      </div>
+
+      <div class="category-item">
+        <div class="category-thumb" style="--thumb-img:url('onboarding-treats.png')"></div>
+        <h3 class="category-title">Treats &amp; wellness</h3>
+        <p class="category-desc">The first-day smile.</p>
       </div>
 
       <div class="category-item">
         <div class="category-thumb" style="--thumb-img:url('316d75aaa2c7afdcd0cadda80f9efa3b.jpg')"></div>
         <h3 class="category-title">Tech &amp; gadgets</h3>
         <p class="category-desc">Power banks, chargers, cables.</p>
-      </div>
-
-      <div class="category-item">
-        <div class="category-thumb" style="--thumb-img:url('8e1ae9897995c324445bab1b3ab58bda.jpg')"></div>
-        <h3 class="category-title">Treats &amp; wellness</h3>
-        <p class="category-desc">The first-day smile.</p>
       </div>
 
     </div>
@@ -2499,7 +2804,10 @@
           </div>
           <div class="statement-tile-media">
             <div class="statement-tile-image-custom-wrap">
-              <img src="custom.png" alt="">
+              <img src="custom1.png" alt="">
+            </div>
+            <div class="statement-tile-custom-overlay" style="transition-delay: 0.2s">
+              <img src="custom0.png" alt="Height 12 cm, Length 9 cm, Width 17 cm">
             </div>
           </div>
         </div>
@@ -2519,7 +2827,9 @@
             <h3 class="statement-tile-title">Live 3D preview</h3>
             <p class="statement-tile-desc">See packaging appear in real time in 3D</p>
           </div>
-          <div class="statement-tile-media"></div>
+          <div class="statement-tile-media">
+            <video class="statement-tile-live3d-video" src="box-rotation.mp4" autoplay muted loop playsinline></video>
+          </div>
         </div>
       </div>
     </div>
@@ -2601,12 +2911,12 @@
               <div class="cta-shape-list">
                 <div class="cta-shape-line"></div>
                 <div class="cta-shape-item" style="transition-delay: 0s">
-                  <span class="cta-shape-dot" id="ctaDot1"></span>
+                  <span class="cta-shape-dot" id="ctaDot1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
                   <span class="cta-shape-item-img"><img src="https://cdn-pim.packhelp.com/assets/694a8b84-0ce5-4de2-a4c1-271ffb31013b/2001862-ziplock-thumb?w=640&fit=min&auto=format" alt=""></span>
                   <span class="cta-shape-item-label">Frosted Ziplock Bag</span>
                 </div>
                 <div class="cta-shape-item" style="transition-delay: 0.5s">
-                  <span class="cta-shape-dot" id="ctaDot2"></span>
+                  <span class="cta-shape-dot" id="ctaDot2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
                   <span class="cta-shape-item-img"><img src="https://cdn-pim.packhelp.com/assets/a0e98036-3664-4d14-82be-146aa0b1a31c/603891-om-packaging-1?w=640&fit=min&auto=format" alt=""></span>
                   <span class="cta-shape-item-label">Snap Lock Box</span>
                 </div>
@@ -2636,6 +2946,93 @@
       <button class="btn-pill lg secondary">Get a quote<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
     </div>
   </section>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-left">
+        <a href="#" class="footer-logo" aria-label="Packhelp"><img src="logo-packhelp.1iheyVke.svg" alt="Packhelp"></a>
+
+        <p class="footer-newsletter-copy">Don't miss out – get 15% off your first order when you join the newsletter.</p>
+
+        <form class="footer-newsletter">
+          <input type="email" class="footer-newsletter-input" placeholder="Your email" required>
+          <button type="submit" class="btn-pill footer-newsletter-btn">Sign up</button>
+        </form>
+
+        <div class="footer-badges">
+          <span class="footer-badge"><img src="https://zapakuj.to/_astro/fsc-badge.CT_C2C6x.svg" alt="FSC certified"></span>
+          <span class="footer-badge"><img src="https://zapakuj.to/_astro/esg-badge-yellow-black.C3wtyeOu.svg" alt="ESG badge"></span>
+        </div>
+      </div>
+
+      <div class="footer-links">
+        <div class="footer-col-group">
+          <div class="footer-col">
+            <p class="footer-col-title">Contact &amp; Help</p>
+            <ul>
+              <li><a href="#">Contact us</a></li>
+              <li><a href="#">Send us a brief</a></li>
+              <li><a href="#">Help</a></li>
+              <li><a href="#">Return policy</a></li>
+              <li><a href="#">Impressum</a></li>
+              <li><a href="#">Press</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <p class="footer-col-title">Company</p>
+            <ul>
+              <li><a href="#">Press</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-col-group">
+          <div class="footer-col">
+            <p class="footer-col-title">Sustainability</p>
+            <ul>
+              <li><a href="#">Sustainability Hub</a></li>
+              <li><a href="#">Our Progress Reports</a></li>
+              <li><a href="#">Responsible Supply Chain</a></li>
+              <li><a href="#">Eco badge</a></li>
+            </ul>
+          </div>
+
+          <div class="footer-col">
+            <p class="footer-col-title">Resources</p>
+            <ul>
+              <li><a href="#">Blog</a></li>
+              <li><a href="#">Terms of service</a></li>
+              <li><a href="#">Privacy policy</a></li>
+              <li><a href="#">Whistleblowing policy</a></li>
+              <li><a href="#">Sitemap</a></li>
+              <li><a href="#">Cookie settings</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <p class="footer-col-title">Connect</p>
+          <ul>
+            <li><a href="#">Instagram</a></li>
+            <li><a href="#">X</a></li>
+            <li><a href="#">Pinterest</a></li>
+            <li><a href="#">Tiktok</a></li>
+            <li><a href="#">Linkedin</a></li>
+            <li><a href="#">Youtube</a></li>
+            <li><a href="#">Facebook</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <div class="footer-bottom-inner">
+        <span>Copyright Packhelp 2025</span>
+        <span>Business Hours Monday - Friday 8:00-15:00</span>
+      </div>
+    </div>
+  </footer>
 
 </div>
 
@@ -2740,30 +3137,30 @@
   (function () {
     var items = [
       { title: 'Apparel', desc: 'Hoodies and tees people wear on weekends.' },
-      { title: 'Bags &amp; backpacks', desc: 'From tote to commuter.' },
       { title: 'Notebooks &amp; pens', desc: 'The desk, upgraded.' },
+      { title: 'Bags &amp; backpacks', desc: 'From tote to commuter.' },
       { title: 'Drinkware', desc: 'Bottles and mugs that stay on the desk.' },
-      { title: 'Tech &amp; gadgets', desc: 'Power banks, chargers, cables.' },
-      { title: 'Treats &amp; wellness', desc: 'The first-day smile.' }
+      { title: 'Treats &amp; wellness', desc: 'The first-day smile.' },
+      { title: 'Tech &amp; gadgets', desc: 'Power banks, chargers, cables.' }
     ];
 
     var gearTabs = {
       onboarding: [
-        '12802ec5def88cc057d2b234135160e3.jpg',
-        '9f93a641e7cbb0da2a3413e6b939db38.jpg',
-        '6038571a673766e7f2587c42626aca72.jpg',
-        '2ec5452afd258090676d0c800bc004f5.jpg',
-        '316d75aaa2c7afdcd0cadda80f9efa3b.jpg',
-        '8e1ae9897995c324445bab1b3ab58bda.jpg'
+        'onboarding-apparel.png',
+        'onboarding-notebook.png',
+        'onboarding-bag.png',
+        'onboarding-drinkware.png',
+        'onboarding-treats.png',
+        '316d75aaa2c7afdcd0cadda80f9efa3b.jpg'
       ],
       events: [null, null, null, null, null, null],
       restaurants: [
         '1096eec85a28dadf28e900c61a629a02.jpg',
-        '82e2ddbf527e115f498b73231699f676.jpg',
         '4d4cf13230afc2005f063456b1ed63b5.jpg',
+        '82e2ddbf527e115f498b73231699f676.jpg',
         'dbd0dd7d8460f52eb61f3caba55b8eed.jpg',
-        null,
-        '728ffe321172e473ab82f72f599ceade.jpg'
+        '728ffe321172e473ab82f72f599ceade.jpg',
+        null
       ]
     };
 
@@ -3120,6 +3517,7 @@
     function unlock() {
       gate.style.display = 'none';
       content.style.display = '';
+      window.dispatchEvent(new Event('resize'));
     }
 
     if (sessionStorage.getItem('phGateOk') === '1') {
