@@ -1668,10 +1668,18 @@
   .statement-tile-live3d-overlay {
     display: block;
     position: absolute;
+    bottom: 80px;
+    right: 96px;
+    width: 96px;
+    height: auto;
+  }
+
+  .statement-tile-live3d-overlay-left {
+    display: block;
+    position: absolute;
     bottom: 24px;
-    right: 4%;
-    transform: translateX(-40px);
-    width: 224px;
+    left: 96px;
+    width: 96px;
     height: auto;
   }
 
@@ -2851,6 +2859,7 @@
           </div>
           <div class="statement-tile-media">
             <video class="statement-tile-live3d-video" src="box-rotation.mp4" autoplay muted loop playsinline></video>
+            <img class="statement-tile-live3d-overlay-left" src="editor-live-preview-2.png" alt="">
             <img class="statement-tile-live3d-overlay" src="editor-live-preview-1.png" alt="">
           </div>
         </div>
