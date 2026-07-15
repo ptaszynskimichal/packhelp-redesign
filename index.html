@@ -1489,12 +1489,6 @@
     .statement-tile-custom-overlay img {
       width: 205px;
     }
-
-    .statement-tile-live3d-overlay {
-      right: 50%;
-      transform: translate(50%, -50%);
-      width: min(220px, 85%);
-    }
   }
 
   .statement-tile {
@@ -1669,9 +1663,9 @@
   .statement-tile-live3d-overlay {
     display: block;
     position: absolute;
-    bottom: 80px;
-    right: 96px;
-    width: 96px;
+    bottom: 16%;
+    right: 8%;
+    width: min(96px, 22%);
     height: auto;
     opacity: 0;
     transform: translateY(24px);
@@ -1681,9 +1675,9 @@
   .statement-tile-live3d-overlay-left {
     display: block;
     position: absolute;
-    bottom: 24px;
-    left: 96px;
-    width: 96px;
+    bottom: 5%;
+    left: 8%;
+    width: min(96px, 22%);
     height: auto;
     opacity: 0;
     transform: translateY(24px);
@@ -1859,6 +1853,55 @@
     transform: translate(-50%, -50%) rotate(0deg) scale(1);
   }
 
+  .hero-deco-square {
+    display: inline-block;
+    position: relative;
+    width: 0;
+    height: 0;
+    vertical-align: middle;
+    margin: 0;
+    transition: width 0.6s cubic-bezier(.34,1.56,.64,1), margin 0.6s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  body.hero-centered .hero-deco-square {
+    width: 56px;
+    margin: 0 0.4rem;
+  }
+
+  .hero-deco-square::before {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 56px;
+    height: 56px;
+    background-color: #E2E2E2;
+    background-size: cover;
+    background-position: center;
+    border-radius: 8px;
+    transform: translate(-50%, -50%) rotate(-8deg) scale(0);
+    transition: transform 0.6s cubic-bezier(.34,1.56,.64,1);
+  }
+
+  body.hero-centered .hero-deco-square::before {
+    transform: translate(-50%, -50%) rotate(-8deg) scale(1);
+    animation: final-deco-cycle 2.5s steps(1) infinite;
+  }
+
+  body.hero-centered .hero-deco-square:nth-of-type(2)::before {
+    animation: hero-deco-cycle-2 2.5s steps(1) infinite;
+    animation-delay: 1.25s;
+  }
+
+  @keyframes hero-deco-cycle-2 {
+    0%   { background-image: url('793725-pre-printed-mailer-box.avif'); }
+    20%  { background-image: url('507697-packhelp-28291.avif'); }
+    40%  { background-image: url('2948760-ziplock-bag-0.avif'); }
+    60%  { background-image: url('404068-export.avif'); }
+    80%  { background-image: url('208230-paper-bag-01.avif'); }
+    100% { background-image: url('793725-pre-printed-mailer-box.avif'); }
+  }
+
   .section-badge {
     display: none;
     margin: 0 0 0.75rem;
@@ -1892,6 +1935,68 @@
 
   body.short-hero .hero-visual {
     height: 460px;
+  }
+
+  body.hero-centered .hero-right {
+    display: none;
+  }
+
+  body.hero-centered .hero-grid {
+    grid-template-columns: 1fr;
+    max-width: 76rem;
+    text-align: center;
+  }
+
+  body.hero-centered .hero-left {
+    align-items: center;
+    padding-right: 0;
+  }
+
+  body.hero-centered h1.headline {
+    max-width: none;
+    font-size: 4.5rem;
+    line-height: 4.75rem;
+    letter-spacing: -0.03em;
+  }
+
+  body.hero-centered .hero-subheading {
+    max-width: none;
+    white-space: nowrap;
+    margin: 1.5rem auto 0;
+    font-size: 1.125rem;
+    line-height: 1.625rem;
+  }
+
+  body.hero-centered .cta-row {
+    align-items: center;
+  }
+
+  body.hero-centered .hero-cta-buttons {
+    justify-content: center;
+  }
+
+  body.hero-centered .trust-line {
+    display: none;
+  }
+
+  body.hero-centered .trust-logos-outer {
+    display: none;
+  }
+
+  body.hero-centered .hero {
+    padding-top: 6rem;
+  }
+
+  @media (max-width: 700px) {
+    body.hero-centered h1.headline {
+      font-size: 2.5rem;
+      line-height: 2.75rem;
+    }
+
+    body.hero-centered .hero-subheading {
+      white-space: normal;
+      max-width: 26rem;
+    }
   }
 
   .categories-heading {
@@ -2544,7 +2649,7 @@
   <section class="hero">
     <div class="hero-grid">
       <div class="hero-left">
-        <h1 class="headline">Custom packaging, made to measure. And everything inside it.</h1>
+        <h1 class="headline">Custom <span class="hero-deco-square"></span> packaging, made to measure. And everything <span class="hero-deco-square"></span> inside it.</h1>
         <p class="hero-subheading">Explore, design and order branded products your customers will love.</p>
         <div class="cta-row">
           <div class="hero-cta-buttons">
@@ -3488,6 +3593,16 @@
       <span class="site-toggle-track"><span class="site-toggle-thumb"></span></span>
     </label>
   </div>
+  <div class="site-settings-row">
+    <div>
+      <p class="site-settings-label">Centered hero</p>
+      <p class="site-settings-desc">No hero image, layout like "Everything in the box."</p>
+    </div>
+    <label class="site-toggle">
+      <input type="checkbox" id="toggleHeroCentered">
+      <span class="site-toggle-track"><span class="site-toggle-thumb"></span></span>
+    </label>
+  </div>
 </div>
 
 <script>
@@ -3546,6 +3661,20 @@
     shortHeroToggle.addEventListener('change', function () {
       applyShortHero(shortHeroToggle.checked);
       localStorage.setItem('shortHero', shortHeroToggle.checked ? '1' : '0');
+    });
+
+    var heroCenteredToggle = document.getElementById('toggleHeroCentered');
+
+    function applyHeroCentered(active) {
+      document.body.classList.toggle('hero-centered', active);
+      heroCenteredToggle.checked = active;
+    }
+
+    applyHeroCentered(localStorage.getItem('heroCentered') === '1');
+
+    heroCenteredToggle.addEventListener('change', function () {
+      applyHeroCentered(heroCenteredToggle.checked);
+      localStorage.setItem('heroCentered', heroCenteredToggle.checked ? '1' : '0');
     });
   })();
 </script>
