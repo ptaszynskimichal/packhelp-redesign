@@ -1418,11 +1418,11 @@
         <h3 class="build-box-field-label">Construction</h3>
         <p class="build-box-field-desc">Decide how the box will open and close</p>
         <div class="construction-grid">
-          <button class="construction-card">
+          <button class="construction-card active" data-construction="classic">
             <img src="build/classic.svg" alt="">
             <span>Classic</span>
           </button>
-          <button class="construction-card active">
+          <button class="construction-card" data-construction="hanging">
             <img src="build/hanging.svg" alt="">
             <span>Hanging</span>
           </button>
@@ -1840,6 +1840,7 @@
   (function () {
     var canvasImage = document.getElementById('canvasImage');
     var boxTypeCards = document.querySelectorAll('#stepBoxType .box-type-card');
+    var constructionCards = document.querySelectorAll('#stepConstruction .construction-card');
     var windowsCards = document.querySelectorAll('#stepWindows .box-type-card');
     var materialCards = document.querySelectorAll('#stepMaterial .material-card');
     if (!canvasImage) { return; }
@@ -1847,6 +1848,9 @@
     var COMBO_IMAGE_BY_MATERIAL = {
       'white': 'build/windowing-white.png',
       'premium-white': 'build/windowing-white-premium.png'
+    };
+    var CONSTRUCTION_COMBO_IMAGE = {
+      'hanging': 'build/folding-box-hanging.png'
     };
     var baseImage = canvasImage.getAttribute('src');
 
@@ -1866,10 +1870,16 @@
 
     function refreshCanvas() {
       var boxType = activeDataValue('#stepBoxType', 'data-box-type');
+      var construction = activeDataValue('#stepConstruction', 'data-construction');
       var windows = activeDataValue('#stepWindows', 'data-windows');
       var material = activeDataValue('#stepMaterial', 'data-material');
 
-      var comboImage = (boxType === 'folding' && windows === 'windowing') ? COMBO_IMAGE_BY_MATERIAL[material] : null;
+      var comboImage = null;
+      if (boxType === 'folding' && CONSTRUCTION_COMBO_IMAGE[construction]) {
+        comboImage = CONSTRUCTION_COMBO_IMAGE[construction];
+      } else if (boxType === 'folding' && windows === 'windowing') {
+        comboImage = COMBO_IMAGE_BY_MATERIAL[material];
+      }
       setCanvasImage(comboImage || baseImage);
     }
 
@@ -1879,6 +1889,10 @@
         if (thumb) { baseImage = thumb.getAttribute('src'); }
         refreshCanvas();
       });
+    });
+
+    constructionCards.forEach(function (card) {
+      card.addEventListener('click', refreshCanvas);
     });
 
     windowsCards.forEach(function (card) {
