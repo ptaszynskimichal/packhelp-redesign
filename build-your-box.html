@@ -1,0 +1,1866 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Build your box — Packhelp</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="base.css">
+<link rel="stylesheet" href="components.css">
+<style>
+  /* ---------- ANNOUNCEMENT ---------- */
+  .announcement-bar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: 0.75rem 2rem calc(0.75rem + 20px);
+    background: #E3E7FF;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+  }
+
+  .announcement-copy {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: rgba(255,255,255,.5);
+    color: var(--color-text-primary);
+    padding: var(--space-1-5);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: background-color .15s ease;
+  }
+
+  .announcement-copy:hover {
+    background: rgba(255,255,255,.8);
+  }
+
+  .announcement-copy svg {
+    width: 14px;
+    height: 14px;
+  }
+
+  .nav-wrapper {
+    position: relative;
+    z-index: 1;
+    width: 100vw;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: -20px;
+    background: var(--color-bg-page);
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  }
+
+  /* ---------- NAV ---------- */
+  .nav-row1 {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-8);
+    height: 4rem;
+    padding: 0 var(--space-8);
+  }
+
+  .sticky-bar {
+    position: fixed;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    width: 100%;
+    max-width: 1280px;
+    display: grid;
+    grid-template-columns: 1fr minmax(180px, 30rem) 1fr;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-2) var(--space-8);
+    box-sizing: border-box;
+    border-radius: var(--radius-full);
+    background: transparent;
+    box-shadow: none;
+    transition: background 0.3s ease, box-shadow 0.3s ease;
+    pointer-events: none;
+  }
+
+  .sticky-bar.is-pinned {
+    background: rgba(255, 255, 255, 0.80);
+    box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+
+  .sticky-links {
+    justify-self: start;
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateY(-16px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .sticky-links a {
+    font-size: 0.8125rem;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    white-space: nowrap;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-full);
+    transition: background-color .15s ease;
+  }
+
+  .sticky-links a:hover {
+    background-color: rgba(0,0,0,.05);
+  }
+
+  .sticky-cta {
+    justify-self: end;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    pointer-events: auto;
+    opacity: 0;
+    transform: translateY(-16px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+  }
+
+  .sticky-bar.is-pinned .sticky-links,
+  .sticky-bar.is-pinned .sticky-cta {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .signin-link {
+    font-size: 0.8125rem;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  .flag-badge {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex: none;
+    display: flex;
+  }
+
+  .flag-badge img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nav-row1::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    border-bottom: 1px solid rgba(0,0,0,.07);
+  }
+
+  nav.topbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 3.5rem;
+    padding: 0 var(--space-8);
+  }
+
+  .nav-megamenu {
+    position: absolute;
+    z-index: 20;
+    top: 100%;
+    left: 50%;
+    width: 100vw;
+    box-sizing: border-box;
+    background: #fff;
+    border-top: 1px solid rgba(0,0,0,.07);
+    border-bottom: 1px solid rgba(0,0,0,.07);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(-50%) translateY(4px);
+    transition: opacity 0.15s ease, transform 0.15s ease, visibility 0s linear 0.15s;
+  }
+
+  nav.topbar:has(.nav-item-packaging:hover) .nav-megamenu,
+  .nav-megamenu:hover {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+    transition: opacity 0.15s ease, transform 0.15s ease;
+  }
+
+  .nav-megamenu-inner {
+    display: flex;
+    gap: var(--space-10);
+    max-width: var(--max-w);
+    margin: 0 auto;
+    padding: var(--space-8);
+    box-sizing: border-box;
+  }
+
+  .nav-megamenu-col {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-6);
+  }
+
+  .nav-megamenu-divider {
+    flex: 0 0 auto;
+    width: 1px;
+    align-self: stretch;
+    background: #E5E5E5;
+  }
+
+  .nav-megamenu-title {
+    margin: 0 0 var(--space-3);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .nav-megamenu-group ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2-5);
+  }
+
+  .nav-megamenu-group a {
+    font-size: 0.9375rem;
+    color: var(--gray-700, var(--color-text-primary));
+    text-decoration: none;
+  }
+
+  .nav-megamenu-group a:hover {
+    text-decoration: underline;
+  }
+
+  .nav-megamenu-group ul.nav-megamenu-sublist {
+    margin-top: var(--space-2-5);
+    padding-left: var(--space-4);
+  }
+
+  .logo {
+    height: 22px;
+    width: auto;
+    flex: none;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    font-size: 0.8125rem;
+  }
+
+  .nav-links a, .nav-links button {
+    background: none;
+    border: none;
+    font: inherit;
+    color: var(--color-text-primary);
+    cursor: pointer;
+    text-decoration: none;
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-full);
+    transition: background-color .15s ease;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    white-space: nowrap;
+  }
+
+  .nav-links a:hover, .nav-links button:hover {
+    background-color: rgba(0,0,0,.05);
+  }
+
+  .nav-links button.btn-pill {
+    background: #2757FF;
+    color: #fff;
+    border: none;
+  }
+
+  .nav-links button.btn-pill:hover {
+    background: #1c40cc;
+  }
+
+  .nav-links button.btn-pill.secondary {
+    background: transparent;
+    color: var(--color-text-primary);
+    border: 1px solid rgba(0,0,0,.15);
+  }
+
+  .nav-links button.btn-pill.secondary:hover {
+    background: rgba(0,0,0,.04);
+  }
+
+  .caret {
+    width: 10px;
+    height: 10px;
+    opacity: .6;
+  }
+
+  .mobile-menu-toggle {
+    display: none;
+  }
+
+  .mobile-nav-panel {
+    display: none;
+  }
+
+  @media (max-width: 900px) {
+    .nav-links.desktop-only { display: none; }
+    .sticky-bar { display: none; }
+
+    .mobile-menu-toggle {
+      display: flex;
+    }
+
+    nav.topbar { justify-content: flex-end; flex-wrap: wrap; height: auto; padding: var(--space-3) var(--space-4); }
+
+    .mobile-nav-panel {
+      width: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: var(--space-1);
+      padding: var(--space-2) var(--space-4) var(--space-4);
+      border-top: 1px solid var(--color-border-default);
+    }
+
+    .mobile-nav-panel.is-open {
+      display: flex;
+    }
+
+    .mobile-nav-panel a {
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      padding: var(--space-2) var(--space-2);
+      border-radius: var(--radius-sm);
+      font-size: 0.9375rem;
+      color: var(--color-text-primary);
+      text-decoration: none;
+      box-sizing: border-box;
+    }
+
+    .mobile-nav-panel a:hover {
+      background-color: rgba(0,0,0,.05);
+    }
+
+    .mobile-nav-panel button {
+      width: 100%;
+      justify-content: flex-start;
+    }
+
+    .mobile-nav-panel .btn-pill {
+      justify-content: center;
+      margin-top: var(--space-2);
+    }
+  }
+
+  .cta-avatars {
+    display: flex;
+    margin-right: var(--space-2-5);
+  }
+
+  .cta-avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--color-bg-muted);
+    border: 2px solid #2757FF;
+    margin-left: -10px;
+  }
+
+  .cta-avatar:first-child {
+    margin-left: 0;
+  }
+
+  .cta-avatar img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+
+  .cta-avatars.sm {
+    margin-right: var(--space-2);
+  }
+
+  .cta-avatars.sm .cta-avatar {
+    width: 18px;
+    height: 18px;
+    border-width: 1.5px;
+    margin-left: -7px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  .build-box-header {
+    max-width: calc(1400px + 480px + var(--space-6));
+    margin: 0 auto;
+    padding: var(--space-8) var(--space-6) 0;
+    box-sizing: border-box;
+  }
+
+  .build-box-page {
+    max-width: calc(1400px + 480px + var(--space-6));
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: minmax(0, 1400px) 480px;
+    align-items: start;
+    gap: var(--space-6);
+    padding: var(--space-6);
+    box-sizing: border-box;
+  }
+
+  /* ---------- left: sticky visual tile ---------- */
+  .build-box-visual {
+    position: sticky;
+    top: var(--space-6);
+    height: calc(100vh - var(--space-6) * 2);
+    min-height: 420px;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg-muted);
+    border-radius: var(--radius-2xl);
+    overflow: hidden;
+  }
+
+  .build-box-canvas {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--color-border-hover);
+  }
+
+  .build-box-canvas img {
+    width: 80%;
+    height: 80%;
+    max-width: 640px;
+    object-fit: contain;
+    transition: opacity .2s ease;
+  }
+
+  .build-box-visual-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    flex-wrap: wrap;
+  }
+
+  /* ---------- frosted-glass pill: shared container style for every preview control ---------- */
+  .build-box-visual-toolbar .toggle-switch,
+  .build-box-open-slider,
+  .build-box-zoom {
+    height: 48px;
+    padding: var(--space-2);
+    gap: var(--space-2);
+    border-radius: var(--radius-full);
+    background: rgba(255,255,255,.30);
+    box-shadow: 0 8px 24px 0 rgba(0,0,0,.03);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    box-sizing: border-box;
+    align-items: center;
+  }
+
+  /* raised "button" finish: shared style for the active toggle pill and slider thumb */
+  .build-box-visual-toolbar .toggle-indicator,
+  .build-box-open-slider input[type="range"]::-webkit-slider-thumb,
+  .build-box-open-slider input[type="range"]::-moz-range-thumb {
+    border-radius: var(--radius-full);
+    background: linear-gradient(180deg, #FFF 50%, #F8F8F8 100%);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
+  }
+
+  .build-box-visual-toolbar .toggle-switch {
+    margin-bottom: 0;
+  }
+
+  .build-box-visual-toolbar .toggle-option {
+    padding: var(--space-2);
+    font-size: 0.875rem;
+  }
+
+  .build-box-visual-toolbar .toggle-option.active {
+    font-weight: 400;
+  }
+
+  .build-box-open-slider {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    flex: 1;
+    min-width: 180px;
+    max-width: 280px;
+    padding-left: var(--space-4);
+    padding-right: var(--space-4);
+  }
+
+  .build-box-open-slider input[type="range"] {
+    flex: 1;
+    -webkit-appearance: none;
+    appearance: none;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: rgba(0,0,0,.12);
+    outline: none;
+  }
+
+  .build-box-open-slider input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border: none;
+  }
+
+  .build-box-open-slider input[type="range"]::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    border: none;
+  }
+
+  .build-box-zoom {
+    display: flex;
+    align-items: center;
+    font-size: 0.875rem;
+    color: var(--color-text-primary);
+  }
+
+  .build-box-zoom .icon-btn {
+    display: flex;
+    width: 32px;
+    height: 32px;
+    padding: var(--space-2);
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: none;
+    border-radius: var(--radius-full);
+    background: linear-gradient(180deg, #FFF 50%, #F8F8F8 100%);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
+  }
+
+  .build-box-zoom .icon-btn:hover {
+    filter: brightness(0.97);
+  }
+
+  .build-box-zoom .icon-btn svg { width: 16px; height: 16px; }
+
+  /* ---------- right: one step at a time ---------- */
+  .build-box-config-col {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .build-box-step {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 96px var(--space-8);
+  }
+
+  .build-box-step:first-child {
+    padding-top: var(--space-8);
+  }
+
+  .build-box-heading {
+    margin: 0 0 var(--space-1);
+    font-weight: 500;
+    font-size: 2rem;
+    line-height: 2.5rem;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+  }
+
+  .build-box-subheading {
+    margin: 0 0 var(--space-8);
+    font-size: 1rem;
+    color: var(--color-text-muted);
+  }
+
+  .build-box-field-label {
+    margin: 0 0 var(--space-2);
+    font-size: 1.25rem;
+    line-height: 1.5rem;
+    font-weight: 400;
+    color: var(--color-text-primary);
+  }
+
+  .build-box-field-desc {
+    margin: 0 0 var(--space-4);
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    color: var(--color-text-muted);
+  }
+
+  .box-type-grid {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .box-type-card {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    box-sizing: border-box;
+    padding: var(--space-2) var(--space-6) var(--space-2) var(--space-2);
+    border: none;
+    border-radius: 12px;
+    background: var(--color-bg-muted);
+    text-align: left;
+    cursor: pointer;
+    transition: background-color .15s ease, box-shadow .15s ease;
+  }
+
+  .box-type-card.no-thumb {
+    padding: 24px;
+  }
+
+  .box-type-card-thumb {
+    display: flex;
+    flex: none;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+  }
+
+  .box-type-card-thumb img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+  }
+
+  .box-type-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-width: 0;
+  }
+
+  .box-type-card-label {
+    color: #00061A;
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: "ABC Favorit", sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 132%;
+    letter-spacing: -0.3px;
+  }
+
+  .box-type-card-desc {
+    margin: 0;
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+  }
+
+  .box-type-card.active {
+    background: var(--color-bg-surface);
+    box-shadow: 0 0 0 1px var(--color-border-default), 0 4px 12px rgba(0,0,0,.05);
+  }
+
+  .material-card-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--space-4);
+    max-width: 660px;
+  }
+
+  .material-card {
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    border: none;
+    border-radius: 12px;
+    background: var(--color-bg-muted);
+    text-align: left;
+    cursor: pointer;
+    overflow: hidden;
+    transition: background-color .15s ease, box-shadow .15s ease;
+  }
+
+  .material-card-image {
+    display: block;
+    width: 100%;
+    aspect-ratio: 162 / 104;
+  }
+
+  .material-card-image img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .material-card-text {
+    padding: 0 16px 16px;
+  }
+
+  .material-card-label {
+    display: block;
+    color: #00061A;
+    font-feature-settings: 'liga' off, 'clig' off;
+    font-family: "ABC Favorit", sans-serif;
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 350;
+    line-height: 132%;
+    letter-spacing: -0.3px;
+  }
+
+  .material-card-desc {
+    display: block;
+    margin-top: var(--space-2);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--color-text-muted);
+  }
+
+  .material-card.active {
+    background: var(--color-bg-surface);
+    box-shadow: 0 0 0 1px var(--color-border-default), 0 4px 12px rgba(0,0,0,.05);
+  }
+
+  .construction-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+  }
+
+  .construction-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-2);
+    flex: 0 0 auto;
+    width: 100px;
+    padding: var(--space-4) var(--space-2);
+    border-radius: 12px;
+    background: var(--color-bg-muted);
+    border: 1.5px solid transparent;
+    color: var(--color-text-secondary);
+    cursor: pointer;
+    transition: background-color .15s ease, border-color .15s ease, color .15s ease;
+  }
+
+  .construction-card-preview {
+    position: absolute;
+    top: calc(100% + var(--space-2));
+    left: 50%;
+    transform: translateX(-50%);
+    width: 280px;
+    height: 160px;
+    border-radius: 16px;
+    border: 1px solid var(--color-border-default);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
+    overflow: hidden;
+    background: var(--color-bg-muted);
+    z-index: 1000;
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity .15s ease;
+  }
+
+  .construction-card:hover .construction-card-preview {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .construction-card-preview video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .construction-card img { width: 56px; height: 56px; }
+
+  .construction-card span {
+    font-size: 0.8125rem;
+    text-align: center;
+    line-height: 1rem;
+  }
+
+  .construction-card:hover { background: var(--color-bg-muted-hover); }
+
+  .construction-card.active {
+    background: var(--color-bg-surface);
+    border-color: var(--color-text-primary);
+    color: var(--color-text-primary);
+  }
+
+  .toggle-switch {
+    position: relative;
+    display: inline-flex;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    margin-bottom: var(--space-6);
+    border-radius: var(--radius-full);
+    background: var(--color-bg-muted);
+  }
+
+  .toggle-indicator {
+    position: absolute;
+    top: 4px;
+    bottom: 4px;
+    left: 0;
+    width: 0;
+    border-radius: var(--radius-full);
+    background: #fff;
+    box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    transition: transform 0.3s ease, width 0.3s ease;
+  }
+
+  .toggle-option {
+    position: relative;
+    z-index: 1;
+    border: none;
+    background: transparent;
+    padding: var(--space-2) var(--space-5);
+    border-radius: var(--radius-full);
+    font-size: 0.875rem;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color 0.15s ease;
+  }
+
+  .toggle-option.active {
+    color: var(--color-text-primary);
+  }
+
+  .build-box-step .toggle-switch {
+    align-self: flex-start;
+  }
+
+  .dimension-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--space-3);
+  }
+
+  .dimension-field {
+    display: block;
+    min-width: 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-secondary);
+  }
+
+  .dimension-field-label { display: block; margin-bottom: var(--space-2); }
+
+  .dimension-input-wrap {
+    display: flex;
+    align-items: center;
+    height: 48px;
+    padding: 0 var(--space-4);
+    border: 1px solid var(--color-border-default);
+    border-radius: var(--radius-sm);
+    box-sizing: border-box;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
+
+  .dimension-input-wrap:focus-within {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 3px var(--color-focus-ring);
+  }
+
+  .dimension-input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: none;
+    font: inherit;
+    font-size: 1rem;
+    color: var(--color-text-primary);
+  }
+
+  .dimension-unit { flex: none; color: var(--color-text-muted); font-size: 0.9375rem; }
+
+  .dimension-buffer-note {
+    max-height: 0;
+    margin-top: 0;
+    padding: 0 var(--space-4);
+    border-radius: 12px;
+    background: #F5F1C4;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease, margin-top .4s cubic-bezier(.4,0,.2,1), padding-top .4s cubic-bezier(.4,0,.2,1), padding-bottom .4s cubic-bezier(.4,0,.2,1);
+  }
+
+  .dimension-buffer-note.visible {
+    max-height: 220px;
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    padding-bottom: var(--space-4);
+    opacity: 1;
+    transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease .1s, margin-top .4s cubic-bezier(.4,0,.2,1), padding-top .4s cubic-bezier(.4,0,.2,1), padding-bottom .4s cubic-bezier(.4,0,.2,1);
+  }
+
+  .dimension-buffer-text {
+    margin: 0 0 var(--space-3);
+    font-size: 13px;
+    line-height: 1.4;
+    color: var(--color-text-primary);
+  }
+
+  .dimension-buffer-control {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .dimension-buffer-label {
+    font-size: 13px;
+    color: var(--color-text-primary);
+  }
+
+  .build-box-zoom.sm {
+    height: 32px;
+    padding: var(--space-1);
+    font-size: 13px;
+  }
+
+  .build-box-zoom.sm .icon-btn {
+    width: 24px;
+    height: 24px;
+    padding: var(--space-1);
+  }
+
+  .build-box-zoom.sm .icon-btn svg {
+    width: 12px;
+    height: 12px;
+  }
+
+  /* ---------- step progress dots ---------- */
+  .build-box-dots {
+    position: fixed;
+    top: 50%;
+    right: var(--space-6);
+    transform: translateY(-50%);
+    z-index: 15;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-2);
+  }
+
+  .build-box-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: var(--color-border-hover);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: height 0.35s cubic-bezier(.4,0,.2,1), background-color 0.35s ease;
+  }
+
+  .build-box-dot.active {
+    height: 18px;
+    background: var(--color-text-primary);
+  }
+
+  /* ---------- final checkout card ---------- */
+  .build-box-checkout {
+    padding: 96px var(--space-8) var(--space-16);
+  }
+
+  .build-box-checkout-card {
+    width: 100%;
+  }
+
+  .build-box-checkout-top {
+    display: flex;
+    align-items: stretch;
+    justify-content: space-between;
+    gap: var(--space-4);
+    margin-bottom: var(--space-8);
+  }
+
+  .build-box-checkout-delivery-label {
+    margin: 0 0 var(--space-3);
+    font-size: 0.9375rem;
+    color: var(--color-text-primary);
+  }
+
+  .build-box-checkout-location {
+    text-decoration: underline;
+    text-decoration-color: var(--color-border-hover);
+    text-underline-offset: 3px;
+  }
+
+  .build-box-checkout-dates {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    font-size: 0.9375rem;
+  }
+
+  .build-box-checkout-dates li {
+    position: relative;
+    padding-left: var(--space-4);
+    color: var(--color-text-primary);
+  }
+
+  .build-box-checkout-dates li::before {
+    content: "";
+    position: absolute;
+    left: 2px;
+    top: 0.5em;
+    width: 4px;
+    height: 4px;
+    border-radius: var(--radius-full);
+    background: var(--color-text-primary);
+  }
+
+  .build-box-checkout-date-price {
+    color: var(--color-text-muted);
+  }
+
+  .build-box-checkout-price {
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: right;
+  }
+
+  .build-box-checkout-price-label {
+    margin: 0 0 var(--space-1);
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .build-box-checkout-price-value {
+    margin: 0;
+    font-size: 2rem;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+  }
+
+  .build-box-checkout-card .btn-pill {
+    width: 100%;
+    margin-bottom: var(--space-3);
+  }
+
+  .build-box-checkout-card .btn-pill:last-child {
+    margin-bottom: 0;
+  }
+
+  .build-box-checkout-card .btn-pill.muted {
+    background: var(--color-bg-muted);
+    color: var(--color-text-primary);
+    border: none;
+  }
+
+  .build-box-checkout-card .btn-pill.muted:hover {
+    background: var(--color-bg-muted-hover);
+  }
+
+  /* ---------- tablet: margins shrink before the full stack breakpoint; the 1400px/480px column sizing already flexes down gracefully ---------- */
+  @media (max-width: 1200px) {
+    .build-box-page { gap: var(--space-4); padding: var(--space-4); }
+    .build-box-header { padding: var(--space-6) var(--space-4) 0; }
+    .build-box-step { padding-left: var(--space-6); padding-right: var(--space-6); }
+    .construction-card { width: 84px; }
+  }
+
+  @media (max-width: 900px) {
+    .build-box-header { padding: var(--space-6) var(--space-4) 0; }
+    .build-box-page { grid-template-columns: 1fr; padding: var(--space-4); gap: var(--space-4); }
+    .build-box-visual { position: static; height: 60vh; min-height: 360px; top: 0; }
+    .build-box-step { min-height: 0; padding: var(--space-8) var(--space-2); }
+    .build-box-config-col { gap: var(--space-8); }
+    .build-box-dots { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="announcement-bar">
+  <span>The more products you add, the more you save. Code: <strong>BUNDLEUP</strong></span>
+  <button class="announcement-copy" aria-label="Copy code">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+  </button>
+</div>
+
+<div class="sticky-bar" id="stickyBar">
+  <nav class="sticky-links" id="stickyLinks">
+    <a href="index.html">Packaging</a>
+    <a href="index.html">Merchandise</a>
+    <a href="index.html">Industries</a>
+  </nav>
+
+  <div class="search-wrap" id="searchWrap">
+    <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+    <input type="text" placeholder="Search products by names, needs, categories...">
+  </div>
+
+  <div class="sticky-cta" id="stickyCta">
+    <button class="btn-pill sm secondary">Get a quote</button>
+    <button class="btn-pill sm">
+      <span class="cta-avatars sm">
+        <span class="cta-avatar"><img src="expert-01.png" alt=""></span>
+        <span class="cta-avatar"><img src="expert-02.png" alt=""></span>
+        <span class="cta-avatar"><img src="expert-03.png" alt=""></span>
+      </span>
+      Book an expert call
+    </button>
+  </div>
+</div>
+
+<div class="container">
+  <div class="nav-wrapper">
+    <div class="nav-row1">
+      <a href="index.html" aria-label="Packhelp" style="display:flex;">
+        <img class="logo" src="logo-packhelp.1iheyVke.svg" alt="Packhelp">
+      </a>
+
+      <div style="display:flex; align-items:center; gap:1rem;">
+        <a href="index.html" class="signin-link">Sign In</a>
+        <span class="flag-badge"><img src="gb.svg" alt="GB"></span>
+        <button class="icon-btn" aria-label="Cart">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg>
+        </button>
+        <button class="icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <nav class="topbar">
+    <ul class="nav-links desktop-only">
+      <li class="nav-item-packaging"><a href="index.html">Packaging</a></li>
+      <li><a href="index.html">Merchandise</a></li>
+      <li><a href="index.html">Industries</a></li>
+      <li><a href="index.html">Samples</a></li>
+    </ul>
+
+    <div class="nav-megamenu">
+      <div class="nav-megamenu-inner">
+        <div class="nav-megamenu-col">
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Boxes</p>
+            <ul>
+              <li><a href="index.html">Mailer Boxes</a></li>
+              <li><a href="index.html">Shipping Boxes</a></li>
+              <li>
+                <a href="index.html">Product Boxes</a>
+                <ul class="nav-megamenu-sublist">
+                  <li><a href="index.html">Folding Cartons</a></li>
+                  <li><a href="index.html">Rigid Boxes</a></li>
+                </ul>
+              </li>
+            </ul>
+          </div>
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Packaging Tubes</p>
+            <ul>
+              <li><a href="index.html">Tube Boxes</a></li>
+              <li><a href="index.html">Mailing Tubes</a></li>
+            </ul>
+          </div>
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Mailing Bags</p>
+            <ul>
+              <li><a href="index.html">Poly Mailers</a></li>
+              <li><a href="index.html">Paper Mailing Bags</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="nav-megamenu-col">
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Product Bags</p>
+            <ul>
+              <li><a href="index.html">Drawstring Bags</a></li>
+              <li><a href="index.html">Zip Lock Bags</a></li>
+            </ul>
+          </div>
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Carrier Bags</p>
+            <ul>
+              <li><a href="index.html">Paper Carrier Bags</a></li>
+              <li><a href="index.html">Cotton Carrier Bags</a></li>
+            </ul>
+          </div>
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Accessories</p>
+            <ul>
+              <li><a href="index.html">Tissue &amp; wrapping paper</a></li>
+              <li><a href="index.html">Fillers</a></li>
+              <li><a href="index.html">Tapes</a></li>
+              <li><a href="index.html">Labels</a></li>
+              <li><a href="index.html">Stickers</a></li>
+              <li><a href="index.html">Other</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="nav-megamenu-col">
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Pouches</p>
+          </div>
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Envelopes</p>
+            <ul>
+              <li><a href="index.html">Cardboard</a></li>
+              <li><a href="index.html">Padded</a></li>
+            </ul>
+          </div>
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Food Packaging</p>
+            <ul>
+              <li><a href="index.html">Pizza Boxes</a></li>
+              <li><a href="index.html">Cups and Cup Accessories</a></li>
+            </ul>
+          </div>
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Containers</p>
+            <ul>
+              <li><a href="index.html">Bottles</a></li>
+              <li><a href="index.html">Jars</a></li>
+            </ul>
+          </div>
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Samples</p>
+          </div>
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Bundles</p>
+          </div>
+        </div>
+
+        <div class="nav-megamenu-divider"></div>
+
+        <div class="nav-megamenu-col">
+          <div class="nav-megamenu-group">
+            <p class="nav-megamenu-title">Custom packaging</p>
+            <ul>
+              <li><a href="index.html">Custom Boxes</a></li>
+              <li><a href="index.html">Custom Tubes</a></li>
+              <li><a href="index.html">Custom Mailing Bags</a></li>
+              <li><a href="index.html">Custom Accessories</a></li>
+              <li><a href="index.html">Custom Pouches</a></li>
+              <li><a href="index.html">Custom Packaging Bags</a></li>
+              <li><a href="index.html">Custom Envelopes</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ul class="nav-links desktop-only">
+      <li><a href="index.html">Deals</a></li>
+      <li><a href="index.html">Solutions</a></li>
+      <li><a href="index.html">Inspirations</a></li>
+      <li><a href="index.html">Contact</a></li>
+      <li><button class="btn-pill sm secondary">Get a quote</button></li>
+      <li><button class="btn-pill sm">
+        <span class="cta-avatars sm">
+          <span class="cta-avatar"><img src="expert-01.png" alt=""></span>
+          <span class="cta-avatar"><img src="expert-02.png" alt=""></span>
+          <span class="cta-avatar"><img src="expert-03.png" alt=""></span>
+        </span>
+        Book an expert call
+      </button></li>
+    </ul>
+
+    <div class="mobile-nav-panel" id="mobileNavPanel">
+      <a href="index.html">Packaging</a>
+      <a href="index.html">Merchandise</a>
+      <a href="index.html">Industries</a>
+      <a href="index.html">Samples</a>
+      <a href="index.html">Deals</a>
+      <a href="index.html">Solutions</a>
+      <a href="index.html">Inspirations</a>
+      <a href="index.html">Contact</a>
+      <button class="btn-pill sm secondary">Get a quote</button>
+      <button class="btn-pill sm">Book an expert call</button>
+    </div>
+  </nav>
+  </div>
+</div>
+
+  <nav class="build-box-dots" id="stepDots" aria-label="Configuration steps">
+    <button class="build-box-dot active" data-target="stepBoxType" aria-label="Box type"></button>
+    <button class="build-box-dot" data-target="stepConstruction" aria-label="Construction"></button>
+    <button class="build-box-dot" data-target="stepSize" aria-label="Size"></button>
+    <button class="build-box-dot" data-target="stepClosure" aria-label="Closure"></button>
+    <button class="build-box-dot" data-target="stepWindows" aria-label="Windows and cutouts"></button>
+    <button class="build-box-dot" data-target="stepMaterial" aria-label="Material color"></button>
+  </nav>
+
+  <div class="build-box-header">
+    <h2 class="build-box-heading">Build your box</h2>
+    <p class="build-box-subheading">Quickly configure the exact box type you need</p>
+  </div>
+
+  <div class="build-box-page">
+    <div class="build-box-visual">
+      <div class="build-box-canvas">
+        <img id="canvasImage" src="build/folding-box.png" alt="">
+      </div>
+      <div class="build-box-visual-toolbar">
+        <div class="toggle-switch" id="viewToggleSwitch" style="margin-bottom:0;">
+          <div class="toggle-indicator" id="viewToggleIndicator"></div>
+          <button class="toggle-option active">3D view</button>
+          <button class="toggle-option">2D view</button>
+        </div>
+        <div class="build-box-open-slider">
+          <span>Close</span>
+          <input type="range" min="0" max="100" value="20" aria-label="Box open amount">
+          <span>Open</span>
+        </div>
+        <div class="build-box-zoom">
+          <button class="icon-btn" id="zoomOutBtn" aria-label="Zoom out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+          <span id="zoomValue">100%</span>
+          <button class="icon-btn" id="zoomInBtn" aria-label="Zoom in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+        </div>
+      </div>
+    </div>
+
+    <div class="build-box-config-col">
+
+      <section class="build-box-step" id="stepBoxType">
+        <h3 class="build-box-field-label">Box Type</h3>
+        <p class="build-box-field-desc">Choose the base format that fits your product</p>
+        <div class="box-type-grid">
+          <button class="box-type-card active" data-box-type="folding">
+            <span class="box-type-card-thumb"><img src="build/folding-box.png" alt=""></span>
+            <span class="box-type-card-text">
+              <span class="box-type-card-label">Folding Box</span>
+              <span class="box-type-card-desc">Flat-packed box that folds from one die-cut sheet.</span>
+            </span>
+          </button>
+          <button class="box-type-card">
+            <span class="box-type-card-thumb"><img src="build/rigid-box.png" alt=""></span>
+            <span class="box-type-card-text">
+              <span class="box-type-card-label">Rigid Box</span>
+              <span class="box-type-card-desc">Sturdy, non-collapsible box for premium packaging.</span>
+            </span>
+          </button>
+          <button class="box-type-card">
+            <span class="box-type-card-thumb"><img src="build/mialer-box.png" alt=""></span>
+            <span class="box-type-card-text">
+              <span class="box-type-card-label">Mailer Box</span>
+              <span class="box-type-card-desc">Self-locking box with an attached lid for shipping.</span>
+            </span>
+          </button>
+          <button class="box-type-card">
+            <span class="box-type-card-thumb"><img src="build/shipping-box.png" alt=""></span>
+            <span class="box-type-card-text">
+              <span class="box-type-card-label">Shipping Box</span>
+              <span class="box-type-card-desc">Corrugated box built for transport and storage.</span>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <section class="build-box-step" id="stepConstruction">
+        <h3 class="build-box-field-label">Construction</h3>
+        <p class="build-box-field-desc">Decide how the box will open and close</p>
+        <div class="construction-grid">
+          <button class="construction-card">
+            <img src="build/classic.svg" alt="">
+            <span>Classic</span>
+          </button>
+          <button class="construction-card active">
+            <img src="build/hanging.svg" alt="">
+            <span>Hanging</span>
+          </button>
+          <button class="construction-card">
+            <img src="build/with-lid.svg" alt="">
+            <span>With Lid</span>
+          </button>
+          <button class="construction-card">
+            <img src="build/handle.svg" alt="">
+            <span>With Handle</span>
+          </button>
+          <button class="construction-card">
+            <img src="build/gable.svg" alt="">
+            <span>Gable Top</span>
+          </button>
+        </div>
+      </section>
+
+      <section class="build-box-step" id="stepSize">
+        <h3 class="build-box-field-label">Dimensions</h3>
+        <p class="build-box-field-desc">Enter external size or your product's size — we'll calculate the rest</p>
+        <div class="toggle-switch" id="sizeToggleSwitch">
+          <div class="toggle-indicator" id="sizeToggleIndicator"></div>
+          <button class="toggle-option active">External size</button>
+          <button class="toggle-option">Size of my product</button>
+        </div>
+        <div class="dimension-grid">
+          <label class="dimension-field">
+            <span class="dimension-field-label">Width</span>
+            <span class="dimension-input-wrap"><input type="number" class="dimension-input" id="dimWidth" value="8"><span class="dimension-unit">cm</span></span>
+          </label>
+          <label class="dimension-field">
+            <span class="dimension-field-label">Length</span>
+            <span class="dimension-input-wrap"><input type="number" class="dimension-input" id="dimLength" value="8"><span class="dimension-unit">cm</span></span>
+          </label>
+          <label class="dimension-field">
+            <span class="dimension-field-label">Height</span>
+            <span class="dimension-input-wrap"><input type="number" class="dimension-input" id="dimHeight" value="12"><span class="dimension-unit">cm</span></span>
+          </label>
+        </div>
+
+        <div class="dimension-buffer-note" id="dimensionBufferNote">
+          <p class="dimension-buffer-text">We automatically add a <span id="bufferMmText">5</span> mm buffer on all sides to ensure your product fits. External size of the box: W <span id="extW">8.5</span> cm x L <span id="extL">8.5</span> cm x h <span id="extH">12.5</span> cm</p>
+          <div class="dimension-buffer-control">
+            <span class="dimension-buffer-label">Buffer size:</span>
+            <div class="build-box-zoom sm" id="bufferStepper">
+              <button class="icon-btn" id="bufferMinus" aria-label="Decrease buffer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+              <span id="bufferValue">5 mm</span>
+              <button class="icon-btn" id="bufferPlus" aria-label="Increase buffer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="build-box-step" id="stepClosure">
+        <h3 class="build-box-field-label">Closure</h3>
+        <p class="build-box-field-desc">Choose how the box bottom locks together</p>
+        <div class="construction-grid">
+          <button class="construction-card active">
+            <img src="build/auto-lock.svg" alt="">
+            <span>Auto Lock</span>
+          </button>
+          <button class="construction-card">
+            <img src="build/reverse-tuck.svg" alt="">
+            <span>Reverse Tuck</span>
+          </button>
+          <button class="construction-card">
+            <img src="build/snap-lock.svg" alt="">
+            <span>Snap Lock</span>
+            <span class="construction-card-preview">
+              <video src="build/snaplock.mp4" autoplay muted loop playsinline></video>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <section class="build-box-step" id="stepWindows">
+        <h3 class="build-box-field-label">Windows &amp; Cutouts</h3>
+        <p class="build-box-field-desc">Add a transparent window or lines that make opening easier</p>
+        <div class="box-type-grid">
+          <button class="box-type-card active">
+            <span class="box-type-card-thumb"><img src="build/folding-box.png" alt=""></span>
+            <span class="box-type-card-text">
+              <span class="box-type-card-label">No</span>
+              <span class="box-type-card-desc">No additional cutouts or lines; a fully closed, standard box.</span>
+            </span>
+          </button>
+          <button class="box-type-card" data-windows="windowing">
+            <span class="box-type-card-thumb"><img src="build/windowing.png" alt=""></span>
+            <span class="box-type-card-text">
+              <span class="box-type-card-label">Windowing</span>
+              <span class="box-type-card-desc">A cut-out window in the box wall, usually filled with film, to display the product inside.</span>
+            </span>
+          </button>
+          <button class="box-type-card no-thumb">
+            <span class="box-type-card-text">
+              <span class="box-type-card-label">Crease line</span>
+              <span class="box-type-card-desc">An extra scoring line for precise, controlled folding at a specific spot.</span>
+            </span>
+          </button>
+          <button class="box-type-card">
+            <span class="box-type-card-thumb"><img src="build/perforation.png" alt=""></span>
+            <span class="box-type-card-text">
+              <span class="box-type-card-label">Perforation</span>
+              <span class="box-type-card-desc">A perforated line that lets part of the box be easily torn off.</span>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <section class="build-box-step" id="stepMaterial">
+        <h3 class="build-box-field-label">Material Color</h3>
+        <p class="build-box-field-desc">Pick the base cardboard color — it affects the look and production cost</p>
+        <div class="material-card-grid">
+          <button class="material-card active">
+            <span class="material-card-image"><img src="build/material-kraft.png" alt=""></span>
+            <span class="material-card-text">
+              <span class="material-card-label">Kraft</span>
+              <span class="material-card-desc">Natural brown board with a rustic look and sturdy strength.</span>
+            </span>
+          </button>
+          <button class="material-card" data-material="white">
+            <span class="material-card-image"><img src="build/material-white.png" alt=""></span>
+            <span class="material-card-text">
+              <span class="material-card-label">White</span>
+              <span class="material-card-desc">A white surface for clean, crisp printing at an accessible price.</span>
+            </span>
+          </button>
+          <button class="material-card" data-material="premium-white">
+            <span class="material-card-image"><img src="build/material-white-premium.png" alt=""></span>
+            <span class="material-card-text">
+              <span class="material-card-label">Premium white</span>
+              <span class="material-card-desc">Fully bleached, premium white finish delivering the highest print quality and a luxury feel.</span>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <div class="build-box-checkout" id="stepCheckout">
+        <div class="build-box-checkout-card">
+          <div class="build-box-checkout-top">
+            <div class="build-box-checkout-delivery">
+              <p class="build-box-checkout-delivery-label">Delivery to: <span class="build-box-checkout-location">Norway, 05-800</span></p>
+              <ul class="build-box-checkout-dates">
+                <li>20 April <span class="build-box-checkout-date-price">Free</span></li>
+                <li>24 April <span class="build-box-checkout-date-price">+ €12.80</span></li>
+                <li>28 April <span class="build-box-checkout-date-price">+ €32.50</span></li>
+              </ul>
+            </div>
+            <div class="build-box-checkout-price">
+              <p class="build-box-checkout-price-label">Netto / 100 pieces</p>
+              <p class="build-box-checkout-price-value">€242.00</p>
+            </div>
+          </div>
+          <a href="#" class="btn-pill lg">Customize design</a>
+          <button class="btn-pill lg muted">Skip design for now</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  function initToggleSwitch(switchId, indicatorId) {
+    var switchEl = document.getElementById(switchId);
+    var indicator = document.getElementById(indicatorId);
+    var options = switchEl.querySelectorAll('.toggle-option');
+
+    function moveIndicator(el) {
+      indicator.style.width = el.offsetWidth + 'px';
+      indicator.style.transform = 'translateX(' + el.offsetLeft + 'px)';
+    }
+
+    options.forEach(function (option) {
+      option.addEventListener('click', function () {
+        options.forEach(function (o) { o.classList.remove('active'); });
+        option.classList.add('active');
+        moveIndicator(option);
+      });
+    });
+
+    moveIndicator(switchEl.querySelector('.toggle-option.active'));
+    window.addEventListener('resize', function () {
+      moveIndicator(switchEl.querySelector('.toggle-option.active'));
+    });
+  }
+
+  initToggleSwitch('viewToggleSwitch', 'viewToggleIndicator');
+  initToggleSwitch('sizeToggleSwitch', 'sizeToggleIndicator');
+
+  (function () {
+    var sizeToggle = document.getElementById('sizeToggleSwitch');
+    var note = document.getElementById('dimensionBufferNote');
+    var widthInput = document.getElementById('dimWidth');
+    var lengthInput = document.getElementById('dimLength');
+    var heightInput = document.getElementById('dimHeight');
+    var bufferValueEl = document.getElementById('bufferValue');
+    var bufferMmText = document.getElementById('bufferMmText');
+    var extW = document.getElementById('extW');
+    var extL = document.getElementById('extL');
+    var extH = document.getElementById('extH');
+    var bufferMinus = document.getElementById('bufferMinus');
+    var bufferPlus = document.getElementById('bufferPlus');
+    if (!sizeToggle || !note || !widthInput || !lengthInput || !heightInput || !bufferMinus || !bufferPlus) { return; }
+
+    var bufferMm = 5;
+
+    function recalc() {
+      var bufferCm = bufferMm / 10;
+      var w = parseFloat(widthInput.value) || 0;
+      var l = parseFloat(lengthInput.value) || 0;
+      var h = parseFloat(heightInput.value) || 0;
+      extW.textContent = (w + bufferCm).toFixed(1);
+      extL.textContent = (l + bufferCm).toFixed(1);
+      extH.textContent = (h + bufferCm).toFixed(1);
+      bufferValueEl.textContent = bufferMm + ' mm';
+      bufferMmText.textContent = bufferMm;
+    }
+
+    function updateVisibility() {
+      var options = sizeToggle.querySelectorAll('.toggle-option');
+      var isProductSize = options[1] && options[1].classList.contains('active');
+      note.classList.toggle('visible', !!isProductSize);
+    }
+
+    sizeToggle.querySelectorAll('.toggle-option').forEach(function (opt) {
+      opt.addEventListener('click', updateVisibility);
+    });
+
+    [widthInput, lengthInput, heightInput].forEach(function (input) {
+      input.addEventListener('input', recalc);
+    });
+
+    bufferMinus.addEventListener('click', function () {
+      bufferMm = Math.max(0, bufferMm - 1);
+      recalc();
+    });
+    bufferPlus.addEventListener('click', function () {
+      bufferMm = Math.min(20, bufferMm + 1);
+      recalc();
+    });
+
+    recalc();
+    updateVisibility();
+  })();
+
+  (function () {
+    var navRow1 = document.querySelector('.nav-row1');
+    var stickyBar = document.getElementById('stickyBar');
+    if (!navRow1 || !stickyBar) { return; }
+
+    function onScroll() {
+      var rect = navRow1.getBoundingClientRect();
+      var pinned = rect.bottom <= 0;
+      stickyBar.classList.toggle('is-pinned', pinned);
+
+      var minTop = 12;
+      var naturalTop = rect.top + rect.height / 2 - stickyBar.offsetHeight / 2;
+      stickyBar.style.top = Math.max(minTop, naturalTop) + 'px';
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    onScroll();
+  })();
+
+  (function () {
+    var toggle = document.getElementById('mobileMenuToggle');
+    var panel = document.getElementById('mobileNavPanel');
+    if (!toggle || !panel) { return; }
+
+    toggle.addEventListener('click', function () {
+      var isOpen = panel.classList.toggle('is-open');
+      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+    });
+  })();
+
+  (function () {
+    var visual = document.querySelector('.build-box-visual');
+    var page = document.querySelector('.build-box-page');
+    if (!visual || !page) { return; }
+
+    var BOTTOM_PAD = 24;
+    var isDesktop = window.matchMedia('(min-width: 901px)');
+
+    function updateVisualHeight() {
+      if (!isDesktop.matches) { visual.style.height = ''; return; }
+      var rect = visual.getBoundingClientRect();
+      var height = window.innerHeight - rect.top - BOTTOM_PAD;
+      visual.style.height = Math.max(420, height) + 'px';
+    }
+
+    window.addEventListener('scroll', updateVisualHeight, { passive: true });
+    window.addEventListener('resize', updateVisualHeight);
+
+    updateVisualHeight();
+  })();
+
+  function slowScrollToCenter(el, duration) {
+    var startY = window.scrollY;
+    var rect = el.getBoundingClientRect();
+    var targetY = startY + rect.top - (window.innerHeight - rect.height) / 2;
+    var diff = targetY - startY;
+    var startTime = null;
+
+    function easeInOutQuad(t) {
+      return t < 0.5 ? 2 * t * t : 1 - Math.pow(-2 * t + 2, 2) / 2;
+    }
+
+    function step(timestamp) {
+      if (!startTime) { startTime = timestamp; }
+      var progress = Math.min((timestamp - startTime) / duration, 1);
+      window.scrollTo(0, startY + diff * easeInOutQuad(progress));
+      if (progress < 1) { requestAnimationFrame(step); }
+    }
+
+    requestAnimationFrame(step);
+  }
+
+  (function () {
+    var steps = Array.prototype.slice.call(document.querySelectorAll('.build-box-step'));
+
+    function scrollToNextStep(fromStep) {
+      var idx = steps.indexOf(fromStep);
+      if (idx > -1 && idx < steps.length - 1) {
+        slowScrollToCenter(steps[idx + 1], 1100);
+      }
+    }
+
+    function initSelectableGroup(selector, advanceOnSelect) {
+      document.querySelectorAll(selector).forEach(function (group) {
+        var cards = group.querySelectorAll(':scope > button');
+        cards.forEach(function (card) {
+          card.addEventListener('click', function () {
+            var wasActive = card.classList.contains('active');
+            cards.forEach(function (c) { c.classList.remove('active'); });
+            card.classList.add('active');
+
+            if (advanceOnSelect && !wasActive) {
+              var step = card.closest('.build-box-step');
+              if (step) {
+                setTimeout(function () { scrollToNextStep(step); }, 300);
+              }
+            }
+          });
+        });
+      });
+    }
+
+    initSelectableGroup('.box-type-grid', true);
+    initSelectableGroup('.construction-grid', true);
+    initSelectableGroup('.material-card-grid', true);
+  })();
+
+  (function () {
+    var canvasImage = document.getElementById('canvasImage');
+    var boxTypeCards = document.querySelectorAll('#stepBoxType .box-type-card');
+    var windowsCards = document.querySelectorAll('#stepWindows .box-type-card');
+    var materialCards = document.querySelectorAll('#stepMaterial .material-card');
+    if (!canvasImage) { return; }
+
+    var COMBO_IMAGE_BY_MATERIAL = {
+      'white': 'build/windowing-white.png',
+      'premium-white': 'build/windowing-white-premium.png'
+    };
+    var baseImage = canvasImage.getAttribute('src');
+
+    function setCanvasImage(src) {
+      if (canvasImage.getAttribute('src') === src) { return; }
+      canvasImage.style.opacity = '0';
+      setTimeout(function () {
+        canvasImage.setAttribute('src', src);
+        canvasImage.style.opacity = '1';
+      }, 150);
+    }
+
+    function activeDataValue(scope, attr) {
+      var active = document.querySelector(scope + ' .active[' + attr + ']');
+      return active ? active.getAttribute(attr) : null;
+    }
+
+    function refreshCanvas() {
+      var boxType = activeDataValue('#stepBoxType', 'data-box-type');
+      var windows = activeDataValue('#stepWindows', 'data-windows');
+      var material = activeDataValue('#stepMaterial', 'data-material');
+
+      var comboImage = (boxType === 'folding' && windows === 'windowing') ? COMBO_IMAGE_BY_MATERIAL[material] : null;
+      setCanvasImage(comboImage || baseImage);
+    }
+
+    boxTypeCards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        var thumb = card.querySelector('.box-type-card-thumb img');
+        if (thumb) { baseImage = thumb.getAttribute('src'); }
+        refreshCanvas();
+      });
+    });
+
+    windowsCards.forEach(function (card) {
+      card.addEventListener('click', function () {
+        var thumb = card.querySelector('.box-type-card-thumb img');
+        if (thumb) { baseImage = thumb.getAttribute('src'); }
+        refreshCanvas();
+      });
+    });
+
+    materialCards.forEach(function (card) {
+      card.addEventListener('click', refreshCanvas);
+    });
+  })();
+
+  (function () {
+    var zoomValue = document.getElementById('zoomValue');
+    var zoomOutBtn = document.getElementById('zoomOutBtn');
+    var zoomInBtn = document.getElementById('zoomInBtn');
+    var zoom = 100;
+
+    function render() { zoomValue.textContent = zoom + '%'; }
+
+    zoomOutBtn.addEventListener('click', function () {
+      zoom = Math.max(50, zoom - 10);
+      render();
+    });
+    zoomInBtn.addEventListener('click', function () {
+      zoom = Math.min(200, zoom + 10);
+      render();
+    });
+  })();
+
+  (function () {
+    var steps = document.querySelectorAll('.build-box-step');
+    var dots = document.querySelectorAll('.build-box-dot');
+    if (!steps.length || !dots.length) { return; }
+
+    var dotByTarget = {};
+    dots.forEach(function (dot) {
+      dotByTarget[dot.getAttribute('data-target')] = dot;
+      dot.addEventListener('click', function () {
+        var target = document.getElementById(dot.getAttribute('data-target'));
+        if (target) { slowScrollToCenter(target, 1100); }
+      });
+    });
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          dots.forEach(function (d) { d.classList.remove('active'); });
+          var dot = dotByTarget[entry.target.id];
+          if (dot) { dot.classList.add('active'); }
+        }
+      });
+    }, { threshold: 0.01, rootMargin: '-45% 0px -45% 0px' });
+
+    steps.forEach(function (step) { observer.observe(step); });
+  })();
+</script>
+
+</body>
+</html>
