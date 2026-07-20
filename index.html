@@ -758,165 +758,45 @@
     color: #fff;
   }
 
-  .cta-tile-shape {
+  .cta-tile-quote {
+    max-width: 280px;
+    font-size: 1.25rem;
+    line-height: 1.4;
+  }
+
+  .cta-tile-testimonial {
     position: absolute;
     z-index: 2;
-    left: 50%;
-    bottom: 0;
-    transform: translateX(-50%) translateY(24px);
-    width: 380px;
-    max-width: calc(100% - 64px);
-    max-height: calc(100% - 96px);
-    padding: var(--space-8) var(--space-8) 0;
-    border-radius: var(--radius-md) var(--radius-md) 0 0;
-    border-top: 4px solid rgba(255, 255, 255, 0.40);
-    border-right: 4px solid rgba(255, 255, 255, 0.40);
-    border-left: 4px solid rgba(255, 255, 255, 0.40);
-    background: #FFF;
-    background-clip: padding-box;
-    overflow: hidden;
-    opacity: 0;
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-
-  .cta-section.is-visible .cta-tile-shape {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  .cta-shape-header {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-1);
-    flex-wrap: wrap;
-  }
-
-  .cta-shape-text,
-  .cta-shape-pill {
-    color: #000;
-    font-feature-settings: 'liga' off, 'clig' off;
-    font-family: "ABC Favorit", sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 132%;
-    letter-spacing: -0.28px;
-  }
-
-  .cta-shape-pill {
-    display: flex;
-    padding: var(--space-2);
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-2-5);
-    border-radius: var(--radius-sm);
-  }
-
-  .cta-shape-pill-blue {
-    background: #CFE7FF;
-  }
-
-  .cta-shape-pill-purple {
-    background: #EDE8FF;
-  }
-
-  .cta-shape-divider {
-    width: 100%;
-    height: 1px;
-    margin-top: var(--space-4);
-    background: #E1E1E1;
-  }
-
-  .cta-shape-list {
-    position: relative;
-    margin-top: var(--space-4);
+    left: 0;
+    bottom: var(--space-4);
     display: flex;
     flex-direction: column;
-    gap: var(--space-6);
   }
 
-  .cta-shape-line {
-    position: absolute;
-    z-index: 0;
-    left: 8.5px;
-    top: 24px;
-    bottom: 24px;
-    width: 1px;
-    background: #D9D9D9;
-  }
-
-  .cta-shape-dot {
-    position: relative;
-    z-index: 1;
-    width: 17px;
-    height: 17px;
-    aspect-ratio: 1 / 1;
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  .cta-tile-avatar {
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background: #FFF;
-    border: 1px solid #D9D9D9;
-    color: transparent;
+    background-color: rgba(0, 0, 0, 0.12);
+    background-image: var(--avatar-img);
+    background-size: cover;
+    background-position: center;
+    margin-bottom: var(--space-3);
   }
 
-  .cta-shape-dot svg {
-    width: 10px;
-    height: 10px;
-  }
-
-  @keyframes cta-dot-activate {
-    from { transform: scale(0); }
-    to { transform: scale(1); }
-  }
-
-  .cta-shape-dot-active {
-    background: #0E58FF;
-    border-color: #0E58FF;
-    color: #fff;
-    animation: cta-dot-activate 0.5s cubic-bezier(.34,1.56,.64,1);
-  }
-
-  .cta-shape-item {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-2);
-    opacity: 0;
-    transform: translateY(20px);
-    transition: opacity 0.6s ease, transform 0.6s ease;
-  }
-
-  .cta-section.is-visible .cta-shape-item {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .cta-shape-item-img {
-    display: flex;
-    width: 48px;
-    height: 48px;
-    flex-shrink: 0;
-    border-radius: var(--radius-sm);
-    background: #F2F2F2;
-    overflow: hidden;
-  }
-
-  .cta-shape-item-img img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-
-  .cta-shape-item-label {
-    color: #00061A;
-    font-feature-settings: 'liga' off, 'clig' off;
-    font-family: "ABC Favorit", sans-serif;
-    font-size: 12.456px;
-    font-style: normal;
+  .cta-tile-person-name {
+    margin: 0;
+    color: #000;
+    font-size: 15px;
     font-weight: 500;
-    line-height: 132%;
-    letter-spacing: -0.249px;
+    line-height: 1.3;
+  }
+
+  .cta-tile-person-role {
+    margin: 0;
+    color: rgba(0, 0, 0, 0.6);
+    font-size: 13px;
+    line-height: 1.3;
   }
 
   /* ---------- SCROLL REVEAL ---------- */
@@ -1062,6 +942,72 @@
     width: 18px;
     border-radius: var(--radius-full);
     background: var(--color-text-primary);
+  }
+
+  .cta-tile-slides {
+    position: relative;
+    flex: 1;
+    align-self: stretch;
+  }
+
+  .cta-tile-slide {
+    position: absolute;
+    z-index: 0;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.4s ease;
+  }
+
+  .cta-tile-slide::before {
+    content: "";
+    position: absolute;
+    top: calc(-1 * var(--space-8));
+    right: calc(-1 * var(--space-8));
+    bottom: calc(-1 * var(--space-8));
+    left: calc(-1 * var(--space-8));
+    z-index: -1;
+    background-image: var(--slide-bg);
+    background-repeat: no-repeat;
+    background-position: right center;
+    background-size: auto 100%;
+  }
+
+  .cta-tile-slide.active {
+    opacity: 1;
+    pointer-events: auto;
+  }
+
+  .cta-tile-slider-dots {
+    position: absolute;
+    z-index: 3;
+    left: 0;
+    right: 0;
+    bottom: var(--space-4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: var(--space-1-5);
+  }
+
+  .cta-tile-slider-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: var(--radius-full);
+    background: rgba(255, 255, 255, 0.5);
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    transition: width 0.35s cubic-bezier(.4,0,.2,1), background-color 0.35s ease;
+  }
+
+  .cta-tile-slider-dot.active {
+    width: 18px;
+    border-radius: var(--radius-full);
+    background: #fff;
   }
 
   .trust-line {
@@ -3100,40 +3046,37 @@
               </span>
             </div>
           </div>
-          <div class="cta-tile cta-tile-gradient">
-            <p class="cta-tile-title">Produce in bulk, call off deliveries</p>
-            <div class="cta-tile-shape">
-              <div class="cta-shape-header">
-                <span class="cta-shape-text">One</span>
-                <span class="cta-shape-pill cta-shape-pill-blue">production run</span>
-                <span class="cta-shape-text">.</span>
-                <span class="cta-shape-pill cta-shape-pill-purple">Unlimited</span>
-                <span class="cta-shape-text">call-offs.</span>
-              </div>
-              <div class="cta-shape-divider"></div>
-              <div class="cta-shape-list">
-                <div class="cta-shape-line"></div>
-                <div class="cta-shape-item" style="transition-delay: 0s">
-                  <span class="cta-shape-dot" id="ctaDot1"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
-                  <span class="cta-shape-item-img"><img src="https://cdn-pim.packhelp.com/assets/694a8b84-0ce5-4de2-a4c1-271ffb31013b/2001862-ziplock-thumb?w=640&fit=min&auto=format" alt=""></span>
-                  <span class="cta-shape-item-label">Frosted Ziplock Bag</span>
-                </div>
-                <div class="cta-shape-item" style="transition-delay: 0.5s">
-                  <span class="cta-shape-dot" id="ctaDot2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg></span>
-                  <span class="cta-shape-item-img"><img src="https://cdn-pim.packhelp.com/assets/a0e98036-3664-4d14-82be-146aa0b1a31c/603891-om-packaging-1?w=640&fit=min&auto=format" alt=""></span>
-                  <span class="cta-shape-item-label">Snap Lock Box</span>
-                </div>
-                <div class="cta-shape-item" style="transition-delay: 1s">
-                  <span class="cta-shape-dot"></span>
-                  <span class="cta-shape-item-img"><img src="https://cdn-pim.packhelp.com/assets/e78b410c-109d-4a65-b4a3-dd018790372e/240486-padded-envelope?w=640&fit=min&auto=format" alt=""></span>
-                  <span class="cta-shape-item-label">Eco Padded Enveloper</span>
-                </div>
-                <div class="cta-shape-item" style="transition-delay: 1.5s">
-                  <span class="cta-shape-dot"></span>
-                  <span class="cta-shape-item-img"><img src="https://cdn-pim.packhelp.com/assets/0df7f906-e452-4388-a8d8-1b90d109de53/89199-718-caa-93-5442-48-c-4-9990-27-f-41-f-66-b-385-png?w=640&fit=min&auto=format" alt=""></span>
-                  <span class="cta-shape-item-label">Rigid Magnetic Box</span>
+          <div class="cta-tile cta-tile-gradient" id="testimonialTile">
+            <div class="cta-tile-slides" id="testimonialSlides">
+              <div class="cta-tile-slide active" style="--slide-bg:url('usecase-bg-01.png')">
+                <p class="cta-tile-title cta-tile-quote">&ldquo;Testing is key to get the formula perfect. It&rsquo;s all about product + packing + communication.&rdquo;</p>
+                <div class="cta-tile-testimonial">
+                  <div class="cta-tile-avatar" style="--avatar-img:url('studycase-avatar-01.png')"></div>
+                  <p class="cta-tile-person-name">Alexis Castaneda</p>
+                  <p class="cta-tile-person-role">Head of Operations</p>
                 </div>
               </div>
+              <div class="cta-tile-slide" style="--slide-bg:url('usecase-bg-02.png')">
+                <p class="cta-tile-title cta-tile-quote">&ldquo;The transparency of all the processes, from design to invoicing, was something that we were looking for.&rdquo;</p>
+                <div class="cta-tile-testimonial">
+                  <div class="cta-tile-avatar" style="--avatar-img:url('studycase-avatar-02.png')"></div>
+                  <p class="cta-tile-person-name">Miquel Regidor</p>
+                  <p class="cta-tile-person-role">Operations Manager at Tropicfeel</p>
+                </div>
+              </div>
+              <div class="cta-tile-slide" style="--slide-bg:url('usecase-bg-03.png')">
+                <p class="cta-tile-title cta-tile-quote">&ldquo;Packhelp has been an invaluable partner for us throughout our packaging journey. Working with them is always exciting.&rdquo;</p>
+                <div class="cta-tile-testimonial">
+                  <div class="cta-tile-avatar" style="--avatar-img:url('studycase-avatar-03.png')"></div>
+                  <p class="cta-tile-person-name">Xhenis Ramaxhiku</p>
+                  <p class="cta-tile-person-role">Operations @ Browniegod</p>
+                </div>
+              </div>
+            </div>
+            <div class="cta-tile-slider-dots" id="testimonialDots">
+              <button class="cta-tile-slider-dot active" type="button" aria-label="Slide 1"></button>
+              <button class="cta-tile-slider-dot" type="button" aria-label="Slide 2"></button>
+              <button class="cta-tile-slider-dot" type="button" aria-label="Slide 3"></button>
             </div>
           </div>
         </div>
@@ -3412,7 +3355,7 @@
         'onboarding-treats.png',
         '316d75aaa2c7afdcd0cadda80f9efa3b.jpg'
       ],
-      events: [null, null, null, null, null, null],
+      events: ['events-apparel.png', null, 'events-bag.png', null, null, null],
       restaurants: [
         'restaurants-apparel.png',
         'restaurants-notebook.png',
@@ -3589,29 +3532,6 @@
     }, { threshold: 0.15 });
 
     arrowObserver.observe(pill);
-  })();
-
-  (function () {
-    var shape = document.querySelector('.cta-tile-shape');
-    var dot1 = document.getElementById('ctaDot1');
-    var dot2 = document.getElementById('ctaDot2');
-    if (!shape || !dot1 || !dot2) { return; }
-
-    var dotObserver = new IntersectionObserver(function (entries) {
-      entries.forEach(function (entry) {
-        if (entry.isIntersecting) {
-          setTimeout(function () {
-            dot1.classList.add('cta-shape-dot-active');
-          }, 700);
-          setTimeout(function () {
-            dot2.classList.add('cta-shape-dot-active');
-          }, 1300);
-          dotObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.2 });
-
-    dotObserver.observe(shape);
   })();
 
   (function () {
@@ -3836,6 +3756,42 @@
         checkOverflow();
       }
     });
+  })();
+
+  (function () {
+    var tile = document.getElementById('testimonialTile');
+    if (!tile) { return; }
+
+    var slides = tile.querySelectorAll('.cta-tile-slide');
+    var dots = tile.querySelectorAll('.cta-tile-slider-dot');
+    var current = 0;
+    var timer;
+
+    function goToSlide(index) {
+      current = index;
+      slides.forEach(function (slide, i) {
+        slide.classList.toggle('active', i === index);
+      });
+      dots.forEach(function (dot, i) {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    function startAutoplay() {
+      clearInterval(timer);
+      timer = setInterval(function () {
+        goToSlide((current + 1) % slides.length);
+      }, 3000);
+    }
+
+    dots.forEach(function (dot, i) {
+      dot.addEventListener('click', function () {
+        goToSlide(i);
+        startAutoplay();
+      });
+    });
+
+    startAutoplay();
   })();
 </script>
 
