@@ -645,7 +645,22 @@
   }
 
   .box-type-card.no-thumb {
-    padding: 24px;
+    padding: 16px;
+  }
+
+  .build-box-subfield {
+    margin-top: var(--space-6);
+  }
+
+  .build-box-subfield:first-of-type {
+    margin-top: var(--space-8);
+  }
+
+  .build-box-subfield-label {
+    margin: 0 0 var(--space-3);
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
   }
 
   .box-type-card-thumb {
@@ -1330,6 +1345,7 @@
     <button class="build-box-dot" data-target="stepWindows" aria-label="Windows and cutouts"></button>
     <button class="build-box-dot" data-target="stepMaterial" aria-label="Material color"></button>
     <button class="build-box-dot" data-target="stepCustomization" aria-label="Customization"></button>
+    <button class="build-box-dot" data-target="stepAdditional" aria-label="Additional options"></button>
   </nav>
 
   <div class="build-box-header">
@@ -1563,6 +1579,46 @@
               <span class="material-card-desc">Fully personalize the print to match your brand.</span>
             </span>
           </button>
+        </div>
+      </section>
+
+      <section class="build-box-step" id="stepAdditional">
+        <h3 class="build-box-field-label">Additional options</h3>
+
+        <div class="build-box-subfield">
+          <h4 class="build-box-subfield-label">Print coverage</h4>
+          <div class="box-type-grid">
+            <button class="box-type-card no-thumb active" data-print="outside">
+              <span class="box-type-card-text">
+                <span class="box-type-card-label">Outside</span>
+                <span class="box-type-card-desc">Print applied only to the outer surface of the box.</span>
+              </span>
+            </button>
+            <button class="box-type-card no-thumb" data-print="outside-inside">
+              <span class="box-type-card-text">
+                <span class="box-type-card-label">Outside + Inside</span>
+                <span class="box-type-card-desc">Print applied both outside and inside for a fully branded look.</span>
+              </span>
+            </button>
+          </div>
+        </div>
+
+        <div class="build-box-subfield">
+          <h4 class="build-box-subfield-label">Finish</h4>
+          <div class="box-type-grid">
+            <button class="box-type-card no-thumb active" data-finish="gloss">
+              <span class="box-type-card-text">
+                <span class="box-type-card-label">Gloss</span>
+                <span class="box-type-card-desc">A shiny finish that makes colors pop and print stand out.</span>
+              </span>
+            </button>
+            <button class="box-type-card no-thumb" data-finish="matt">
+              <span class="box-type-card-text">
+                <span class="box-type-card-label">Matt</span>
+                <span class="box-type-card-desc">A soft, non-reflective finish for a subtle, premium look.</span>
+              </span>
+            </button>
+          </div>
         </div>
       </section>
 
