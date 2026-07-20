@@ -2076,19 +2076,6 @@
     transform: scale(1.08);
   }
 
-  .category-item:hover .boxes-cycle::before {
-    animation: boxes-cycle 2.5s steps(1) infinite;
-  }
-
-  @keyframes boxes-cycle {
-    0%   { background-image: url('5065069-packhelp-29640.avif'); }
-    20%  { background-image: url('5020808-packhelp-29409.avif'); }
-    40%  { background-image: url('4662199-packhelp-27342.avif'); }
-    60%  { background-image: url('3271617-packhelp-20271.avif'); }
-    80%  { background-image: url('7655716-packhelp-09-2021-0547.avif'); }
-    100% { background-image: url('5065069-packhelp-29640.avif'); }
-  }
-
   .category-title {
     margin: var(--space-4) 0 var(--space-1);
     font-size: 0.9375rem;
@@ -2873,10 +2860,10 @@
     <div class="section-toolbar">
       <div class="toggle-switch" id="industryToggleSwitch">
         <div class="toggle-indicator" id="industryToggleIndicator"></div>
-        <button class="toggle-option active">Retail</button>
-        <button class="toggle-option">E-commerce</button>
-        <button class="toggle-option">Health &amp; Beauty</button>
-        <button class="toggle-option">Restaurants</button>
+        <button class="toggle-option active" data-target="retail">Retail</button>
+        <button class="toggle-option" data-target="ecommerce">E-commerce</button>
+        <button class="toggle-option" data-target="health">Health &amp; Beauty</button>
+        <button class="toggle-option" data-target="food">Food</button>
       </div>
       <button class="btn-pill secondary sm">See all packaging<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
     </div>
@@ -2884,45 +2871,7 @@
       <button class="scroll-carousel-nav prev" type="button" aria-label="Przewiń w lewo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
       </button>
-      <div class="categories-grid">
-
-        <div class="category-item">
-          <div class="category-thumb boxes-cycle" style="--thumb-img:url('5065069-packhelp-29640.avif')"></div>
-          <h3 class="category-title">Boxes</h3>
-          <p class="category-desc">Mailer, shipping, product, rigid.</p>
-        </div>
-
-        <div class="category-item">
-          <div class="category-thumb" style="--thumb-img:url('5121637-packhelp-27910.avif')"></div>
-          <h3 class="category-title">Tubes &amp; envelopes</h3>
-          <p class="category-desc">Tube boxes, mailing tubes, padded.</p>
-        </div>
-
-        <div class="category-item">
-          <div class="category-thumb" style="--thumb-img:url('4854400-packhelp-27683.avif')"></div>
-          <h3 class="category-title">Bags &amp; pouches</h3>
-          <p class="category-desc">Mailing, carrier, drawstring, zip.</p>
-        </div>
-
-        <div class="category-item">
-          <div class="category-thumb" style="--thumb-img:url('4976409-packhelp-29353.avif')"></div>
-          <h3 class="category-title">Containers</h3>
-          <p class="category-desc">Bottles and jars, label-ready.</p>
-        </div>
-
-        <div class="category-item">
-          <div class="category-thumb" style="--thumb-img:url('4756660-packhelp-27382.avif')"></div>
-          <h3 class="category-title">Food packaging</h3>
-          <p class="category-desc">Pizza boxes, cups, takeout.</p>
-        </div>
-
-        <div class="category-item">
-          <div class="category-thumb" style="--thumb-img:url('5918223-mg-packhelp-02-2109-4000-px.avif')"></div>
-          <h3 class="category-title">Accessories</h3>
-          <p class="category-desc">Tissue, fillers, tape, labels, stickers.</p>
-        </div>
-
-      </div>
+      <div class="categories-grid" id="packagingGrid"></div>
       <button class="scroll-carousel-nav next" type="button" aria-label="Przewiń w prawo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m9 6 6 6-6 6"/></svg>
       </button>
@@ -3309,13 +3258,13 @@
       { label: 'Food Packaging', image: '225638-pp-single-walled-cup-custom-200-ml.avif' }
     ];
     var industries = [
-      { label: 'E-commerce', image: 'da5da750f130e6035d3ced646417975b.jpg' },
-      { label: 'Beauty & Cosmetics', image: 'fb80fcec629502d926cd847e3167171e.jpg' },
-      { label: 'Food & Beverage', image: 'a34647594bcab3360bdc82955d03b704.jpg' },
-      { label: 'Fashion & Apparel', image: 'cb1b789753a6f19950cd4ceeadda8ce0.jpg' },
-      { label: 'Health & Wellness', image: '892565b5e8ceb02c6a9a5ca29c2b3f36.jpg' },
-      { label: 'Electronics', image: 'b559328f2fcb25139a2b661c5fde42a0.jpg' },
-      { label: 'Home & Lifestyle', image: '730ca2f5a2521a7eaf2472b1dab67ca4.jpg' },
+      { label: 'E-commerce', image: 'industies-ecommerce.png' },
+      { label: 'Beauty & Cosmetics', image: 'industies-beauty.png' },
+      { label: 'Food & Beverage', image: 'industies-food.png' },
+      { label: 'Fashion & Apparel', image: 'industies-fashion.png' },
+      { label: 'Health & Wellness', image: 'industies-health.png' },
+      { label: 'Electronics', image: 'industies-electronic.png' },
+      { label: 'Home & Lifestyle', image: 'industies-home.png' },
       { label: 'Events & Agencies', image: '04917e61ae687fdcb83a00a4edd3d6e7.jpg' }
     ];
 
@@ -3359,9 +3308,47 @@
     });
   })();
 
-  function initToggleSwitch(switchId, indicatorId) {
-    var switchEl = document.getElementById(switchId);
-    var indicator = document.getElementById(indicatorId);
+  (function () {
+    var items = [
+      { title: 'Boxes', desc: 'Mailer, shipping, product, rigid.' },
+      { title: 'Tubes &amp; envelopes', desc: 'Tube boxes, mailing tubes, padded.' },
+      { title: 'Bags &amp; pouches', desc: 'Mailing, carrier, drawstring, zip.' },
+      { title: 'Containers', desc: 'Bottles and jars, label-ready.' },
+      { title: 'Food packaging', desc: 'Pizza boxes, cups, takeout.' },
+      { title: 'Accessories', desc: 'Tissue, fillers, tape, labels, stickers.' }
+    ];
+
+    var packagingTabs = {
+      retail: [
+        '5065069-packhelp-29640.avif',
+        '5121637-packhelp-27910.avif',
+        '4854400-packhelp-27683.avif',
+        '4976409-packhelp-29353.avif',
+        '4756660-packhelp-27382.avif',
+        '5918223-mg-packhelp-02-2109-4000-px.avif'
+      ],
+      ecommerce: [null, null, null, null, null, null],
+      health: [
+        'health-boxes.png',
+        null,
+        null,
+        'health-containters.png',
+        null,
+        null
+      ],
+      food: [
+        'food-boxes.png',
+        'food-tubes.png',
+        'food-bags.png',
+        'food-containters.png',
+        'food-food.png',
+        'food-accesories.png'
+      ]
+    };
+
+    var switchEl = document.getElementById('industryToggleSwitch');
+    var indicator = document.getElementById('industryToggleIndicator');
+    var grid = document.getElementById('packagingGrid');
     var options = switchEl.querySelectorAll('.toggle-option');
 
     function moveIndicator(el) {
@@ -3369,21 +3356,35 @@
       indicator.style.transform = 'translateX(' + el.offsetLeft + 'px)';
     }
 
+    function renderGrid(tabKey) {
+      var images = packagingTabs[tabKey];
+      grid.innerHTML = items.map(function (item, i) {
+        var image = images[i];
+        var thumbStyle = image ? ' style="--thumb-img:url(\'' + image + '\')"' : '';
+        return '<div class="category-item">' +
+          '<div class="category-thumb"' + thumbStyle + '></div>' +
+          '<h3 class="category-title">' + item.title + '</h3>' +
+          '<p class="category-desc">' + item.desc + '</p>' +
+          '</div>';
+      }).join('');
+    }
+
     options.forEach(function (option) {
       option.addEventListener('click', function () {
+        if (option.classList.contains('active')) { return; }
         options.forEach(function (o) { o.classList.remove('active'); });
         option.classList.add('active');
         moveIndicator(option);
+        renderGrid(option.getAttribute('data-target'));
       });
     });
 
+    renderGrid('retail');
     moveIndicator(switchEl.querySelector('.toggle-option.active'));
     window.addEventListener('resize', function () {
       moveIndicator(switchEl.querySelector('.toggle-option.active'));
     });
-  }
-
-  initToggleSwitch('industryToggleSwitch', 'industryToggleIndicator');
+  })();
 
   (function () {
     var items = [
@@ -3408,10 +3409,10 @@
       restaurants: [
         'restaurants-apparel.png',
         'restaurants-notebook.png',
-        '82e2ddbf527e115f498b73231699f676.jpg',
+        'restaurants-bag.png',
         'restaurants-drinkware.png',
         'restaurants-treats.png',
-        null
+        'restaurants-gadget.png'
       ]
     };
 

@@ -1329,6 +1329,7 @@
     <button class="build-box-dot" data-target="stepClosure" aria-label="Closure"></button>
     <button class="build-box-dot" data-target="stepWindows" aria-label="Windows and cutouts"></button>
     <button class="build-box-dot" data-target="stepMaterial" aria-label="Material color"></button>
+    <button class="build-box-dot" data-target="stepCustomization" aria-label="Customization"></button>
   </nav>
 
   <div class="build-box-header">
@@ -1520,7 +1521,7 @@
         <h3 class="build-box-field-label">Material Color</h3>
         <p class="build-box-field-desc">Pick the base cardboard color — it affects the look and production cost</p>
         <div class="material-card-grid">
-          <button class="material-card active">
+          <button class="material-card active" data-material="kraft">
             <span class="material-card-image"><img src="build/material-kraft.png" alt=""></span>
             <span class="material-card-text">
               <span class="material-card-label">Kraft</span>
@@ -1539,6 +1540,27 @@
             <span class="material-card-text">
               <span class="material-card-label">Premium white</span>
               <span class="material-card-desc">Fully bleached, premium white finish delivering the highest print quality and a luxury feel.</span>
+            </span>
+          </button>
+        </div>
+      </section>
+
+      <section class="build-box-step" id="stepCustomization">
+        <h3 class="build-box-field-label">Customization</h3>
+        <p class="build-box-field-desc">Choose whether to print your design on the box</p>
+        <div class="material-card-grid">
+          <button class="material-card active" data-customization="plain">
+            <span class="material-card-image"><img id="plainCardImage" src="build/material-kraft.png" alt=""></span>
+            <span class="material-card-text">
+              <span class="material-card-label">Plain</span>
+              <span class="material-card-desc">No print, left in its natural material finish.</span>
+            </span>
+          </button>
+          <button class="material-card" data-customization="custom">
+            <span class="material-card-image"><img id="customCardImage" src="build/custom-kraft.png" alt=""></span>
+            <span class="material-card-text">
+              <span class="material-card-label">Custom</span>
+              <span class="material-card-desc">Fully personalize the print to match your brand.</span>
             </span>
           </button>
         </div>
@@ -1814,6 +1836,35 @@
     materialCards.forEach(function (card) {
       card.addEventListener('click', refreshCanvas);
     });
+  })();
+
+  (function () {
+    var plainCardImage = document.getElementById('plainCardImage');
+    var customCardImage = document.getElementById('customCardImage');
+    var materialCards = document.querySelectorAll('#stepMaterial .material-card');
+    if (!plainCardImage || !customCardImage || !materialCards.length) { return; }
+
+    var CUSTOM_IMAGE_BY_MATERIAL = {
+      'kraft': 'build/custom-kraft.png',
+      'white': 'build/custom-white.png',
+      'premium-white': 'build/custom-white.png'
+    };
+
+    function syncCustomizationImages() {
+      var activeMaterial = document.querySelector('#stepMaterial .material-card.active');
+      if (!activeMaterial) { return; }
+      var materialKey = activeMaterial.getAttribute('data-material') || 'kraft';
+      var materialThumb = activeMaterial.querySelector('.material-card-image img');
+
+      if (materialThumb) { plainCardImage.setAttribute('src', materialThumb.getAttribute('src')); }
+      customCardImage.setAttribute('src', CUSTOM_IMAGE_BY_MATERIAL[materialKey] || CUSTOM_IMAGE_BY_MATERIAL.kraft);
+    }
+
+    materialCards.forEach(function (card) {
+      card.addEventListener('click', syncCustomizationImages);
+    });
+
+    syncCustomizationImages();
   })();
 
   (function () {
