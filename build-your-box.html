@@ -648,6 +648,60 @@
     padding: 16px;
   }
 
+  .quantity-card {
+    justify-content: space-between;
+  }
+
+  .quantity-card-qty {
+    font-size: 1rem;
+    color: var(--color-text-primary);
+  }
+
+  .quantity-card-prices {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-6);
+  }
+
+  .quantity-card-unit {
+    font-size: 0.9375rem;
+    color: var(--color-text-muted);
+  }
+
+  .quantity-card-total {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .build-box-bigger-needs {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin: var(--space-4) 0 0;
+    font-size: 0.8125rem;
+    color: var(--color-text-muted);
+  }
+
+  .build-box-bigger-needs-link {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .build-box-bigger-needs svg {
+    flex: none;
+    width: 16px;
+    height: 16px;
+  }
+
+  .build-box-bigger-needs a {
+    color: var(--color-text-primary);
+    text-decoration: underline;
+    text-decoration-color: var(--color-border-hover);
+    text-underline-offset: 2px;
+  }
+
   .build-box-subfield {
     margin-top: var(--space-6);
   }
@@ -1011,6 +1065,175 @@
   .build-box-dot.active {
     height: 18px;
     background: var(--color-text-primary);
+  }
+
+  /* ---------- SITE SETTINGS (gear) ---------- */
+  .site-settings-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: #fff;
+    border: 1px solid rgba(0,0,0,.08);
+    box-shadow: 0 4px 16px rgba(0,0,0,.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .site-settings-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,.18);
+  }
+
+  .site-settings-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .site-settings-panel {
+    position: fixed;
+    bottom: 92px;
+    right: 24px;
+    z-index: 1000;
+    width: 280px;
+    background: #fff;
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 32px rgba(0,0,0,.18);
+    padding: var(--space-5);
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .site-settings-panel.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .site-settings-title {
+    margin: 0 0 var(--space-4);
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .site-settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .site-settings-label {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .site-settings-desc {
+    margin: var(--space-0-5) 0 0;
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  /* ---------- Compact mode: accordion list ---------- */
+  .build-box-accordion-header {
+    display: none;
+    width: 100%;
+    align-items: center;
+    gap: var(--space-3);
+    padding: var(--space-4) 0;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+  }
+
+  .build-box-accordion-badge {
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: var(--color-bg-muted);
+    color: var(--color-text-primary);
+    font-size: 0.8125rem;
+    font-weight: 600;
+  }
+
+  .build-box-accordion-badge svg {
+    width: 16px;
+    height: 16px;
+  }
+
+  .build-box-accordion-badge.done {
+    background: #F5E14D;
+  }
+
+  .build-box-accordion-title {
+    flex: 1;
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-text-primary);
+  }
+
+  .build-box-accordion-value {
+    font-weight: 400;
+  }
+
+  .build-box-accordion-chevron {
+    flex: none;
+    width: 18px;
+    height: 18px;
+    color: var(--color-text-primary);
+    transition: transform .2s ease;
+  }
+
+  .build-box-step.expanded .build-box-accordion-chevron {
+    transform: rotate(180deg);
+  }
+
+  body.compact-mode .build-box-step {
+    padding: 0 var(--space-8);
+    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  body.compact-mode .build-box-step:first-child {
+    padding-top: 0;
+  }
+
+  body.compact-mode .build-box-accordion-header {
+    display: flex;
+  }
+
+  body.compact-mode .build-box-step-content {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: max-height .35s cubic-bezier(.4,0,.2,1), opacity .25s ease;
+  }
+
+  body.compact-mode .build-box-step.expanded .build-box-step-content {
+    max-height: 3000px;
+    opacity: 1;
+    padding-bottom: var(--space-8);
+  }
+
+  body.compact-mode .build-box-subfield:first-of-type {
+    margin-top: 0;
   }
 
   /* ---------- mini sticky price summary, pinned like the homepage sticky nav ---------- */
@@ -1417,6 +1640,7 @@
     <button class="build-box-dot" data-target="stepMaterial" aria-label="Material color"></button>
     <button class="build-box-dot" data-target="stepCustomization" aria-label="Customization"></button>
     <button class="build-box-dot" data-target="stepAdditional" aria-label="Additional options"></button>
+    <button class="build-box-dot" data-target="stepQuantity" aria-label="Quantity"></button>
   </nav>
 
   <div class="build-box-header">
@@ -1432,7 +1656,7 @@
     <div class="build-box-sticky-summary-right">
       <div class="build-box-sticky-summary-group build-box-sticky-summary-price-group">
         <span class="build-box-sticky-summary-label">Netto / 30 pieces</span>
-        <span class="build-box-sticky-summary-price">€442.00</span>
+        <span class="build-box-sticky-summary-price">€45.00</span>
       </div>
       <a href="#" class="btn-pill lg">Add to cart</a>
     </div>
@@ -1465,6 +1689,12 @@
     <div class="build-box-config-col">
 
       <section class="build-box-step" id="stepBoxType">
+        <button class="build-box-accordion-header" type="button">
+          <span class="build-box-accordion-badge">1</span>
+          <span class="build-box-accordion-title">Select Box Type<span class="build-box-accordion-value"></span></span>
+          <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="build-box-step-content">
         <h3 class="build-box-field-label">Box Type</h3>
         <p class="build-box-field-desc">Choose the base format that fits your product</p>
         <div class="box-type-grid">
@@ -1497,9 +1727,16 @@
             </span>
           </button>
         </div>
+        </div>
       </section>
 
       <section class="build-box-step" id="stepConstruction">
+        <button class="build-box-accordion-header" type="button">
+          <span class="build-box-accordion-badge">2</span>
+          <span class="build-box-accordion-title">Select Construction<span class="build-box-accordion-value"></span></span>
+          <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="build-box-step-content">
         <h3 class="build-box-field-label">Construction</h3>
         <p class="build-box-field-desc">Decide how the box will open and close</p>
         <div class="construction-grid">
@@ -1524,9 +1761,16 @@
             <span>Gable Top</span>
           </button>
         </div>
+        </div>
       </section>
 
       <section class="build-box-step" id="stepSize">
+        <button class="build-box-accordion-header" type="button">
+          <span class="build-box-accordion-badge">3</span>
+          <span class="build-box-accordion-title">Select Dimensions<span class="build-box-accordion-value"></span></span>
+          <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="build-box-step-content">
         <h3 class="build-box-field-label">Dimensions</h3>
         <p class="build-box-field-desc">Enter external size or your product's size — we'll calculate the rest</p>
         <div class="toggle-switch" id="sizeToggleSwitch">
@@ -1560,9 +1804,16 @@
             </div>
           </div>
         </div>
+        </div>
       </section>
 
       <section class="build-box-step" id="stepClosure">
+        <button class="build-box-accordion-header" type="button">
+          <span class="build-box-accordion-badge">4</span>
+          <span class="build-box-accordion-title">Select Closure<span class="build-box-accordion-value"></span></span>
+          <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="build-box-step-content">
         <h3 class="build-box-field-label">Closure</h3>
         <p class="build-box-field-desc">Choose how the box bottom locks together</p>
         <div class="construction-grid">
@@ -1582,9 +1833,16 @@
             </span>
           </button>
         </div>
+        </div>
       </section>
 
       <section class="build-box-step" id="stepWindows">
+        <button class="build-box-accordion-header" type="button">
+          <span class="build-box-accordion-badge">5</span>
+          <span class="build-box-accordion-title">Select Windows &amp; Cutouts<span class="build-box-accordion-value"></span></span>
+          <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="build-box-step-content">
         <h3 class="build-box-field-label">Windows &amp; Cutouts</h3>
         <p class="build-box-field-desc">Add a transparent window or lines that make opening easier</p>
         <div class="box-type-grid">
@@ -1616,9 +1874,16 @@
             </span>
           </button>
         </div>
+        </div>
       </section>
 
       <section class="build-box-step" id="stepMaterial">
+        <button class="build-box-accordion-header" type="button">
+          <span class="build-box-accordion-badge">6</span>
+          <span class="build-box-accordion-title">Select Material Color<span class="build-box-accordion-value"></span></span>
+          <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="build-box-step-content">
         <h3 class="build-box-field-label">Material Color</h3>
         <p class="build-box-field-desc">Pick the base cardboard color — it affects the look and production cost</p>
         <div class="material-card-grid">
@@ -1644,9 +1909,16 @@
             </span>
           </button>
         </div>
+        </div>
       </section>
 
       <section class="build-box-step" id="stepCustomization">
+        <button class="build-box-accordion-header" type="button">
+          <span class="build-box-accordion-badge">7</span>
+          <span class="build-box-accordion-title">Select Customization<span class="build-box-accordion-value"></span></span>
+          <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="build-box-step-content">
         <h3 class="build-box-field-label">Customization</h3>
         <p class="build-box-field-desc">Choose whether to print your design on the box</p>
         <div class="material-card-grid">
@@ -1665,10 +1937,18 @@
             </span>
           </button>
         </div>
+        </div>
       </section>
 
       <section class="build-box-step" id="stepAdditional">
+        <button class="build-box-accordion-header" type="button">
+          <span class="build-box-accordion-badge">8</span>
+          <span class="build-box-accordion-title">Select Additional options<span class="build-box-accordion-value"></span></span>
+          <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="build-box-step-content">
         <h3 class="build-box-field-label">Additional options</h3>
+        <p class="build-box-field-desc">Fine-tune the print and finish to match your brand.</p>
 
         <div class="build-box-subfield">
           <h4 class="build-box-subfield-label">Print coverage</h4>
@@ -1705,6 +1985,63 @@
             </button>
           </div>
         </div>
+        </div>
+      </section>
+
+      <section class="build-box-step" id="stepQuantity">
+        <button class="build-box-accordion-header" type="button">
+          <span class="build-box-accordion-badge">9</span>
+          <span class="build-box-accordion-title">Select Quantity<span class="build-box-accordion-value"></span></span>
+          <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
+        </button>
+        <div class="build-box-step-content">
+        <h3 class="build-box-field-label">Quantity</h3>
+        <p class="build-box-field-desc">Choose your order size; larger quantities lower the price per piece.</p>
+        <div class="box-type-grid">
+          <button class="box-type-card no-thumb quantity-card">
+            <span class="quantity-card-qty">1</span>
+            <span class="quantity-card-prices">
+              <span class="quantity-card-unit">£38.78/piece</span>
+              <span class="quantity-card-total">£38.78</span>
+            </span>
+          </button>
+          <button class="box-type-card no-thumb quantity-card active">
+            <span class="quantity-card-qty">30</span>
+            <span class="quantity-card-prices">
+              <span class="quantity-card-unit">£1.50/piece</span>
+              <span class="quantity-card-total">£45.00</span>
+            </span>
+          </button>
+          <button class="box-type-card no-thumb quantity-card">
+            <span class="quantity-card-qty">120</span>
+            <span class="quantity-card-prices">
+              <span class="quantity-card-unit">£0.72/piece</span>
+              <span class="quantity-card-total">£86.40</span>
+            </span>
+          </button>
+          <button class="box-type-card no-thumb quantity-card">
+            <span class="quantity-card-qty">500</span>
+            <span class="quantity-card-prices">
+              <span class="quantity-card-unit">£0.38/piece</span>
+              <span class="quantity-card-total">£192.00</span>
+            </span>
+          </button>
+          <button class="box-type-card no-thumb quantity-card">
+            <span class="quantity-card-qty">2000</span>
+            <span class="quantity-card-prices">
+              <span class="quantity-card-unit">£0.32/piece</span>
+              <span class="quantity-card-total">£648.00</span>
+            </span>
+          </button>
+        </div>
+        <p class="build-box-bigger-needs">
+          Bigger needs?
+          <span class="build-box-bigger-needs-link">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/></svg>
+            <a href="#">Let's talk</a>
+          </span>.
+        </p>
+        </div>
       </section>
 
       <div class="build-box-checkout" id="stepCheckout">
@@ -1719,8 +2056,8 @@
               </ul>
             </div>
             <div class="build-box-checkout-price">
-              <p class="build-box-checkout-price-label">Netto / 100 pieces</p>
-              <p class="build-box-checkout-price-value">€242.00</p>
+              <p class="build-box-checkout-price-label">Netto / 30 pieces</p>
+              <p class="build-box-checkout-price-value">€45.00</p>
             </div>
           </div>
           <a href="#" class="btn-pill lg">Customize design</a>
@@ -1729,6 +2066,24 @@
       </div>
     </div>
   </div>
+
+<button id="siteSettingsBtn" class="site-settings-btn" aria-label="Site settings">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+</button>
+
+<div id="siteSettingsPanel" class="site-settings-panel">
+  <p class="site-settings-title">Page customization</p>
+  <div class="site-settings-row">
+    <div>
+      <p class="site-settings-label">Compact</p>
+      <p class="site-settings-desc">Collapse steps into a tight accordion list</p>
+    </div>
+    <label class="site-toggle">
+      <input type="checkbox" id="toggleCompact">
+      <span class="site-toggle-track"><span class="site-toggle-thumb"></span></span>
+    </label>
+  </div>
+</div>
 
 <script>
   function initToggleSwitch(switchId, indicatorId) {
@@ -1838,6 +2193,7 @@
     var header = document.querySelector('.build-box-header');
     var summaryBar = document.getElementById('stickySummaryBar');
     var configCol = document.querySelector('.build-box-config-col');
+    var checkout = document.getElementById('stepCheckout');
     if (!header || !summaryBar || !configCol) { return; }
 
     function positionBar() {
@@ -1848,7 +2204,9 @@
 
     function onScroll() {
       var headerRect = header.getBoundingClientRect();
-      summaryBar.classList.toggle('visible', headerRect.bottom <= 0);
+      var pastHeader = headerRect.bottom <= 0;
+      var checkoutReached = checkout && checkout.getBoundingClientRect().top <= window.innerHeight;
+      summaryBar.classList.toggle('visible', pastHeader && !checkoutReached);
     }
 
     window.addEventListener('scroll', onScroll, { passive: true });
@@ -1947,6 +2305,35 @@
     initSelectableGroup('.box-type-grid', true);
     initSelectableGroup('.construction-grid', true);
     initSelectableGroup('.material-card-grid', true);
+  })();
+
+  (function () {
+    var quantityCards = document.querySelectorAll('#stepQuantity .quantity-card');
+    if (!quantityCards.length) { return; }
+
+    function applyQuantity(card) {
+      var qty = card.querySelector('.quantity-card-qty').textContent.trim();
+      var total = card.querySelector('.quantity-card-total').textContent.replace(/[^0-9.]/g, '');
+      var priceText = '€' + total;
+      var labelText = 'Netto / ' + qty + ' pieces';
+
+      var checkoutLabel = document.querySelector('.build-box-checkout-price-label');
+      var checkoutValue = document.querySelector('.build-box-checkout-price-value');
+      if (checkoutLabel) { checkoutLabel.textContent = labelText; }
+      if (checkoutValue) { checkoutValue.textContent = priceText; }
+
+      var stickyLabel = document.querySelector('.build-box-sticky-summary-price-group .build-box-sticky-summary-label');
+      var stickyPrice = document.querySelector('.build-box-sticky-summary-price');
+      if (stickyLabel) { stickyLabel.textContent = labelText; }
+      if (stickyPrice) { stickyPrice.textContent = priceText; }
+    }
+
+    quantityCards.forEach(function (card) {
+      card.addEventListener('click', function () { applyQuantity(card); });
+    });
+
+    var initialActive = document.querySelector('#stepQuantity .quantity-card.active');
+    if (initialActive) { applyQuantity(initialActive); }
   })();
 
   (function () {
@@ -2092,6 +2479,104 @@
     }, { threshold: 0.01, rootMargin: '-45% 0px -45% 0px' });
 
     steps.forEach(function (step) { observer.observe(step); });
+  })();
+
+  (function () {
+    var btn = document.getElementById('siteSettingsBtn');
+    var panel = document.getElementById('siteSettingsPanel');
+    var compactToggle = document.getElementById('toggleCompact');
+    if (!btn || !panel || !compactToggle) { return; }
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      panel.classList.toggle('open');
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!panel.contains(e.target) && e.target !== btn) {
+        panel.classList.remove('open');
+      }
+    });
+
+    compactToggle.addEventListener('change', function () {
+      document.body.classList.toggle('compact-mode', compactToggle.checked);
+    });
+  })();
+
+  (function () {
+    var steps = Array.prototype.slice.call(document.querySelectorAll('.build-box-step'));
+    var visited = {};
+
+    function getStepValue(step) {
+      if (step.id === 'stepSize') {
+        var w = document.getElementById('dimWidth');
+        var l = document.getElementById('dimLength');
+        var h = document.getElementById('dimHeight');
+        if (w && l && h) { return w.value + ' x ' + l.value + ' x ' + h.value + ' cm'; }
+        return '';
+      }
+      if (step.id === 'stepAdditional') {
+        var parts = [];
+        step.querySelectorAll('.build-box-subfield').forEach(function (sub) {
+          var active = sub.querySelector('.box-type-card.active .box-type-card-label');
+          if (active) { parts.push(active.textContent.trim()); }
+        });
+        return parts.join(', ');
+      }
+      var activeCard = step.querySelector('.box-type-card.active, .construction-card.active, .material-card.active');
+      if (!activeCard) { return ''; }
+      var labelEl = activeCard.querySelector('.box-type-card-label, .material-card-label, span');
+      return labelEl ? labelEl.textContent.trim() : '';
+    }
+
+    function updateHeader(step, index) {
+      var header = step.querySelector('.build-box-accordion-header');
+      if (!header) { return; }
+
+      var valueEl = header.querySelector('.build-box-accordion-value');
+      var value = getStepValue(step);
+      valueEl.textContent = value ? ' : ' + value : '';
+
+      var badge = header.querySelector('.build-box-accordion-badge');
+      if (visited[step.id]) {
+        badge.classList.add('done');
+        badge.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>';
+      } else {
+        badge.classList.remove('done');
+        badge.textContent = index + 1;
+      }
+    }
+
+    function updateAllHeaders() {
+      steps.forEach(updateHeader);
+    }
+
+    steps.forEach(function (step, index) {
+      var header = step.querySelector('.build-box-accordion-header');
+      if (!header) { return; }
+
+      header.addEventListener('click', function () {
+        var wasExpanded = step.classList.contains('expanded');
+        steps.forEach(function (s) { s.classList.remove('expanded'); });
+        if (!wasExpanded) {
+          step.classList.add('expanded');
+          visited[step.id] = true;
+        }
+        updateAllHeaders();
+      });
+
+      step.addEventListener('click', function (e) {
+        if (header.contains(e.target)) { return; }
+        updateAllHeaders();
+      });
+    });
+
+    ['dimWidth', 'dimLength', 'dimHeight'].forEach(function (id) {
+      var el = document.getElementById(id);
+      if (el) { el.addEventListener('input', updateAllHeaders); }
+    });
+
+    updateAllHeaders();
   })();
 </script>
 
