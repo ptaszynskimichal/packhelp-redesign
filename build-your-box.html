@@ -1013,6 +1013,77 @@
     background: var(--color-text-primary);
   }
 
+  /* ---------- mini sticky price summary, pinned like the homepage sticky nav ---------- */
+  .build-box-sticky-summary {
+    position: fixed;
+    bottom: 0;
+    z-index: 60;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-6);
+    background: rgba(255, 255, 255, 0.80);
+    border-radius: 12px 12px 0 0;
+    box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    opacity: 0;
+    transform: translateY(100%);
+    pointer-events: none;
+    transition: opacity .3s ease, transform .3s ease;
+  }
+
+  .build-box-sticky-summary.visible {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .build-box-sticky-summary-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+  }
+
+  .build-box-sticky-summary-label {
+    font-size: 0.75rem;
+    color: var(--color-text-muted);
+  }
+
+  .build-box-sticky-summary-value {
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .build-box-sticky-summary-value.underline {
+    text-decoration: underline;
+    text-decoration-color: var(--color-border-hover);
+    text-underline-offset: 3px;
+  }
+
+  .build-box-sticky-summary-price {
+    font-size: 1.125rem;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .build-box-sticky-summary-right {
+    display: flex;
+    align-items: center;
+    gap: var(--space-6);
+  }
+
+  .build-box-sticky-summary-price-group {
+    text-align: right;
+  }
+
+  @media (max-width: 900px) {
+    .build-box-sticky-summary { display: none; }
+  }
+
   /* ---------- final checkout card ---------- */
   .build-box-checkout {
     padding: 96px var(--space-8) var(--space-16);
@@ -1351,6 +1422,20 @@
   <div class="build-box-header">
     <h2 class="build-box-heading">Build your box</h2>
     <p class="build-box-subheading">Quickly configure the exact box type you need</p>
+  </div>
+
+  <div class="build-box-sticky-summary" id="stickySummaryBar">
+    <div class="build-box-sticky-summary-group">
+      <span class="build-box-sticky-summary-label">Delivery</span>
+      <span class="build-box-sticky-summary-value underline">20-28 April</span>
+    </div>
+    <div class="build-box-sticky-summary-right">
+      <div class="build-box-sticky-summary-group build-box-sticky-summary-price-group">
+        <span class="build-box-sticky-summary-label">Netto / 30 pieces</span>
+        <span class="build-box-sticky-summary-price">€442.00</span>
+      </div>
+      <a href="#" class="btn-pill lg">Add to cart</a>
+    </div>
   </div>
 
   <div class="build-box-page">
@@ -1746,6 +1831,33 @@
 
     window.addEventListener('scroll', onScroll, { passive: true });
     window.addEventListener('resize', onScroll);
+    onScroll();
+  })();
+
+  (function () {
+    var header = document.querySelector('.build-box-header');
+    var summaryBar = document.getElementById('stickySummaryBar');
+    var configCol = document.querySelector('.build-box-config-col');
+    if (!header || !summaryBar || !configCol) { return; }
+
+    function positionBar() {
+      var rect = configCol.getBoundingClientRect();
+      summaryBar.style.left = rect.left + 'px';
+      summaryBar.style.width = rect.width + 'px';
+    }
+
+    function onScroll() {
+      var headerRect = header.getBoundingClientRect();
+      summaryBar.classList.toggle('visible', headerRect.bottom <= 0);
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', function () {
+      positionBar();
+      onScroll();
+    });
+
+    positionBar();
     onScroll();
   })();
 
