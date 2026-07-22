@@ -462,6 +462,213 @@
     transition: opacity .2s ease;
   }
 
+  /* ---------- Real 3D box preview (CSS 3D transforms, no external libs) ---------- */
+  .build-box-3d-stage {
+    position: relative;
+    flex: 1 1 auto;
+    align-self: stretch;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    perspective: 1600px;
+    touch-action: none;
+  }
+
+  .build-box-3d-shadow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: calc((var(--w) + var(--d)) * .55);
+    height: calc((var(--w) + var(--d)) * .16);
+    margin-top: calc(var(--h) / 2 - (var(--w) + var(--d)) * .08);
+    transform: translateX(-50%);
+    border-radius: 50%;
+    background: radial-gradient(ellipse, rgba(0,0,0,.42) 0%, rgba(0,0,0,.22) 45%, rgba(0,0,0,0) 75%);
+    filter: blur(3px);
+    pointer-events: none;
+  }
+
+  /* ---------- dimension callouts: only shown while the Dimensions step is in view ---------- */
+  .build-box-dim-lines {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .3s ease;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+
+  .build-box-3d-stage.show-dims .build-box-dim-lines { opacity: 1; }
+
+  .build-box-dim-line {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    height: 2px;
+    transform-origin: 0% 50%;
+    background: var(--dim-color, var(--color-border-hover));
+  }
+
+  .build-box-dim-line.dim-width { --dim-color: var(--color-accent); }
+
+  .build-box-dim-pill {
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    display: inline-flex;
+    align-items: center;
+    white-space: nowrap;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-full);
+    font-size: 0.75rem;
+    font-weight: 500;
+    background: var(--color-bg-muted);
+    color: var(--color-text-primary);
+    box-shadow: 0 2px 6px 0 rgba(0,0,0,.08);
+  }
+
+  .dim-width .build-box-dim-pill {
+    background: var(--color-accent);
+    color: var(--color-text-on-accent);
+  }
+
+  .build-box-3d {
+    position: relative;
+    width: 1px;
+    height: 1px;
+    transform-style: preserve-3d;
+    cursor: grab;
+    will-change: transform;
+  }
+
+  .build-box-3d.is-dragging { cursor: grabbing; }
+
+  .build-box-visual.view-3d .build-box-canvas > img { display: none; }
+  .build-box-visual.view-2d .build-box-3d-stage { display: none; }
+
+  .b3d-group {
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform-style: preserve-3d;
+  }
+
+  .b3d-face,
+  .b3d-lid-face,
+  .b3d-roof-panel,
+  .b3d-roof-end {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid rgba(0,0,0,.10);
+    background: var(--b3d-color, #C9A876);
+  }
+
+  #box3dModel[data-material="kraft"]         { --b3d-color: #C6A170; }
+  #box3dModel[data-material="white"]         { --b3d-color: #F2F0E9; }
+  #box3dModel[data-material="premium-white"] { --b3d-color: #FDFDFB; }
+
+  /* body (full-height cuboid, present for every construction) */
+  .b3d-front  { top: 50%; left: 50%; width: var(--w); height: var(--h); margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2); transform: translateZ(calc(var(--d) / 2)); filter: brightness(1.06); }
+  .b3d-back   { top: 50%; left: 50%; width: var(--w); height: var(--h); margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2); transform: rotateY(180deg) translateZ(calc(var(--d) / 2)); filter: brightness(.82); }
+  .b3d-right  { top: 50%; left: 50%; width: var(--d); height: var(--h); margin: calc(var(--h) / -2) 0 0 calc(var(--d) / -2); transform: rotateY(90deg) translateZ(calc(var(--w) / 2)); filter: brightness(.92); }
+  .b3d-left   { top: 50%; left: 50%; width: var(--d); height: var(--h); margin: calc(var(--h) / -2) 0 0 calc(var(--d) / -2); transform: rotateY(-90deg) translateZ(calc(var(--w) / 2)); filter: brightness(.76); }
+  .b3d-top    { top: 50%; left: 50%; width: var(--w); height: var(--d); margin: calc(var(--d) / -2) 0 0 calc(var(--w) / -2); transform: rotateX(90deg) translateZ(calc(var(--h) / 2)); filter: brightness(1.18); }
+  .b3d-bottom { top: 50%; left: 50%; width: var(--w); height: var(--d); margin: calc(var(--d) / -2) 0 0 calc(var(--w) / -2); transform: rotateX(-90deg) translateZ(calc(var(--h) / 2)); filter: brightness(.68); }
+
+  #box3dModel[data-construction="gable"] .b3d-top { display: none; }
+
+  /* windowing: translucent film patch on the front face */
+  .b3d-window {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: calc(var(--w) * .45);
+    height: calc(var(--h) * .4);
+    margin: calc(var(--h) * -.2) 0 0 calc(var(--w) * -.225);
+    transform: translateZ(calc(var(--d) / 2 + .5px));
+    background: rgba(255,255,255,.35);
+    border: 1px solid rgba(255,255,255,.65);
+    box-shadow: inset 0 0 12px rgba(255,255,255,.5);
+    display: none;
+  }
+  #box3dModel[data-windows="windowing"] .b3d-window { display: block; }
+
+  /* hanging: small euro-slot punch near the top of the front face */
+  .b3d-hang-hole {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 22px; height: 22px;
+    margin: calc(var(--h) * -.5 + 16px) 0 0 -11px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, rgba(0,0,0,.08), rgba(0,0,0,.4));
+    transform: translateZ(calc(var(--d) / 2 + .5px));
+    display: none;
+  }
+  #box3dModel[data-construction="hanging"] .b3d-hang-hole { display: block; }
+
+  /* with handle: die-cut slot on the top face */
+  .b3d-handle-hole {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: calc(var(--w) * .34);
+    height: calc(var(--d) * .16);
+    margin-top: calc(var(--d) * -.08);
+    margin-left: calc(var(--w) * -.17);
+    border-radius: 999px;
+    background: rgba(0,0,0,.35);
+    transform: rotateX(90deg) translateZ(calc(var(--h) / 2 + .5px));
+    display: none;
+  }
+  #box3dModel[data-construction="handle"] .b3d-handle-hole { display: block; }
+
+  /* with lid: a shallower, slightly larger box sitting over the top of the body */
+  .b3d-lid {
+    display: none;
+    --lw: calc(var(--w) + 12px);
+    --ld: calc(var(--d) + 12px);
+    --lh: calc(var(--h) * .4);
+    transform: translateY(calc(-1 * var(--h) / 2 - var(--lh) * .15));
+  }
+  #box3dModel[data-construction="with-lid"] .b3d-lid { display: block; }
+
+  .b3d-lid-front  { top: 50%; left: 50%; width: var(--lw); height: var(--lh); margin: calc(var(--lh) / -2) 0 0 calc(var(--lw) / -2); transform: translateZ(calc(var(--ld) / 2)); filter: brightness(1.1); }
+  .b3d-lid-back   { top: 50%; left: 50%; width: var(--lw); height: var(--lh); margin: calc(var(--lh) / -2) 0 0 calc(var(--lw) / -2); transform: rotateY(180deg) translateZ(calc(var(--ld) / 2)); filter: brightness(.86); }
+  .b3d-lid-right  { top: 50%; left: 50%; width: var(--ld); height: var(--lh); margin: calc(var(--lh) / -2) 0 0 calc(var(--ld) / -2); transform: rotateY(90deg) translateZ(calc(var(--lw) / 2)); filter: brightness(.96); }
+  .b3d-lid-left   { top: 50%; left: 50%; width: var(--ld); height: var(--lh); margin: calc(var(--lh) / -2) 0 0 calc(var(--ld) / -2); transform: rotateY(-90deg) translateZ(calc(var(--lw) / 2)); filter: brightness(.8); }
+  .b3d-lid-top    { top: 50%; left: 50%; width: var(--lw); height: var(--ld); margin: calc(var(--ld) / -2) 0 0 calc(var(--lw) / -2); transform: rotateX(90deg) translateZ(calc(var(--lh) / 2)); filter: brightness(1.22); }
+
+  /* gable top: a peaked roof (ridge along the width axis) sitting on top of the body */
+  .b3d-roof {
+    display: none;
+    transform: translateY(calc(-1 * var(--h) / 2 - var(--rise)));
+  }
+  #box3dModel[data-construction="gable"] .b3d-roof { display: block; }
+
+  .b3d-roof-panel {
+    top: 0; left: 50%;
+    width: var(--w);
+    height: var(--slant);
+    margin-left: calc(var(--w) / -2);
+    transform-origin: 50% 0%;
+    filter: brightness(1.02);
+  }
+  .b3d-roof-front { transform: rotateX(var(--pitch-deg)); }
+  .b3d-roof-back  { transform: rotateX(calc(var(--pitch-deg) * -1)); filter: brightness(.84); }
+
+  .b3d-roof-end {
+    top: 0; left: 50%;
+    width: var(--d);
+    height: var(--rise);
+    margin-left: calc(var(--d) / -2);
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+    filter: brightness(.9);
+  }
+  .b3d-roof-end-right { transform: rotateY(90deg) translateZ(calc(var(--w) / 2)); }
+  .b3d-roof-end-left  { transform: rotateY(-90deg) translateZ(calc(var(--w) / 2)); filter: brightness(.74); }
+
   .build-box-visual-toolbar {
     display: flex;
     align-items: center;
@@ -1666,6 +1873,40 @@
     <div class="build-box-visual">
       <div class="build-box-canvas">
         <img id="canvasImage" src="build/folding-box.png" alt="">
+        <div class="build-box-3d-stage" id="box3dStage">
+          <div class="build-box-3d-shadow"></div>
+          <div class="build-box-dim-lines">
+            <div class="build-box-dim-line dim-height"><span class="build-box-dim-pill" id="dimPillHeight">Height: 12 cm</span></div>
+            <div class="build-box-dim-line dim-width"><span class="build-box-dim-pill" id="dimPillWidth">Width: 8 cm</span></div>
+            <div class="build-box-dim-line dim-length"><span class="build-box-dim-pill" id="dimPillLength">Length: 8 cm</span></div>
+          </div>
+          <div class="build-box-3d" id="box3dModel" data-construction="classic" data-material="kraft" data-windows="no">
+            <div class="b3d-group b3d-body">
+              <div class="b3d-face b3d-front"></div>
+              <div class="b3d-face b3d-back"></div>
+              <div class="b3d-face b3d-left"></div>
+              <div class="b3d-face b3d-right"></div>
+              <div class="b3d-face b3d-top"></div>
+              <div class="b3d-face b3d-bottom"></div>
+              <div class="b3d-window"></div>
+              <div class="b3d-hang-hole"></div>
+              <div class="b3d-handle-hole"></div>
+            </div>
+            <div class="b3d-group b3d-lid">
+              <div class="b3d-lid-face b3d-lid-front"></div>
+              <div class="b3d-lid-face b3d-lid-back"></div>
+              <div class="b3d-lid-face b3d-lid-left"></div>
+              <div class="b3d-lid-face b3d-lid-right"></div>
+              <div class="b3d-lid-face b3d-lid-top"></div>
+            </div>
+            <div class="b3d-group b3d-roof">
+              <div class="b3d-roof-panel b3d-roof-front"></div>
+              <div class="b3d-roof-panel b3d-roof-back"></div>
+              <div class="b3d-roof-end b3d-roof-end-left"></div>
+              <div class="b3d-roof-end b3d-roof-end-right"></div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="build-box-visual-toolbar">
         <div class="toggle-switch" id="viewToggleSwitch" style="margin-bottom:0;">
@@ -1748,15 +1989,15 @@
             <img src="build/hanging.svg" alt="">
             <span>Hanging</span>
           </button>
-          <button class="construction-card">
+          <button class="construction-card" data-construction="with-lid">
             <img src="build/with-lid.svg" alt="">
             <span>With Lid</span>
           </button>
-          <button class="construction-card">
+          <button class="construction-card" data-construction="handle">
             <img src="build/handle.svg" alt="">
             <span>With Handle</span>
           </button>
-          <button class="construction-card">
+          <button class="construction-card" data-construction="gable">
             <img src="build/gable.svg" alt="">
             <span>Gable Top</span>
           </button>
@@ -1846,7 +2087,7 @@
         <h3 class="build-box-field-label">Windows &amp; Cutouts</h3>
         <p class="build-box-field-desc">Add a transparent window or lines that make opening easier</p>
         <div class="box-type-grid">
-          <button class="box-type-card active">
+          <button class="box-type-card active" data-windows="no">
             <span class="box-type-card-thumb"><img src="build/folding-box.png" alt=""></span>
             <span class="box-type-card-text">
               <span class="box-type-card-label">No</span>
@@ -1860,13 +2101,13 @@
               <span class="box-type-card-desc">A cut-out window in the box wall, usually filled with film, to display the product inside.</span>
             </span>
           </button>
-          <button class="box-type-card no-thumb">
+          <button class="box-type-card no-thumb" data-windows="crease">
             <span class="box-type-card-text">
               <span class="box-type-card-label">Crease line</span>
               <span class="box-type-card-desc">An extra scoring line for precise, controlled folding at a specific spot.</span>
             </span>
           </button>
-          <button class="box-type-card">
+          <button class="box-type-card" data-windows="perforation">
             <span class="box-type-card-thumb"><img src="build/perforation.png" alt=""></span>
             <span class="box-type-card-text">
               <span class="box-type-card-label">Perforation</span>
@@ -2334,6 +2575,186 @@
 
     var initialActive = document.querySelector('#stepQuantity .quantity-card.active');
     if (initialActive) { applyQuantity(initialActive); }
+  })();
+
+  (function () {
+    var toggle = document.getElementById('viewToggleSwitch');
+    var visual = document.querySelector('.build-box-visual');
+    if (!toggle || !visual) { return; }
+
+    function updateMode() {
+      var options = toggle.querySelectorAll('.toggle-option');
+      var is2D = options[1] && options[1].classList.contains('active');
+      visual.classList.toggle('view-2d', !!is2D);
+      visual.classList.toggle('view-3d', !is2D);
+    }
+
+    toggle.querySelectorAll('.toggle-option').forEach(function (opt) {
+      opt.addEventListener('click', updateMode);
+    });
+
+    updateMode();
+  })();
+
+  (function () {
+    var stage = document.getElementById('box3dStage');
+    var model = document.getElementById('box3dModel');
+    var widthInput = document.getElementById('dimWidth');
+    var lengthInput = document.getElementById('dimLength');
+    var heightInput = document.getElementById('dimHeight');
+    var pillWidth = document.getElementById('dimPillWidth');
+    var pillLength = document.getElementById('dimPillLength');
+    var pillHeight = document.getElementById('dimPillHeight');
+    var lineHeight = document.querySelector('.build-box-dim-line.dim-height');
+    var lineWidth = document.querySelector('.build-box-dim-line.dim-width');
+    var lineLength = document.querySelector('.build-box-dim-line.dim-length');
+    if (!stage || !model || !widthInput || !lengthInput || !heightInput) { return; }
+
+    var FIT = 200;
+    var ROOF_RISE_RATIO = .35;
+    var DEFAULT_ROT_X = -18;
+    var DEFAULT_ROT_Y = -32;
+
+    var wPx = 100, hPx = 100, dPx = 100;
+    var rotX = DEFAULT_ROT_X;
+    var rotY = DEFAULT_ROT_Y;
+    var dragging = false;
+    var lastX, lastY;
+
+    function project(x, y, z) {
+      var rx = rotX * Math.PI / 180;
+      var ry = rotY * Math.PI / 180;
+      var y1 = y * Math.cos(rx) - z * Math.sin(rx);
+      var z1 = y * Math.sin(rx) + z * Math.cos(rx);
+      var x2 = x * Math.cos(ry) + z1 * Math.sin(ry);
+      return { x: x2, y: y1 };
+    }
+
+    function setLine(el, p1, p2) {
+      if (!el) { return; }
+      var a = project(p1[0], p1[1], p1[2]);
+      var b = project(p2[0], p2[1], p2[2]);
+      var dx = b.x - a.x;
+      var dy = b.y - a.y;
+      var len = Math.sqrt(dx * dx + dy * dy);
+      var angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      el.style.width = len + 'px';
+      el.style.transform = 'translate(' + a.x + 'px, ' + a.y + 'px) rotate(' + angle + 'deg)';
+      var pill = el.querySelector('.build-box-dim-pill');
+      if (pill) { pill.style.transform = 'translate(var(--space-2), -50%) rotate(' + (-angle) + 'deg)'; }
+    }
+
+    function updateDimLines() {
+      var hw = wPx / 2, hh = hPx / 2, hd = dPx / 2;
+      setLine(lineHeight, [hw, -hh, hd], [hw, hh, hd]);
+      setLine(lineWidth, [-hw, hh, hd], [-hw - 49, hh + 27, hd]);
+      setLine(lineLength, [hw, hh, hd], [hw + 49, hh + 27, hd]);
+    }
+
+    function apply() {
+      model.style.transform = 'rotateX(' + rotX + 'deg) rotateY(' + rotY + 'deg)';
+      updateDimLines();
+    }
+
+    function updateSize() {
+      var w = parseFloat(widthInput.value) || 1;
+      var l = parseFloat(lengthInput.value) || 1;
+      var h = parseFloat(heightInput.value) || 1;
+      var scale = FIT / Math.max(w, l, h);
+      wPx = w * scale;
+      dPx = l * scale;
+      hPx = h * scale;
+
+      stage.style.setProperty('--w', wPx + 'px');
+      stage.style.setProperty('--d', dPx + 'px');
+      stage.style.setProperty('--h', hPx + 'px');
+
+      var rise = wPx * ROOF_RISE_RATIO;
+      var halfD = dPx / 2;
+      var slant = Math.sqrt(rise * rise + halfD * halfD);
+      var pitchDeg = Math.atan2(halfD, rise) * 180 / Math.PI;
+
+      stage.style.setProperty('--rise', rise + 'px');
+      stage.style.setProperty('--slant', slant + 'px');
+      stage.style.setProperty('--pitch-deg', pitchDeg.toFixed(2) + 'deg');
+
+      if (pillWidth) { pillWidth.textContent = 'Width: ' + w + ' cm'; }
+      if (pillLength) { pillLength.textContent = 'Length: ' + l + ' cm'; }
+      if (pillHeight) { pillHeight.textContent = 'Height: ' + h + ' cm'; }
+
+      updateDimLines();
+    }
+
+    [widthInput, lengthInput, heightInput].forEach(function (input) {
+      input.addEventListener('input', updateSize);
+
+      input.addEventListener('focus', function () {
+        stage.classList.add('show-dims');
+        if (!dragging) {
+          rotX = DEFAULT_ROT_X;
+          rotY = DEFAULT_ROT_Y;
+          apply();
+        }
+      });
+
+      input.addEventListener('blur', function () {
+        stage.classList.remove('show-dims');
+      });
+    });
+
+    stage.addEventListener('pointerdown', function (e) {
+      dragging = true;
+      model.classList.add('is-dragging');
+      lastX = e.clientX;
+      lastY = e.clientY;
+      stage.setPointerCapture(e.pointerId);
+    });
+
+    stage.addEventListener('pointermove', function (e) {
+      if (!dragging) { return; }
+      var dx = e.clientX - lastX;
+      var dy = e.clientY - lastY;
+      lastX = e.clientX;
+      lastY = e.clientY;
+      rotY += dx * 0.4;
+      rotX = Math.max(-80, Math.min(80, rotX - dy * 0.4));
+      apply();
+    });
+
+    function stopDrag() {
+      dragging = false;
+      model.classList.remove('is-dragging');
+    }
+
+    stage.addEventListener('pointerup', stopDrag);
+    stage.addEventListener('pointerleave', stopDrag);
+    stage.addEventListener('pointercancel', stopDrag);
+
+    updateSize();
+    apply();
+  })();
+
+  (function () {
+    var model = document.getElementById('box3dModel');
+    if (!model) { return; }
+
+    function setFromActive(scope, attr, fallback) {
+      var active = document.querySelector(scope + ' .active');
+      var value = active ? active.getAttribute(attr) : null;
+      model.setAttribute(attr, value || fallback);
+    }
+
+    function refresh() {
+      setFromActive('#stepConstruction', 'data-construction', 'classic');
+      setFromActive('#stepMaterial', 'data-material', 'kraft');
+      setFromActive('#stepWindows', 'data-windows', 'no');
+    }
+
+    document.querySelectorAll('#stepConstruction .construction-card').forEach(function (c) { c.addEventListener('click', refresh); });
+    document.querySelectorAll('#stepMaterial .material-card').forEach(function (c) { c.addEventListener('click', refresh); });
+    document.querySelectorAll('#stepWindows .box-type-card').forEach(function (c) { c.addEventListener('click', refresh); });
+
+    refresh();
   })();
 
   (function () {

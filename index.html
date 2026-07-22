@@ -178,6 +178,16 @@
     padding: 0 var(--space-8);
   }
 
+  nav.topbar::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    border-bottom: 1px solid rgba(0,0,0,.07);
+  }
+
   .nav-megamenu {
     position: absolute;
     z-index: 20;
@@ -422,7 +432,7 @@
     max-width: 44rem;
     margin: 0 auto;
     text-align: left;
-    font-weight: 300;
+    font-weight: 500;
     font-size: 1.75rem;
     line-height: 2.5rem;
     color: #fff;
@@ -3210,12 +3220,12 @@
     ];
     var merchandise = [
       { label: 'Clothing' },
-      { label: 'Office supplies' },
-      { label: 'Tech accessories' },
+      { label: 'Office supplies', image: 'https://cdn-pim.packhelp.com/assets/2aba6539-6e81-4b8b-b239-bedb352c55a6/666797-office-supplies?w=1112&h=800&fit=min&auto=format' },
+      { label: 'Tech accessories', image: 'https://cdn-pim.packhelp.com/assets/702ceb42-37c2-4fe6-88aa-5f67c4492a90/203457-tech-accessories?w=1112&h=800&fit=min&auto=format' },
       { label: 'Drinkware' },
-      { label: 'Home accessories' },
-      { label: 'Bags' },
-      { label: 'Merchandise packaging' },
+      { label: 'Home accessories', image: 'https://cdn-pim.packhelp.com/assets/ec444445-7471-4eec-874b-8bd0a8827042/240580-home-accessories?w=1112&h=800&fit=min&auto=format' },
+      { label: 'Bags', image: 'https://cdn-pim.packhelp.com/assets/f899a6fd-4462-49ae-a756-91f2ad2261e3/429179-bags?w=1112&h=800&fit=min&auto=format' },
+      { label: 'Merchandise packaging', image: 'https://cdn-pim.packhelp.com/assets/3e18d2c9-d1a1-4bd9-8f56-c1ef82e217d6/566664-packaging?w=1112&h=800&fit=min&auto=format' },
       { label: 'Sets' }
     ];
     var industries = [
