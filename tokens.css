@@ -58,17 +58,12 @@
   --color-danger: var(--red-500);
 
   /* ---- spacing ----
-     Matches Tailwind's default rem-based scale — the values already in use
-     across the page lined up with it almost exactly, so no new numbers were
-     invented here. Useful if the production stack ends up Tailwind-based:
-     the mapping is 1:1. */
-  --space-0-5: 0.125rem; /* 2px */
+     Strict 4px grid (8px preferred, 4px as the finer exception) — the
+     half-steps Tailwind offers (0.5/1.5/2.5/3.5) were dropped since every
+     one sat exactly between two grid steps with no real "nearest" side. */
   --space-1:   0.25rem;  /* 4px */
-  --space-1-5: 0.375rem; /* 6px */
   --space-2:   0.5rem;   /* 8px */
-  --space-2-5: 0.625rem; /* 10px */
   --space-3:   0.75rem;  /* 12px */
-  --space-3-5: 0.875rem; /* 14px */
   --space-4:   1rem;     /* 16px */
   --space-5:   1.25rem;  /* 20px */
   --space-6:   1.5rem;   /* 24px */
@@ -80,6 +75,7 @@
   --space-16:  4rem;     /* 64px */
   --space-20:  5rem;     /* 80px */
   --space-24:  6rem;     /* 96px */
+  --space-32:  8rem;     /* 128px */
   --space-40:  10rem;    /* 160px */
 
   /* ---- radius ----

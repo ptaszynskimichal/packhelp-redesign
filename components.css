@@ -26,7 +26,7 @@
 
 .btn-pill:hover { background: var(--color-accent-hover); }
 
-.btn-pill.sm { height: 2.25rem; font-size: 0.8125rem; padding: 0 0.875rem; }
+.btn-pill.sm { height: 2.25rem; font-size: 0.8125rem; padding: 0 1rem; }
 .btn-pill.lg { height: 2.75rem; font-size: 1rem; padding: 0 1.25rem; }
 
 .btn-pill.secondary {
@@ -48,7 +48,7 @@
 
 .btn-pill:hover .btn-arrow {
   width: 16px;
-  margin-left: var(--space-1-5);
+  margin-left: var(--space-2);
   opacity: 1;
 }
 

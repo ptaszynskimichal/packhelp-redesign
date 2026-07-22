@@ -27,7 +27,7 @@
     border: none;
     background: rgba(255,255,255,.5);
     color: var(--color-text-primary);
-    padding: var(--space-1-5);
+    padding: var(--space-2);
     border-radius: var(--radius-full);
     cursor: pointer;
     transition: background-color .15s ease;
@@ -239,7 +239,7 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-2-5);
+    gap: var(--space-3);
   }
 
   .nav-megamenu-group a {
@@ -253,7 +253,7 @@
   }
 
   .nav-megamenu-group ul.nav-megamenu-sublist {
-    margin-top: var(--space-2-5);
+    margin-top: var(--space-3);
     padding-left: var(--space-4);
   }
 
@@ -327,7 +327,7 @@
     width: 100vw;
     left: 50%;
     transform: translateX(-50%);
-    padding: var(--space-10) var(--space-3) var(--space-8);
+    padding: var(--space-8) var(--space-3) var(--space-8);
     box-sizing: border-box;
   }
 
@@ -440,7 +440,7 @@
 
   .cta-avatars {
     display: flex;
-    margin-right: var(--space-2-5);
+    margin-right: var(--space-3);
   }
 
   .cta-avatar {
@@ -449,7 +449,7 @@
     border-radius: 50%;
     background: var(--color-bg-muted);
     border: 2px solid #2757FF;
-    margin-left: -10px;
+    margin-left: -8px;
   }
 
   .cta-avatar:first-child {
@@ -472,7 +472,7 @@
     width: 18px;
     height: 18px;
     border-width: 1.5px;
-    margin-left: -7px;
+    margin-left: -8px;
   }
 
   @media (max-width: 700px) {
@@ -640,7 +640,7 @@
     padding: var(--space-3);
     justify-content: center;
     align-items: center;
-    gap: var(--space-2-5);
+    gap: var(--space-3);
     border-radius: var(--radius-full);
     background: #0E58FF;
     color: #fff;
@@ -827,7 +827,7 @@
     transform: translateX(-50%);
     display: flex;
     align-items: stretch;
-    padding: var(--space-12) var(--space-8) var(--space-6);
+    padding: var(--space-12) var(--space-8) var(--space-24);
     box-sizing: border-box;
   }
 
@@ -924,7 +924,7 @@
   .hero-dots {
     display: flex;
     align-items: center;
-    gap: var(--space-1-5);
+    gap: var(--space-2);
   }
 
   .hero-dot {
@@ -990,7 +990,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: var(--space-1-5);
+    gap: var(--space-2);
   }
 
   .cta-tile-slider-dot {
@@ -1014,7 +1014,7 @@
     display: flex;
     align-items: center;
     justify-content: flex-start;
-    gap: var(--space-2-5);
+    gap: var(--space-3);
     margin-top: var(--space-8);
     font-size: 0.8125rem;
     color: var(--color-text-muted);
@@ -1678,7 +1678,7 @@
   }
 
   .final-cta-section {
-    padding: var(--space-40) var(--space-8) 200px;
+    padding: var(--space-40) var(--space-8) var(--space-32);
     text-align: center;
   }
 
@@ -1781,7 +1781,7 @@
 
   body.hero-centered .hero-deco-square {
     width: 56px;
-    margin: 0 0.4rem;
+    margin: 0 0.5rem;
   }
 
   .hero-deco-square::before {
@@ -2276,7 +2276,7 @@
   }
 
   .site-settings-desc {
-    margin: var(--space-0-5) 0 0;
+    margin: var(--space-1) 0 0;
     font-size: 0.75rem;
     color: var(--color-text-muted);
   }
@@ -2389,7 +2389,7 @@
   }
 
   .footer-col-title {
-    margin: 0 0 1.125rem;
+    margin: 0 0 1rem;
     font-size: 0.875rem;
     font-weight: 400;
     color: var(--color-text-muted);
@@ -2401,7 +2401,7 @@
     padding: 0;
     display: flex;
     flex-direction: column;
-    gap: var(--space-3-5);
+    gap: var(--space-4);
   }
 
   .footer-col a {
@@ -2720,6 +2720,7 @@
     <div class="toggle-switch" id="toggleSwitch">
       <div class="toggle-indicator" id="toggleIndicator"></div>
       <button class="toggle-option active" data-target="categories">Categories</button>
+      <button class="toggle-option" data-target="merchandise">Merchandise</button>
       <button class="toggle-option" data-target="industries">Industries</button>
     </div>
 
@@ -2813,10 +2814,10 @@
     <div class="section-toolbar">
       <div class="toggle-switch" id="industryToggleSwitch">
         <div class="toggle-indicator" id="industryToggleIndicator"></div>
-        <button class="toggle-option active" data-target="retail">Retail</button>
-        <button class="toggle-option" data-target="ecommerce">E-commerce</button>
+        <button class="toggle-option active" data-target="ecommerce">E-commerce</button>
         <button class="toggle-option" data-target="health">Health &amp; Beauty</button>
-        <button class="toggle-option" data-target="food">Food</button>
+        <button class="toggle-option" data-target="food">Food &amp; Drinks</button>
+        <button class="toggle-option" data-target="apparel">Apparel &amp; Fashion</button>
       </div>
       <button class="btn-pill secondary sm">See all packaging<svg class="btn-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg></button>
     </div>
@@ -3207,6 +3208,16 @@
       { label: 'Envelopes', image: '240486-padded-envelope.avif' },
       { label: 'Food Packaging', image: '225638-pp-single-walled-cup-custom-200-ml.avif' }
     ];
+    var merchandise = [
+      { label: 'Clothing' },
+      { label: 'Office supplies' },
+      { label: 'Tech accessories' },
+      { label: 'Drinkware' },
+      { label: 'Home accessories' },
+      { label: 'Bags' },
+      { label: 'Merchandise packaging' },
+      { label: 'Sets' }
+    ];
     var industries = [
       { label: 'E-commerce', image: 'industies-ecommerce.png' },
       { label: 'Beauty & Cosmetics', image: 'industies-beauty.png' },
@@ -3217,6 +3228,8 @@
       { label: 'Home & Lifestyle', image: 'industies-home.png' },
       { label: 'Events & Agencies', image: '04917e61ae687fdcb83a00a4edd3d6e7.jpg' }
     ];
+
+    var thumbLists = { categories: categories, merchandise: merchandise, industries: industries };
 
     function itemsHtml(list) {
       return list.map(function (item) {
@@ -3246,7 +3259,7 @@
 
         strip.style.opacity = '0';
         setTimeout(function () {
-          strip.innerHTML = itemsHtml(option.getAttribute('data-target') === 'industries' ? industries : categories);
+          strip.innerHTML = itemsHtml(thumbLists[option.getAttribute('data-target')] || categories);
           strip.style.opacity = '1';
         }, 200);
       });
@@ -3269,7 +3282,7 @@
     ];
 
     var packagingTabs = {
-      retail: [
+      ecommerce: [
         '5065069-packhelp-29640.avif',
         '5121637-packhelp-27910.avif',
         '4854400-packhelp-27683.avif',
@@ -3277,7 +3290,6 @@
         '4756660-packhelp-27382.avif',
         '5918223-mg-packhelp-02-2109-4000-px.avif'
       ],
-      ecommerce: [null, null, null, null, null, null],
       health: [
         'health-boxes.png',
         'health-tubes.png',
@@ -3293,7 +3305,8 @@
         'food-containters.png',
         'food-food.png',
         'food-accesories.png'
-      ]
+      ],
+      apparel: [null, null, null, null, null, null]
     };
 
     var switchEl = document.getElementById('industryToggleSwitch');
@@ -3329,7 +3342,7 @@
       });
     });
 
-    renderGrid('retail');
+    renderGrid('ecommerce');
     moveIndicator(switchEl.querySelector('.toggle-option.active'));
     window.addEventListener('resize', function () {
       moveIndicator(switchEl.querySelector('.toggle-option.active'));
