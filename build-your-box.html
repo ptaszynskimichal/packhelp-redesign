@@ -180,6 +180,16 @@
     padding: 0 var(--space-8);
   }
 
+  nav.topbar::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 100vw;
+    transform: translateX(-50%);
+    border-bottom: 1px solid rgba(0,0,0,.07);
+  }
+
   .nav-megamenu {
     position: absolute;
     z-index: 20;
