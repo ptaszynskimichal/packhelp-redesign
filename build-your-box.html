@@ -1045,12 +1045,11 @@
   /* .box-type-card.no-thumb (2 classes) otherwise beats a plain .quantity-other-option (1 class)
      in specificity regardless of source order, so the override needs to match it */
   .box-type-card.quantity-other-option {
-    width: 100%;
-    /* matches the "Type in your quantity" input's own total left/right inset (its var(--space-4)
-       margin from the panel edge plus its var(--space-4) own padding) — the rows themselves have
-       no margin (they're flush against the panel edge), so the padding alone must cover both */
-    padding-left: var(--space-8);
-    padding-right: var(--space-8);
+    /* same left/right inset as the "Type in your quantity" input (its own var(--space-4) margin) —
+       so the row's own box (and therefore its hover highlight) is exactly as wide as the input,
+       not full panel width. Rows still stack with zero *vertical* gap between them. */
+    width: calc(100% - var(--space-8));
+    margin: 0 var(--space-4);
     border-radius: 0;
     background: var(--color-bg-surface);
     transition: background-color .15s ease, border-radius .15s ease;
