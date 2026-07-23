@@ -647,6 +647,37 @@
   .b3d-top    { top: 50%; left: 50%; width: var(--w); height: var(--d); margin: calc(var(--d) / -2) 0 0 calc(var(--w) / -2); transform: rotateX(90deg) translateZ(calc(var(--h) / 2)); filter: brightness(1.18); transition: opacity .15s ease; }
   .b3d-bottom { top: 50%; left: 50%; width: var(--w); height: var(--d); margin: calc(var(--d) / -2) 0 0 calc(var(--w) / -2); transform: rotateX(-90deg) translateZ(calc(var(--h) / 2)); filter: brightness(.68); }
 
+  /* "Size of my product" mode: the W/L/H inputs become the *product* (inner) box, and the outer
+     (external) box auto-grows to product + a buffer added on every side. The inner box is a plain
+     gray cuboid — same 6-face geometry as the outer body, just built from --iw/--ih/--id instead of
+     --w/--h/--d, sharing the same center so it always sits correctly nested inside the outer box
+     regardless of proportions. Both custom-prop sets are computed together in updateSize() (JS). */
+  .b3d-inner-body { display: none; }
+  #box3dModel.product-size-mode .b3d-inner-body { display: block; }
+
+  .b3d-inner-face {
+    position: absolute;
+    box-sizing: border-box;
+    border: 1px solid rgba(0,0,0,.15);
+    background: #9A9A9A;
+  }
+  .b3d-inner-front  { top: 50%; left: 50%; width: var(--iw); height: var(--ih); margin: calc(var(--ih) / -2) 0 0 calc(var(--iw) / -2); transform: translateZ(calc(var(--id) / 2)); filter: brightness(1.12); }
+  .b3d-inner-back   { top: 50%; left: 50%; width: var(--iw); height: var(--ih); margin: calc(var(--ih) / -2) 0 0 calc(var(--iw) / -2); transform: rotateY(180deg) translateZ(calc(var(--id) / 2)); filter: brightness(.82); }
+  .b3d-inner-right  { top: 50%; left: 50%; width: var(--id); height: var(--ih); margin: calc(var(--ih) / -2) 0 0 calc(var(--id) / -2); transform: rotateY(90deg) translateZ(calc(var(--iw) / 2)); filter: brightness(.94); }
+  .b3d-inner-left   { top: 50%; left: 50%; width: var(--id); height: var(--ih); margin: calc(var(--ih) / -2) 0 0 calc(var(--id) / -2); transform: rotateY(-90deg) translateZ(calc(var(--iw) / 2)); filter: brightness(.74); }
+  .b3d-inner-top    { top: 50%; left: 50%; width: var(--iw); height: var(--id); margin: calc(var(--id) / -2) 0 0 calc(var(--iw) / -2); transform: rotateX(90deg) translateZ(calc(var(--ih) / 2)); filter: brightness(1.22); }
+  .b3d-inner-bottom { top: 50%; left: 50%; width: var(--iw); height: var(--id); margin: calc(var(--id) / -2) 0 0 calc(var(--iw) / -2); transform: rotateX(-90deg) translateZ(calc(var(--ih) / 2)); filter: brightness(.68); }
+
+  /* the outer (external) walls go translucent in this mode so the inner product box shows through */
+  #box3dModel.product-size-mode .b3d-front,
+  #box3dModel.product-size-mode .b3d-back,
+  #box3dModel.product-size-mode .b3d-left,
+  #box3dModel.product-size-mode .b3d-right,
+  #box3dModel.product-size-mode .b3d-top,
+  #box3dModel.product-size-mode .b3d-bottom {
+    opacity: .32;
+  }
+
   #box3dModel[data-construction="gable"] .b3d-top { display: none; }
   /* the 4 flaps below exist only to animate the open state; while closed, the flat .b3d-top above is
      what's actually shown (see the .b3d-flap-hinge opacity rule) */
@@ -1832,7 +1863,7 @@
 <div class="sticky-bar" id="stickyBar">
   <nav class="sticky-links" id="stickyLinks">
     <a href="index.html">Packaging</a>
-    <a href="index.html">Merchandise</a>
+    <a href="index.html">Merchandise<span class="nav-badge-new">New</span></a>
     <a href="index.html">Industries</a>
   </nav>
 
@@ -1876,7 +1907,7 @@
     <nav class="topbar">
     <ul class="nav-links desktop-only">
       <li class="nav-item-packaging"><a href="index.html">Packaging</a></li>
-      <li><a href="index.html">Merchandise</a></li>
+      <li><a href="index.html">Merchandise<span class="nav-badge-new">New</span></a></li>
       <li><a href="index.html">Industries</a></li>
       <li><a href="index.html">Samples</a></li>
     </ul>
@@ -2011,7 +2042,7 @@
 
     <div class="mobile-nav-panel" id="mobileNavPanel">
       <a href="index.html">Packaging</a>
-      <a href="index.html">Merchandise</a>
+      <a href="index.html">Merchandise<span class="nav-badge-new">New</span></a>
       <a href="index.html">Industries</a>
       <a href="index.html">Samples</a>
       <a href="index.html">Deals</a>
@@ -2115,6 +2146,14 @@
               <div class="b3d-roof-panel b3d-roof-back"></div>
               <div class="b3d-roof-end b3d-roof-end-left"></div>
               <div class="b3d-roof-end b3d-roof-end-right"></div>
+            </div>
+            <div class="b3d-group b3d-inner-body">
+              <div class="b3d-inner-face b3d-inner-front"></div>
+              <div class="b3d-inner-face b3d-inner-back"></div>
+              <div class="b3d-inner-face b3d-inner-left"></div>
+              <div class="b3d-inner-face b3d-inner-right"></div>
+              <div class="b3d-inner-face b3d-inner-top"></div>
+              <div class="b3d-inner-face b3d-inner-bottom"></div>
             </div>
           </div>
         </div>
@@ -2602,22 +2641,36 @@
 
     var bufferMm = 5;
 
+    function isProductSize() {
+      var options = sizeToggle.querySelectorAll('.toggle-option');
+      return !!(options[1] && options[1].classList.contains('active'));
+    }
+
+    // Tells the box3d IIFE (a separate script block) whether the inputs are currently product size
+    // or external size, and the current buffer — same decoupled-via-custom-event pattern as zoom.
+    function dispatchProductSize() {
+      document.dispatchEvent(new CustomEvent('box3d:productsize', {
+        detail: { active: isProductSize(), bufferCm: bufferMm / 10 }
+      }));
+    }
+
     function recalc() {
-      var bufferCm = bufferMm / 10;
+      // buffer is added on *every* side, so each dimension grows by 2x the buffer, not 1x
+      var bufferCm2 = (bufferMm / 10) * 2;
       var w = parseFloat(widthInput.value) || 0;
       var l = parseFloat(lengthInput.value) || 0;
       var h = parseFloat(heightInput.value) || 0;
-      extW.textContent = (w + bufferCm).toFixed(1);
-      extL.textContent = (l + bufferCm).toFixed(1);
-      extH.textContent = (h + bufferCm).toFixed(1);
+      extW.textContent = (w + bufferCm2).toFixed(1);
+      extL.textContent = (l + bufferCm2).toFixed(1);
+      extH.textContent = (h + bufferCm2).toFixed(1);
       bufferValueEl.textContent = bufferMm + ' mm';
       bufferMmText.textContent = bufferMm;
+      dispatchProductSize();
     }
 
     function updateVisibility() {
-      var options = sizeToggle.querySelectorAll('.toggle-option');
-      var isProductSize = options[1] && options[1].classList.contains('active');
-      note.classList.toggle('visible', !!isProductSize);
+      note.classList.toggle('visible', isProductSize());
+      dispatchProductSize();
     }
 
     sizeToggle.querySelectorAll('.toggle-option').forEach(function (opt) {
@@ -2855,12 +2908,23 @@
     var dragging = false;
     var lastX, lastY;
     var zoomPct = 100;
+    var productSizeMode = false;
+    var bufferCm = 0.5;
 
     // The zoom toolbar control lives in its own IIFE (it's shared UI, not box-3d-specific state) and
     // reaches this one via a custom event rather than a direct function reference, so the two stay
     // decoupled regardless of script order.
     document.addEventListener('box3d:zoom', function (e) {
       zoomPct = e.detail.pct;
+      updateSize();
+    });
+
+    // Same decoupling pattern for the "External size"/"Size of my product" toggle + Buffer size
+    // stepper, which live in the size-toggle IIFE further down the page.
+    document.addEventListener('box3d:productsize', function (e) {
+      productSizeMode = e.detail.active;
+      bufferCm = e.detail.bufferCm;
+      model.classList.toggle('product-size-mode', productSizeMode);
       updateSize();
     });
 
@@ -2988,14 +3052,28 @@
       var w = parseFloat(widthInput.value) || 1;
       var l = parseFloat(lengthInput.value) || 1;
       var h = parseFloat(heightInput.value) || 1;
-      var scale = (FIT / Math.max(w, l, h)) * (zoomPct / 100);
-      wPx = w * scale;
-      dPx = l * scale;
-      hPx = h * scale;
+
+      // In "Size of my product" mode the inputs are the *product* (inner box); the real/external
+      // box is the product plus a buffer added on every side (2x per dimension: once on each side).
+      var outerW = w, outerL = l, outerH = h;
+      if (productSizeMode) {
+        outerW = w + bufferCm * 2;
+        outerL = l + bufferCm * 2;
+        outerH = h + bufferCm * 2;
+      }
+
+      var scale = (FIT / Math.max(outerW, outerL, outerH)) * (zoomPct / 100);
+      wPx = outerW * scale;
+      dPx = outerL * scale;
+      hPx = outerH * scale;
 
       stage.style.setProperty('--w', wPx + 'px');
       stage.style.setProperty('--d', dPx + 'px');
       stage.style.setProperty('--h', hPx + 'px');
+
+      stage.style.setProperty('--iw', (w * scale) + 'px');
+      stage.style.setProperty('--id', (l * scale) + 'px');
+      stage.style.setProperty('--ih', (h * scale) + 'px');
 
       var rise = wPx * ROOF_RISE_RATIO;
       var halfD = dPx / 2;

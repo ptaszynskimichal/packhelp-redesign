@@ -73,6 +73,22 @@
   background: rgba(255,255,255,.08);
 }
 
+/* ---------- Badge: nav "New" tag ---------- */
+.nav-badge-new {
+  display: inline-flex;
+  align-items: center;
+  margin-left: var(--space-1);
+  padding: 0.25rem 0.25rem;
+  background: var(--color-bg-accent-subtle);
+  color: var(--color-accent);
+  font-size: 0.6875rem;
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  border-radius: var(--radius-full);
+  vertical-align: middle;
+}
+
 /* ---------- Icon button ---------- */
 .icon-btn {
   display: flex;
