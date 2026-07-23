@@ -1019,25 +1019,35 @@
   .quantity-other-panel {
     display: none;
     flex-direction: column;
-    gap: var(--space-2);
     margin-top: var(--space-2);
-    padding: var(--space-4);
     border-radius: 12px;
-    background: var(--color-bg-muted);
+    overflow: hidden;
+    background: var(--color-bg-surface);
   }
 
   .quantity-card-other-wrap.is-open .quantity-other-panel {
     display: flex;
   }
 
+  /* the input is the one exception that keeps padding around it — everything below is flush,
+     edge to edge, with no gap between rows */
+  .quantity-other-panel .dimension-input-wrap {
+    margin: var(--space-4);
+  }
+
   .quantity-other-list {
     display: flex;
     flex-direction: column;
-    gap: var(--space-2);
   }
 
   .quantity-other-option {
+    width: 100%;
+    border-radius: 0;
     background: var(--color-bg-surface);
+  }
+
+  .quantity-other-option:hover {
+    background: var(--color-bg-muted-hover);
   }
 
   .quantity-quote-badge {
