@@ -444,21 +444,53 @@
     color: var(--color-text-primary);
   }
 
+  .pkg-desc-row {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2);
+  }
+
+  .pkg-desc-row.expanded {
+    display: block;
+  }
+
+  .pkg-desc-row.expanded .pkg-desc-toggle {
+    margin-left: var(--space-2);
+  }
+
   .pkg-subtitle {
+    flex: 1 1 auto;
+    min-width: 0;
     margin: 0;
     max-width: 42rem;
     font-size: 0.9375rem;
     letter-spacing: -0.02em;
     line-height: 1.32;
     color: var(--color-text-muted);
+  }
+
+  .pkg-subtitle.clamped {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
+  .pkg-desc-toggle {
+    flex: none;
+    margin: 0;
+    padding: 0;
+    border: none;
+    background: none;
+    font: inherit;
+    font-size: 0.9375rem;
+    letter-spacing: -0.02em;
+    color: var(--color-text-muted);
+    text-decoration: underline;
+    cursor: pointer;
+  }
+
   @media (max-width: 700px) {
     .pkg-title-row { flex-direction: column; align-items: flex-start; }
-    .pkg-subtitle { white-space: normal; }
   }
 
   /* ---------- FILTER & SORT PILLS ---------- */
@@ -1025,6 +1057,35 @@
     pointer-events: auto;
   }
 
+  /* ---------- PROMO CARD ---------- */
+  .promo-card {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: var(--space-5);
+    box-sizing: border-box;
+    border-radius: var(--radius-md);
+    background: var(--color-bg-muted);
+  }
+
+  .promo-card-eyebrow {
+    margin: 0 0 var(--space-2);
+    font-size: 0.75rem;
+    letter-spacing: -0.02em;
+    color: var(--color-text-muted);
+  }
+
+  .promo-card-text {
+    margin: 0 0 var(--space-4);
+    font-size: 1.25rem;
+    font-weight: 450;
+    line-height: 1.16;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+  }
+
+
   /* ---------- FOOTER ---------- */
   .site-footer {
     position: relative;
@@ -1378,31 +1439,34 @@
   </nav>
   </div>
 
-  <nav class="pkg-breadcrumb">
+  <nav class="pkg-breadcrumb" id="pkgBreadcrumb">
     <a href="index.html">Packhelp</a>
     <span>/</span>
-    <span class="current">Packaging</span>
+    <a href="#" data-key="root">Packaging</a>
   </nav>
 
   <section class="pkg-title-row reveal">
     <div class="pkg-title-copy">
-      <h1 class="pkg-title">Packaging</h1>
-      <p class="pkg-subtitle">150+ packaging products across boxes, bags, tubes and more — printed with your brand, in days.</p>
+      <h1 class="pkg-title" id="pkgTitle">Packaging</h1>
+      <div class="pkg-desc-row" id="pkgDescRow">
+        <p class="pkg-subtitle clamped" id="pkgSubtitle"><span id="pkgSubtitleText">150+ packaging products across boxes, bags, tubes and more — printed with your brand, in days.</span></p>
+        <button class="pkg-desc-toggle" id="pkgDescToggle" hidden>Show more</button>
+      </div>
     </div>
   </section>
 
-  <section class="pkg-tiles-section reveal">
+  <section class="pkg-tiles-section reveal" id="pkgTilesSection">
     <div class="scroll-carousel">
       <button class="scroll-carousel-nav prev" type="button" aria-label="Przewiń w lewo">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m15 6-6 6 6 6"/></svg>
       </button>
       <div class="scroll-fade left"></div>
-    <div class="thumb-strip">
-      <a class="thumb-item active" href="#">
+    <div class="thumb-strip" id="pkgThumbStrip">
+      <a class="thumb-item active" href="#" data-key="root">
         <div class="thumb-photo" style="--thumb-img:url('4976409-packhelp-29353.avif')"></div>
         <span class="thumb-caption">All</span>
       </a>
-      <a class="thumb-item" href="#">
+      <a class="thumb-item" href="#" data-key="boxes">
         <div class="thumb-photo" style="--thumb-img:url('793725-pre-printed-mailer-box.avif')"></div>
         <span class="thumb-caption">Boxes</span>
       </a>
@@ -1693,6 +1757,11 @@
           <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
+      <div class="promo-card">
+        <p class="promo-card-eyebrow">Save up to 20% with Packhelp Wallet</p>
+        <p class="promo-card-text">Earn cashback with every order and pay less on your next purchases.</p>
+        <a href="#" class="btn-pill sm secondary">Learn more</a>
+      </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">100 minimum</span></div>
         <div class="product-card-info">
@@ -1748,6 +1817,11 @@
           <p class="product-card-price">From £1.60</p>
           <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
+      </div>
+      <div class="promo-card">
+        <p class="promo-card-eyebrow">Try before you buy</p>
+        <p class="promo-card-text">Get a sample pack for just £15 and check our products.</p>
+        <a href="#" class="btn-pill sm secondary">Order now</a>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">50 minimum</span></div>
@@ -2060,14 +2134,168 @@
   })();
 
   (function () {
-    var tiles = document.querySelectorAll('.thumb-item');
-    tiles.forEach(function (tile) {
-      tile.addEventListener('click', function (e) {
-        e.preventDefault();
-        tiles.forEach(function (t) { t.classList.remove('active'); });
-        tile.classList.add('active');
-      });
+    var categoryTree = {
+      root: {
+        title: 'Packaging',
+        desc: '150+ packaging products across boxes, bags, tubes and more — printed with your brand, in days.',
+        breadcrumb: [{ label: 'Packaging' }],
+        tiles: [
+          { key: 'root', label: 'All', img: '4976409-packhelp-29353.avif' },
+          { key: 'boxes', label: 'Boxes', img: '793725-pre-printed-mailer-box.avif' },
+          { label: 'Packaging Tubes', img: '507697-packhelp-28291.avif' },
+          { label: 'Mailing Bags', img: '208230-paper-bag-01.avif' },
+          { label: 'Product Bags', img: '2948760-ziplock-bag-0.avif' },
+          { label: 'Carrier Bags', img: '04917e61ae687fdcb83a00a4edd3d6e7.jpg' },
+          { label: 'Accessories', img: '404068-export.avif' },
+          { label: 'Pouches', img: '193249-stand-up-pouch-brown 1.png' },
+          { label: 'Envelopes', img: '240486-padded-envelope.avif' },
+          { label: 'Food Packaging', img: '225638-pp-single-walled-cup-custom-200-ml.avif' },
+          { label: 'Containers', img: '5121637-packhelp-27910.avif' },
+          { label: 'Samples', img: '4854400-packhelp-27683.avif' },
+          { label: 'Bundles', img: '5065069-packhelp-29640.avif' }
+        ]
+      },
+      boxes: {
+        title: 'Boxes',
+        desc: 'Cardboard packaging for retail and e-commerce, made to order in the UK. Our range spans mailer boxes, cardboard shipping boxes, product and rigid box styles, available plain or printed with your logo, in many sizes and wholesale quantities.',
+        breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes' }],
+        tiles: [
+          { key: 'mailer-boxes', label: 'Mailer Boxes', img: 'https://cdn-pim.packhelp.com/assets/d0f438f9-26bc-4854-9ac4-6317cd338d14/852084-sleeved-mailer?w=640&fit=min&auto=format' },
+          { key: 'shipping-boxes', label: 'Shipping Boxes', img: 'https://cdn-pim.packhelp.com/assets/2d1711ec-c078-4ed1-8dae-f4689e0dbc52/181212-b-6-c-9359-f-e-4-c-4-4-a-23-a-928-e-1-af-6410-a-4-cc-png?w=640&fit=min&auto=format' },
+          { key: 'product-boxes', label: 'Product Boxes', img: 'https://cdn-pim.packhelp.com/assets/a0e98036-3664-4d14-82be-146aa0b1a31c/603891-om-packaging-1?w=640&fit=min&auto=format' }
+        ]
+      },
+      'product-boxes': {
+        title: 'Product Boxes',
+        desc: 'Product boxes, including folding cartons and rigid styles, for retail and gifting. Choose snap-lock, auto-bottom and drawer designs, or presentation boxes with lids, all custom printed, part of our wider boxes range.',
+        breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes', key: 'boxes' }, { label: 'Product Boxes' }],
+        tiles: [
+          { key: 'folding-cartons', label: 'Folding Cartons', img: 'https://cdn-pim.packhelp.com/assets/a0e98036-3664-4d14-82be-146aa0b1a31c/603891-om-packaging-1?w=640&fit=min&auto=format' },
+          { key: 'rigid-boxes', label: 'Rigid Boxes', img: 'https://cdn-pim.packhelp.com/assets/0df7f906-e452-4388-a8d8-1b90d109de53/89199-718-caa-93-5442-48-c-4-9990-27-f-41-f-66-b-385-png?w=640&fit=min&auto=format' }
+        ]
+      },
+      'mailer-boxes': {
+        title: 'Mailer Boxes',
+        desc: 'Mailer boxes are robust corrugated cardboard containers, perfect for shipping products. These die-cut mailing boxes are available plain, pre-printed, or as custom mailer boxes with your branding, in various sizes for e-commerce packaging, alongside other types of cardboard boxes.',
+        breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes', key: 'boxes' }, { label: 'Mailer Boxes' }],
+        tiles: []
+      },
+      'shipping-boxes': {
+        title: 'Cardboard Shipping Boxes',
+        desc: 'Cardboard shipping boxes for products like phones and laptops, plus other items, are available here. Find custom shipping boxes or plain boxes for shipping, ideal for ecommerce packaging and sending parcels across the UK.',
+        breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes', key: 'boxes' }, { label: 'Shipping Boxes' }],
+        tiles: []
+      },
+      'folding-cartons': {
+        title: 'Folding Cartons',
+        desc: 'Folding cartons are lightweight paperboard product boxes, ideal for retail and gifting. Choose from many custom folding boxes, including snap lock, auto bottom, and drawer styles, available plain or with custom printed product boxes.',
+        breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes', key: 'boxes' }, { label: 'Product Boxes', key: 'product-boxes' }, { label: 'Folding Cartons' }],
+        tiles: []
+      },
+      'rigid-boxes': {
+        title: 'Rigid Boxes',
+        desc: 'Rigid boxes provide sturdy custom packaging for gifts and premium products. These custom rigid boxes are available with a lid or other closure types in various sizes, ideal for retail and wholesale product boxes.',
+        breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes', key: 'boxes' }, { label: 'Product Boxes', key: 'product-boxes' }, { label: 'Rigid Boxes' }],
+        tiles: []
+      }
+    };
+
+    var breadcrumbEl = document.getElementById('pkgBreadcrumb');
+    var tilesSection = document.getElementById('pkgTilesSection');
+    var strip = document.getElementById('pkgThumbStrip');
+    var titleEl = document.getElementById('pkgTitle');
+    var descRow = document.getElementById('pkgDescRow');
+    var subtitleEl = document.getElementById('pkgSubtitle');
+    var subtitleTextEl = document.getElementById('pkgSubtitleText');
+    var descToggle = document.getElementById('pkgDescToggle');
+
+    function renderHeader(node) {
+      titleEl.textContent = node.title;
+      subtitleTextEl.textContent = node.desc;
+      subtitleEl.classList.add('clamped');
+      descRow.classList.remove('expanded');
+      descRow.appendChild(descToggle);
+      descToggle.textContent = 'Show more';
+      descToggle.hidden = subtitleEl.scrollWidth <= subtitleEl.clientWidth + 1;
+    }
+
+    descToggle.addEventListener('click', function () {
+      var collapsed = subtitleEl.classList.contains('clamped');
+      if (collapsed) {
+        subtitleEl.classList.remove('clamped');
+        subtitleEl.appendChild(descToggle);
+        descRow.classList.add('expanded');
+        descToggle.textContent = 'Show less';
+      } else {
+        subtitleEl.classList.add('clamped');
+        descRow.appendChild(descToggle);
+        descRow.classList.remove('expanded');
+        descToggle.textContent = 'Show more';
+      }
     });
+
+    function renderBreadcrumb(crumbs) {
+      var html = '<a href="index.html">Packhelp</a>';
+      crumbs.forEach(function (crumb) {
+        html += '<span>/</span>';
+        html += crumb.key
+          ? '<a href="#" data-nav="' + crumb.key + '">' + crumb.label + '</a>'
+          : '<span class="current">' + crumb.label + '</span>';
+      });
+      breadcrumbEl.innerHTML = html;
+
+      breadcrumbEl.querySelectorAll('a[data-nav]').forEach(function (a) {
+        a.addEventListener('click', function (e) {
+          e.preventDefault();
+          goTo(a.getAttribute('data-nav'));
+        });
+      });
+    }
+
+    function renderTiles(tiles) {
+      if (!tiles.length) {
+        tilesSection.style.display = 'none';
+        return;
+      }
+      tilesSection.style.display = '';
+      strip.innerHTML = tiles.map(function (tile, i) {
+        var activeClass = i === 0 ? ' active' : '';
+        var keyAttr = tile.key ? ' data-key="' + tile.key + '"' : '';
+        return '<a class="thumb-item' + activeClass + '" href="#"' + keyAttr + '>' +
+          '<div class="thumb-photo" style="--thumb-img:url(\'' + tile.img + '\')"></div>' +
+          '<span class="thumb-caption">' + tile.label + '</span>' +
+          '</a>';
+      }).join('');
+      bindTileClicks();
+    }
+
+    function bindTileClicks() {
+      var tiles = strip.querySelectorAll('.thumb-item');
+      tiles.forEach(function (tile) {
+        tile.addEventListener('click', function (e) {
+          e.preventDefault();
+          var key = tile.getAttribute('data-key');
+          if (key && categoryTree[key]) {
+            goTo(key);
+            return;
+          }
+          tiles.forEach(function (t) { t.classList.remove('active'); });
+          tile.classList.add('active');
+        });
+      });
+    }
+
+    function goTo(key) {
+      var node = categoryTree[key];
+      if (!node) { return; }
+      renderHeader(node);
+      renderBreadcrumb(node.breadcrumb);
+      renderTiles(node.tiles);
+    }
+
+    renderHeader(categoryTree.root);
+    renderBreadcrumb(categoryTree.root.breadcrumb);
+    bindTileClicks();
   })();
 
   (function () {
