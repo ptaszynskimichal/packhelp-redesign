@@ -327,64 +327,10 @@
     opacity: .6;
   }
 
-  .mobile-menu-toggle {
-    display: none;
-  }
-
-  .mobile-nav-panel {
-    display: none;
-  }
-
   @media (max-width: 900px) {
     .nav-links.desktop-only { display: none; }
+    .nav-megamenu { display: none; }
     .sticky-bar { display: none; }
-
-    .mobile-menu-toggle {
-      display: flex;
-    }
-
-    nav.topbar { justify-content: flex-end; flex-wrap: wrap; height: auto; padding: var(--space-3) var(--space-4); }
-
-    .mobile-nav-panel {
-      width: 100%;
-      flex-direction: column;
-      align-items: stretch;
-      gap: var(--space-1);
-      padding: var(--space-2) var(--space-4) var(--space-4);
-      border-top: 1px solid var(--color-border-default);
-    }
-
-    .mobile-nav-panel.is-open {
-      display: flex;
-    }
-
-    .mobile-nav-panel a {
-      width: 100%;
-      display: flex;
-      justify-content: flex-start;
-      padding: var(--space-2) var(--space-2);
-      border-radius: var(--radius-sm);
-      font-size: 0.9375rem;
-      line-height: 1.32;
-      letter-spacing: -0.02em;
-      color: var(--color-text-primary);
-      text-decoration: none;
-      box-sizing: border-box;
-    }
-
-    .mobile-nav-panel a:hover {
-      background-color: rgba(0,0,0,.05);
-    }
-
-    .mobile-nav-panel button {
-      width: 100%;
-      justify-content: flex-start;
-    }
-
-    .mobile-nav-panel .btn-pill {
-      justify-content: center;
-      margin-top: var(--space-2);
-    }
   }
 
   .cta-avatars {
@@ -1898,9 +1844,6 @@
         <button class="icon-btn" aria-label="Cart">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6h15l-1.5 9h-12z"/><path d="M6 6 5 3H2"/><circle cx="9" cy="20" r="1"/><circle cx="17" cy="20" r="1"/></svg>
         </button>
-        <button class="icon-btn mobile-menu-toggle" id="mobileMenuToggle" aria-label="Menu" aria-expanded="false">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
-        </button>
       </div>
     </div>
 
@@ -2039,19 +1982,6 @@
         Book an expert call
       </button></li>
     </ul>
-
-    <div class="mobile-nav-panel" id="mobileNavPanel">
-      <a href="index.html">Packaging</a>
-      <a href="index.html">Merchandise<span class="nav-badge-new">New</span></a>
-      <a href="index.html">Industries</a>
-      <a href="index.html">Samples</a>
-      <a href="index.html">Deals</a>
-      <a href="index.html">Solutions</a>
-      <a href="index.html">Inspirations</a>
-      <a href="index.html">Contact</a>
-      <button class="btn-pill sm secondary">Get a quote</button>
-      <button class="btn-pill sm">Book an expert call</button>
-    </div>
   </nav>
   </div>
 </div>
@@ -2742,17 +2672,6 @@
 
     positionBar();
     onScroll();
-  })();
-
-  (function () {
-    var toggle = document.getElementById('mobileMenuToggle');
-    var panel = document.getElementById('mobileNavPanel');
-    if (!toggle || !panel) { return; }
-
-    toggle.addEventListener('click', function () {
-      var isOpen = panel.classList.toggle('is-open');
-      toggle.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    });
   })();
 
   (function () {
