@@ -995,7 +995,10 @@
   }
 
   /* "Choose other value": one more row styled exactly like the quantity-card presets above it,
-     ending in a chevron instead of a price. Clicking it reveals+opens the <select> beneath. */
+     ending in a chevron instead of a price. Clicking it reveals a custom panel (not a native
+     <select>) built from the same components used elsewhere on the page: a dimension-input-style
+     text field to type a custom quantity, and a list of quantity-card rows — some priced, some
+     ending in a .btn-pill "Get a quote" badge instead, exactly like the main preset list above. */
   .quantity-card-other-wrap {
     display: flex;
     flex-direction: column;
@@ -1013,23 +1016,32 @@
     transform: rotate(180deg);
   }
 
-  .quantity-other-select {
+  .quantity-other-panel {
     display: none;
-    width: 100%;
-    box-sizing: border-box;
+    flex-direction: column;
+    gap: var(--space-2);
     margin-top: var(--space-2);
-    padding: 16px;
-    border: none;
+    padding: var(--space-4);
     border-radius: 12px;
     background: var(--color-bg-muted);
-    font: inherit;
-    font-size: 0.9375rem;
-    color: var(--color-text-primary);
-    cursor: pointer;
   }
 
-  .quantity-card-other-wrap.is-open .quantity-other-select {
-    display: block;
+  .quantity-card-other-wrap.is-open .quantity-other-panel {
+    display: flex;
+  }
+
+  .quantity-other-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+  }
+
+  .quantity-other-option {
+    background: var(--color-bg-surface);
+  }
+
+  .quantity-quote-badge {
+    flex: none;
   }
 
   .build-box-bigger-needs {
@@ -2509,21 +2521,68 @@
             </span>
           </button>
           <div class="quantity-card-other-wrap" id="quantityOtherWrap">
-            <button type="button" class="box-type-card no-thumb quantity-card quantity-card-other" id="quantityOtherToggle" aria-expanded="false" aria-controls="quantityOtherSelect">
+            <button type="button" class="box-type-card no-thumb quantity-card quantity-card-other" id="quantityOtherToggle" aria-expanded="false" aria-controls="quantityOtherPanel">
               <span class="quantity-card-qty" id="quantityOtherLabel">Choose other value</span>
               <svg class="quantity-card-other-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
             </button>
-            <select class="quantity-other-select" id="quantityOtherSelect" aria-label="Choose other quantity">
-              <option value="" disabled selected>Select a quantity</option>
-              <option value="10">10</option>
-              <option value="50">50</option>
-              <option value="75">75</option>
-              <option value="250">250</option>
-              <option value="1000">1000</option>
-              <option value="3000">3000</option>
-              <option value="6000">6000</option>
-              <option value="10000">10000</option>
-            </select>
+            <div class="quantity-other-panel" id="quantityOtherPanel">
+              <div class="dimension-input-wrap">
+                <input type="number" min="1" class="dimension-input" id="quantityOtherInput" placeholder="Type in your quantity">
+              </div>
+              <div class="quantity-other-list">
+                <button type="button" class="box-type-card no-thumb quantity-card quantity-other-option" data-qty="10">
+                  <span class="quantity-card-qty">10</span>
+                  <span class="quantity-card-prices">
+                    <span class="quantity-card-unit">£4.20/piece</span>
+                    <span class="quantity-card-total">£42.00</span>
+                  </span>
+                </button>
+                <button type="button" class="box-type-card no-thumb quantity-card quantity-other-option" data-qty="50">
+                  <span class="quantity-card-qty">50</span>
+                  <span class="quantity-card-prices">
+                    <span class="quantity-card-unit">£1.05/piece</span>
+                    <span class="quantity-card-total">£52.50</span>
+                  </span>
+                </button>
+                <button type="button" class="box-type-card no-thumb quantity-card quantity-other-option" data-qty="75">
+                  <span class="quantity-card-qty">75</span>
+                  <span class="quantity-card-prices">
+                    <span class="quantity-card-unit">£0.85/piece</span>
+                    <span class="quantity-card-total">£63.75</span>
+                  </span>
+                </button>
+                <button type="button" class="box-type-card no-thumb quantity-card quantity-other-option" data-qty="250">
+                  <span class="quantity-card-qty">250</span>
+                  <span class="quantity-card-prices">
+                    <span class="quantity-card-unit">£0.45/piece</span>
+                    <span class="quantity-card-total">£112.50</span>
+                  </span>
+                </button>
+                <button type="button" class="box-type-card no-thumb quantity-card quantity-other-option" data-qty="1000">
+                  <span class="quantity-card-qty">1000</span>
+                  <span class="quantity-card-prices">
+                    <span class="quantity-card-unit">£0.34/piece</span>
+                    <span class="quantity-card-total">£340.00</span>
+                  </span>
+                </button>
+                <button type="button" class="box-type-card no-thumb quantity-card quantity-other-option" data-qty="3000">
+                  <span class="quantity-card-qty">3000</span>
+                  <span class="btn-pill sm secondary quantity-quote-badge">Get a quote</span>
+                </button>
+                <button type="button" class="box-type-card no-thumb quantity-card quantity-other-option" data-qty="5000">
+                  <span class="quantity-card-qty">5000</span>
+                  <span class="btn-pill sm secondary quantity-quote-badge">Get a quote</span>
+                </button>
+                <button type="button" class="box-type-card no-thumb quantity-card quantity-other-option" data-qty="7500">
+                  <span class="quantity-card-qty">7500</span>
+                  <span class="btn-pill sm secondary quantity-quote-badge">Get a quote</span>
+                </button>
+                <button type="button" class="box-type-card no-thumb quantity-card quantity-other-option" data-qty="10000">
+                  <span class="quantity-card-qty">10000</span>
+                  <span class="btn-pill sm secondary quantity-quote-badge">Get a quote</span>
+                </button>
+              </div>
+            </div>
           </div>
         </div>
         <p class="build-box-bigger-needs">
@@ -2817,9 +2876,11 @@
   })();
 
   (function () {
-    // :not(.quantity-card-other) excludes the "Choose other value" row below — it shares the
-    // .quantity-card class purely for visual consistency but has no .quantity-card-total to read
-    var quantityCards = document.querySelectorAll('#stepQuantity .quantity-card:not(.quantity-card-other)');
+    // "Choose other value" (.quantity-card-other) and its panel's own rows (.quantity-other-option)
+    // share the .quantity-card class purely for visual consistency; they're handled separately
+    // below (the panel rows don't all have a .quantity-card-total to read — the "Get a quote" ones
+    // don't have a price at all).
+    var quantityCards = document.querySelectorAll('#stepQuantity .quantity-card:not(.quantity-card-other):not(.quantity-other-option)');
     if (!quantityCards.length) { return; }
 
     function applyQuantity(card) {
@@ -2840,51 +2901,90 @@
     }
 
     quantityCards.forEach(function (card) {
-      card.addEventListener('click', function () { applyQuantity(card); });
+      card.addEventListener('click', function () {
+        quantityCards.forEach(function (c) { c.classList.remove('active'); });
+        card.classList.add('active');
+        var otherToggle = document.getElementById('quantityOtherToggle');
+        var otherWrap = document.getElementById('quantityOtherWrap');
+        if (otherToggle) { otherToggle.classList.remove('active'); }
+        if (otherWrap) { otherWrap.classList.remove('is-open'); }
+        applyQuantity(card);
+      });
     });
 
     var initialActive = document.querySelector('#stepQuantity .quantity-card.active');
     if (initialActive) { applyQuantity(initialActive); }
-  })();
 
-  (function () {
+    // ---- "Choose other value" panel ----
     var wrap = document.getElementById('quantityOtherWrap');
     var toggleBtn = document.getElementById('quantityOtherToggle');
-    var select = document.getElementById('quantityOtherSelect');
+    var panel = document.getElementById('quantityOtherPanel');
     var label = document.getElementById('quantityOtherLabel');
+    var input = document.getElementById('quantityOtherInput');
     var defaultLabelText = label ? label.textContent : '';
-    if (!wrap || !toggleBtn || !select || !label) { return; }
+    if (!wrap || !toggleBtn || !panel || !label || !input) { return; }
 
-    toggleBtn.addEventListener('click', function () {
-      document.querySelectorAll('#stepQuantity .quantity-card').forEach(function (c) {
-        c.classList.remove('active');
-      });
-      wrap.classList.add('is-open');
-      toggleBtn.setAttribute('aria-expanded', 'true');
-      select.focus();
-      // shows the native options list immediately, not just a focused-but-closed select
-      if (typeof select.showPicker === 'function') {
-        try { select.showPicker(); } catch (e) { /* unsupported in this browser, focus still works */ }
-      }
-    });
-
-    select.addEventListener('change', function () {
-      if (!select.value) { return; }
-      label.textContent = select.value;
-      toggleBtn.classList.add('active');
-      // collapses back to a single row (now showing the picked value) instead of leaving the
-      // <select> sitting open underneath it, showing the same number twice
+    function closePanel() {
       wrap.classList.remove('is-open');
       toggleBtn.setAttribute('aria-expanded', 'false');
+    }
+
+    function choose(qty, priceText, labelText) {
+      quantityCards.forEach(function (c) { c.classList.remove('active'); });
+      label.textContent = qty;
+      toggleBtn.classList.add('active');
+      closePanel();
 
       var valueEl = document.querySelector('#stepQuantity .build-box-accordion-value');
-      if (valueEl) { valueEl.textContent = ' : ' + select.value; }
+      if (valueEl) { valueEl.textContent = ' : ' + qty; }
+
+      // priced custom quantities update the checkout/sticky summary the same way a preset does;
+      // "Get a quote" ones (and freehand-typed values, which have no known price) leave it as is
+      if (priceText) {
+        var checkoutLabel = document.querySelector('.build-box-checkout-price-label');
+        var checkoutValue = document.querySelector('.build-box-checkout-price-value');
+        if (checkoutLabel) { checkoutLabel.textContent = labelText; }
+        if (checkoutValue) { checkoutValue.textContent = priceText; }
+
+        var stickyLabel = document.querySelector('.build-box-sticky-summary-price-group .build-box-sticky-summary-label');
+        var stickyPrice = document.querySelector('.build-box-sticky-summary-price');
+        if (stickyLabel) { stickyLabel.textContent = labelText; }
+        if (stickyPrice) { stickyPrice.textContent = priceText; }
+      }
+    }
+
+    toggleBtn.addEventListener('click', function () {
+      var isOpen = wrap.classList.contains('is-open');
+      if (isOpen) { closePanel(); return; }
+      quantityCards.forEach(function (c) { c.classList.remove('active'); });
+      wrap.classList.add('is-open');
+      toggleBtn.setAttribute('aria-expanded', 'true');
+      input.focus();
     });
 
-    select.addEventListener('blur', function () {
-      wrap.classList.remove('is-open');
-      toggleBtn.setAttribute('aria-expanded', 'false');
-      if (!select.value) { label.textContent = defaultLabelText; }
+    panel.querySelectorAll('.quantity-other-option').forEach(function (option) {
+      option.addEventListener('click', function () {
+        var qty = option.getAttribute('data-qty');
+        var totalEl = option.querySelector('.quantity-card-total');
+        if (totalEl) {
+          var total = totalEl.textContent.replace(/[^0-9.]/g, '');
+          choose(qty, '€' + total, 'Netto / ' + qty + ' pieces');
+        } else {
+          choose(qty, null, null);
+        }
+      });
+    });
+
+    input.addEventListener('keydown', function (e) {
+      if (e.key !== 'Enter') { return; }
+      e.preventDefault();
+      if (!input.value || Number(input.value) < 1) { return; }
+      choose(input.value, null, null);
+      input.value = '';
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!wrap.contains(e.target)) { closePanel(); }
     });
   })();
 
