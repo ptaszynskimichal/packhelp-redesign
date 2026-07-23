@@ -1008,18 +1008,12 @@
     color: var(--color-text-primary);
   }
 
-  .product-card-info {
-    position: relative;
-    overflow: hidden;
-  }
-
   .product-card-name {
     margin: 0 0 2px;
     font-size: 0.9375rem;
     font-weight: 500;
     letter-spacing: -0.02em;
     color: var(--color-text-primary);
-    transition: opacity .15s ease;
   }
 
   .product-card-price {
@@ -1027,17 +1021,13 @@
     font-size: 0.8125rem;
     letter-spacing: -0.02em;
     color: var(--color-text-muted);
-    transition: opacity .15s ease;
-  }
-
-  .product-card:hover .product-card-name,
-  .product-card:hover .product-card-price {
-    opacity: 0;
   }
 
   .product-card-btn {
     position: absolute;
-    inset: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
     display: flex;
     width: 100%;
     justify-content: center;
@@ -1045,6 +1035,7 @@
     height: 2.25rem;
     font-size: 0.8125rem;
     box-sizing: border-box;
+    border-radius: 0;
     opacity: 0;
     transform: translateY(100%);
     pointer-events: none;
@@ -1702,59 +1693,52 @@
   <section class="pkg-products reveal">
     <div class="product-grid">
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">25 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">25 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Mailer Box</h3>
           <p class="product-card-price">From £0.89</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">50 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Shipping Box</h3>
           <p class="product-card-price">From £0.95</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">100 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Folding Carton</h3>
           <p class="product-card-price">From £0.62</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">50 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Rigid Box</h3>
           <p class="product-card-price">From £1.85</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">25 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">25 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">E-commerce Box Set</h3>
           <p class="product-card-price">From £1.10</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">50 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Paper Mailing Bag</h3>
           <p class="product-card-price">From £0.42</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">100 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Zip Lock Bag</h3>
           <p class="product-card-price">From £0.18</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="promo-card">
@@ -1763,59 +1747,52 @@
         <a href="#" class="btn-pill sm secondary">Learn more</a>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">100 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Stand-up Pouch</h3>
           <p class="product-card-price">From £0.35</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">100 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Poly Mailer</h3>
           <p class="product-card-price">From £0.22</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">50 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Cotton Carrier Bag</h3>
           <p class="product-card-price">From £2.40</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">50 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Padded Envelope</h3>
           <p class="product-card-price">From £0.55</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">25 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">25 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Mailing Tube</h3>
           <p class="product-card-price">From £1.15</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">100 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Cardboard Envelope</h3>
           <p class="product-card-price">From £0.48</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">25 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">25 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Tube Box</h3>
           <p class="product-card-price">From £1.60</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="promo-card">
@@ -1824,51 +1801,45 @@
         <a href="#" class="btn-pill sm secondary">Order now</a>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">50 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Rigid Tube</h3>
           <p class="product-card-price">From £2.10</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">500 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">500 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Custom Cup</h3>
           <p class="product-card-price">From £0.09</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">100 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Pizza Box</h3>
           <p class="product-card-price">From £0.38</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">250 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">250 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Tissue Paper</h3>
           <p class="product-card-price">From £0.06</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">100 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Custom Sticker Sheet</h3>
           <p class="product-card-price">From £0.05</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
       <div class="product-card">
-        <div class="product-card-media"><span class="product-card-moq">250 minimum</span></div>
+        <div class="product-card-media"><span class="product-card-moq">250 minimum</span><a href="#" class="btn-pill product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Custom Label Roll</h3>
           <p class="product-card-price">From £0.04</p>
-          <a href="#" class="btn-pill product-card-btn">More info</a>
         </div>
       </div>
     </div>
