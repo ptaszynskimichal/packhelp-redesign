@@ -1042,14 +1042,23 @@
     flex-direction: column;
   }
 
-  .quantity-other-option {
+  /* .box-type-card.no-thumb (2 classes) otherwise beats a plain .quantity-other-option (1 class)
+     in specificity regardless of source order, so the override needs to match it */
+  .box-type-card.quantity-other-option {
     width: 100%;
+    /* matches the "Type in your quantity" input's own total left/right inset (its var(--space-4)
+       margin from the panel edge plus its var(--space-4) own padding) — the rows themselves have
+       no margin (they're flush against the panel edge), so the padding alone must cover both */
+    padding-left: var(--space-8);
+    padding-right: var(--space-8);
     border-radius: 0;
     background: var(--color-bg-surface);
+    transition: background-color .15s ease, border-radius .15s ease;
   }
 
-  .quantity-other-option:hover {
+  .box-type-card.quantity-other-option:hover {
     background: var(--color-bg-muted-hover);
+    border-radius: var(--radius-sm);
   }
 
   .quantity-quote-badge {
@@ -2359,17 +2368,17 @@
               <span class="box-type-card-desc">A cut-out window in the box wall, usually filled with film, to display the product inside.</span>
             </span>
           </button>
-          <button class="box-type-card no-thumb" data-windows="crease">
-            <span class="box-type-card-text">
-              <span class="box-type-card-label">Crease line</span>
-              <span class="box-type-card-desc">An extra scoring line for precise, controlled folding at a specific spot.</span>
-            </span>
-          </button>
           <button class="box-type-card" data-windows="perforation">
             <span class="box-type-card-thumb"><img src="build/perforation.png" alt=""></span>
             <span class="box-type-card-text">
               <span class="box-type-card-label">Perforation</span>
               <span class="box-type-card-desc">A perforated line that lets part of the box be easily torn off.</span>
+            </span>
+          </button>
+          <button class="box-type-card no-thumb" data-windows="crease">
+            <span class="box-type-card-text">
+              <span class="box-type-card-label">Crease line</span>
+              <span class="box-type-card-desc">An extra scoring line for precise, controlled folding at a specific spot.</span>
             </span>
           </button>
         </div>
