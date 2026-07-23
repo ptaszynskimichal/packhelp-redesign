@@ -15,8 +15,10 @@
     justify-content: center;
     gap: var(--space-3);
     padding: 0.75rem 2rem calc(0.75rem + 20px);
-    background: #E3E7FF;
-    font-size: 0.875rem;
+    background: var(--color-bg-accent-subtle);
+    font-size: 0.8125rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-primary);
   }
 
@@ -104,6 +106,8 @@
 
   .sticky-links a {
     font-size: 0.8125rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-primary);
     text-decoration: none;
     white-space: nowrap;
@@ -135,6 +139,8 @@
 
   .signin-link {
     font-size: 0.8125rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-primary);
     text-decoration: none;
     white-space: nowrap;
@@ -181,7 +187,7 @@
     left: 50%;
     width: 100vw;
     box-sizing: border-box;
-    background: #fff;
+    background: var(--color-bg-surface);
     border-top: 1px solid rgba(0,0,0,.07);
     border-bottom: 1px solid rgba(0,0,0,.07);
     opacity: 0;
@@ -219,12 +225,14 @@
     flex: 0 0 auto;
     width: 1px;
     align-self: stretch;
-    background: #E5E5E5;
+    background: var(--gray-300);
   }
 
   .nav-megamenu-title {
     margin: 0 0 var(--space-3);
     font-size: 0.9375rem;
+    line-height: 1.16;
+    letter-spacing: -0.02em;
     font-weight: 500;
     color: var(--color-text-primary);
   }
@@ -240,6 +248,8 @@
 
   .nav-megamenu-group a {
     font-size: 0.9375rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--gray-700, var(--color-text-primary));
     text-decoration: none;
   }
@@ -267,6 +277,8 @@
     margin: 0;
     padding: 0;
     font-size: 0.8125rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
   }
 
   .nav-links a, .nav-links button {
@@ -290,13 +302,13 @@
   }
 
   .nav-links button.btn-pill {
-    background: #2757FF;
-    color: #fff;
+    background: var(--color-accent);
+    color: var(--color-text-on-accent);
     border: none;
   }
 
   .nav-links button.btn-pill:hover {
-    background: #1c40cc;
+    background: var(--color-accent-hover);
   }
 
   .nav-links button.btn-pill.secondary {
@@ -353,6 +365,8 @@
       padding: var(--space-2) var(--space-2);
       border-radius: var(--radius-sm);
       font-size: 0.9375rem;
+      line-height: 1.32;
+      letter-spacing: -0.02em;
       color: var(--color-text-primary);
       text-decoration: none;
       box-sizing: border-box;
@@ -383,7 +397,7 @@
     height: 24px;
     border-radius: 50%;
     background: var(--color-bg-muted);
-    border: 2px solid #2757FF;
+    border: 2px solid var(--color-accent);
     margin-left: -10px;
   }
 
@@ -462,6 +476,26 @@
     transition: opacity .2s ease;
   }
 
+  /* ---------- 2D view: a live dieline (flat unfolded net), not a static photo ---------- */
+  .build-box-dieline-stage {
+    flex: 1 1 auto;
+    align-self: stretch;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    padding: var(--space-6);
+  }
+
+  #dielineSvg {
+    width: 100%;
+    height: 100%;
+    max-width: 560px;
+    max-height: 560px;
+  }
+
   /* ---------- Real 3D box preview (CSS 3D transforms, no external libs) ---------- */
   .build-box-3d-stage {
     position: relative;
@@ -472,7 +506,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    perspective: 1600px;
+    /* no `perspective`: an isometric view is a parallel (orthographic) projection,
+       which is also what makes the JS `project()` math below exact for any rotation/size. */
     touch-action: none;
   }
 
@@ -513,25 +548,40 @@
     background: var(--dim-color, var(--color-border-hover));
   }
 
-  .build-box-dim-line.dim-width { --dim-color: var(--color-accent); }
+  /* whichever dimension input currently has focus gets the accent (blue) line + pill;
+     the other two stay in the neutral/gray default. */
+  .build-box-3d-stage[data-active-dim="width"] .build-box-dim-line.dim-width,
+  .build-box-3d-stage[data-active-dim="length"] .build-box-dim-line.dim-length,
+  .build-box-3d-stage[data-active-dim="height"] .build-box-dim-line.dim-height {
+    --dim-color: var(--color-accent);
+  }
 
   .build-box-dim-pill {
     position: absolute;
     top: 50%;
-    left: 100%;
+    left: 50%;
     display: inline-flex;
     align-items: center;
     white-space: nowrap;
     padding: var(--space-1) var(--space-3);
     border-radius: var(--radius-full);
-    font-size: 0.75rem;
-    font-weight: 500;
+    font-size: 0.6875rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     background: var(--color-bg-muted);
     color: var(--color-text-primary);
     box-shadow: 0 2px 6px 0 rgba(0,0,0,.08);
+    transform: translate(-50%, -50%) rotate(var(--pill-angle, 0deg));
   }
 
-  .dim-width .build-box-dim-pill {
+  /* pills sit at the edge's midpoint, nudged outward (away from the box) for legibility */
+  .dim-height .build-box-dim-pill  { transform: translate(calc(-50% + var(--space-3)), -50%) rotate(var(--pill-angle, 0deg)); }
+  .dim-width .build-box-dim-pill   { transform: translate(-50%, calc(-50% + var(--space-3))) rotate(var(--pill-angle, 0deg)); }
+  .dim-length .build-box-dim-pill  { transform: translate(-50%, calc(-50% + var(--space-3))) rotate(var(--pill-angle, 0deg)); }
+
+  .build-box-3d-stage[data-active-dim="width"] .dim-width .build-box-dim-pill,
+  .build-box-3d-stage[data-active-dim="length"] .dim-length .build-box-dim-pill,
+  .build-box-3d-stage[data-active-dim="height"] .dim-height .build-box-dim-pill {
     background: var(--color-accent);
     color: var(--color-text-on-accent);
   }
@@ -547,7 +597,9 @@
 
   .build-box-3d.is-dragging { cursor: grabbing; }
 
-  .build-box-visual.view-3d .build-box-canvas > img { display: none; }
+  /* the static photo's job (2D view) is now done by the live dieline below */
+  .build-box-canvas > img { display: none; }
+  .build-box-visual.view-3d .build-box-dieline-stage { display: none; }
   .build-box-visual.view-2d .build-box-3d-stage { display: none; }
 
   .b3d-group {
@@ -571,15 +623,113 @@
   #box3dModel[data-material="white"]         { --b3d-color: #F2F0E9; }
   #box3dModel[data-material="premium-white"] { --b3d-color: #FDFDFB; }
 
+  /* kraft gets a real paper texture instead of a flat fill — each face still gets its own
+     brightness filter for shading exactly as before, since filter:brightness() applies to
+     whatever is rendered underneath (image or solid color) the same way. Sourced from
+     brown-paper-texture-background.jpg, downsized 3000x3000->800x800 (7.7MB->~190KB) since
+     every face renders at most a few hundred px on screen — same look, much lighter to load. */
+  #box3dModel[data-material="kraft"] .b3d-face,
+  #box3dModel[data-material="kraft"] .b3d-lid-face,
+  #box3dModel[data-material="kraft"] .b3d-roof-panel,
+  #box3dModel[data-material="kraft"] .b3d-roof-end,
+  #box3dModel[data-material="kraft"] .b3d-flap,
+  #box3dModel[data-material="kraft"] .b3d-hang-tab {
+    background-image: url('build/kraft-texture.jpg');
+    background-size: cover;
+    background-position: center;
+  }
+
   /* body (full-height cuboid, present for every construction) */
   .b3d-front  { top: 50%; left: 50%; width: var(--w); height: var(--h); margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2); transform: translateZ(calc(var(--d) / 2)); filter: brightness(1.06); }
   .b3d-back   { top: 50%; left: 50%; width: var(--w); height: var(--h); margin: calc(var(--h) / -2) 0 0 calc(var(--w) / -2); transform: rotateY(180deg) translateZ(calc(var(--d) / 2)); filter: brightness(.82); }
   .b3d-right  { top: 50%; left: 50%; width: var(--d); height: var(--h); margin: calc(var(--h) / -2) 0 0 calc(var(--d) / -2); transform: rotateY(90deg) translateZ(calc(var(--w) / 2)); filter: brightness(.92); }
   .b3d-left   { top: 50%; left: 50%; width: var(--d); height: var(--h); margin: calc(var(--h) / -2) 0 0 calc(var(--d) / -2); transform: rotateY(-90deg) translateZ(calc(var(--w) / 2)); filter: brightness(.76); }
-  .b3d-top    { top: 50%; left: 50%; width: var(--w); height: var(--d); margin: calc(var(--d) / -2) 0 0 calc(var(--w) / -2); transform: rotateX(90deg) translateZ(calc(var(--h) / 2)); filter: brightness(1.18); }
+  .b3d-top    { top: 50%; left: 50%; width: var(--w); height: var(--d); margin: calc(var(--d) / -2) 0 0 calc(var(--w) / -2); transform: rotateX(90deg) translateZ(calc(var(--h) / 2)); filter: brightness(1.18); transition: opacity .15s ease; }
   .b3d-bottom { top: 50%; left: 50%; width: var(--w); height: var(--d); margin: calc(var(--d) / -2) 0 0 calc(var(--w) / -2); transform: rotateX(-90deg) translateZ(calc(var(--h) / 2)); filter: brightness(.68); }
 
   #box3dModel[data-construction="gable"] .b3d-top { display: none; }
+  /* the 4 flaps below exist only to animate the open state; while closed, the flat .b3d-top above is
+     what's actually shown (see the .b3d-flap-hinge opacity rule) */
+  #box3dModel.box-open .b3d-top { opacity: 0; }
+
+  /* Top open animation: 4 independently-hinged tuck flaps (front/back/left/right) that swing out from
+     the box's real top edges when "Open" is toggled. They stay invisible (opacity:0) while closed and
+     only fade in as they rotate open — closed, all four are exactly coplanar and their footprints
+     overlap (front/back split the top by depth, left/right split it by width), which CSS's preserve-3d
+     can't resolve correctly (no true per-pixel z-buffer, just a single depth value per element for
+     paint order) and renders as a visibly broken/overlapping mess. Keeping `.b3d-top` as the one flat
+     plane for the closed look, and only bringing the flaps in once they're actually rotating away from
+     each other, sidesteps that limitation entirely.
+     Each hinge wrapper is translated so its own local origin sits ON the physical hinge line (the real
+     top edge of the corresponding wall), then rotates around that origin — front/back hinge lines run
+     along the width axis (rotateX), left/right hinge lines run along the depth axis (rotateZ). The flap
+     itself is positioned so its hinge-side edge is exactly at that wrapper origin (not centered), and its
+     own rotateX(90deg) tips it from the default vertical (XY) div into the horizontal (XZ) plane. */
+  .b3d-flap-hinge { position: absolute; top: 0; left: 0; transform-style: preserve-3d; opacity: 0; transition: transform .45s cubic-bezier(.4,0,.2,1), opacity .15s ease; }
+  #box3dModel.box-open .b3d-flap-hinge { opacity: 1; }
+  .b3d-flap { position: absolute; box-sizing: border-box; border: 1px solid rgba(0,0,0,.10); background: var(--b3d-color, #C9A876); }
+
+  .b3d-flap-hinge-front {
+    transform: translateY(calc(var(--h) / -2)) translateZ(calc(var(--d) / 2)) rotateX(var(--flap-open-front, 0deg));
+  }
+  .b3d-flap-front {
+    top: 50%; left: 50%;
+    width: var(--w); height: calc(var(--d) / 2);
+    margin: calc(var(--d) / -2) 0 0 calc(var(--w) / -2);
+    transform: rotateX(90deg);
+    filter: brightness(1.18);
+  }
+
+  .b3d-flap-hinge-back {
+    transform: translateY(calc(var(--h) / -2)) translateZ(calc(var(--d) / -2)) rotateX(var(--flap-open-back, 0deg));
+  }
+  .b3d-flap-back {
+    top: 50%; left: 50%;
+    width: var(--w); height: calc(var(--d) / 2);
+    margin: 0 0 0 calc(var(--w) / -2);
+    transform: rotateX(90deg);
+    filter: brightness(1.1);
+  }
+
+  /* left/right sit 1px below the front/back plane: since both pairs cover the *entire* top footprint
+     when closed (front/back split it by depth, left/right split it by width), they'd otherwise be
+     exactly coplanar wherever they overlap and z-fight. This mirrors how a real box's minor flaps close
+     first, underneath the major flaps — imperceptible once open, since 1px is negligible next to the
+     box itself. */
+  .b3d-flap-hinge-left {
+    transform: translateX(calc(var(--w) / -2)) translateY(calc(var(--h) / -2 + 1px)) rotateZ(var(--flap-open-left, 0deg));
+  }
+  .b3d-flap-left {
+    top: 50%; left: 50%;
+    width: calc(var(--w) / 2); height: var(--d);
+    margin: calc(var(--d) / -2) 0 0 0;
+    transform: rotateX(90deg);
+    filter: brightness(1.14);
+  }
+
+  .b3d-flap-hinge-right {
+    transform: translateX(calc(var(--w) / 2)) translateY(calc(var(--h) / -2 + 1px)) rotateZ(var(--flap-open-right, 0deg));
+  }
+  .b3d-flap-right {
+    top: 50%; left: 50%;
+    width: calc(var(--w) / 2); height: var(--d);
+    margin: calc(var(--d) / -2) 0 0 calc(var(--w) / -2);
+    transform: rotateX(90deg);
+    filter: brightness(1.14);
+  }
+
+  /* signs/angles verified visually against the reference photo: back tilts open-and-back, front folds
+     down-and-forward, left/right splay outward to their sides */
+  #box3dModel.box-open .b3d-flap-hinge-front { --flap-open-front: -110deg; }
+  #box3dModel.box-open .b3d-flap-hinge-back  { --flap-open-back: 100deg; }
+  #box3dModel.box-open .b3d-flap-hinge-left  { --flap-open-left: 100deg; }
+  #box3dModel.box-open .b3d-flap-hinge-right { --flap-open-right: -100deg; }
+
+  /* both open mechanisms are mutually exclusive per construction: gable's roof doesn't tuck-open at
+     all, and with-lid opens by lifting the separate .b3d-lid piece — its body underneath shouldn't
+     *also* show tuck flaps opening at the same time */
+  #box3dModel[data-construction="gable"] .b3d-flap-hinge,
+  #box3dModel[data-construction="with-lid"] .b3d-flap-hinge { display: none; }
 
   /* windowing: translucent film patch on the front face */
   .b3d-window {
@@ -596,18 +746,25 @@
   }
   #box3dModel[data-windows="windowing"] .b3d-window { display: block; }
 
-  /* hanging: small euro-slot punch near the top of the front face */
-  .b3d-hang-hole {
+  /* hanging: header tab (a full-width continuation of the back panel, opposite the Width wall, rising above
+     the top edge) with a euro-slot genuinely cut through it (SVG luminance mask, see #hangSlotMask below) —
+     not a dark sticker on top: the hole is real alpha transparency, so whatever's actually behind the tab in
+     the 3D scene (here, just the empty stage) shows through it. */
+  .b3d-hang-tab {
     position: absolute;
     top: 50%; left: 50%;
-    width: 22px; height: 22px;
-    margin: calc(var(--h) * -.5 + 16px) 0 0 -11px;
-    border-radius: 50%;
-    background: radial-gradient(circle at 35% 35%, rgba(0,0,0,.08), rgba(0,0,0,.4));
-    transform: translateZ(calc(var(--d) / 2 + .5px));
+    width: var(--w);
+    height: calc(var(--h) * .42);
+    margin: calc(var(--h) * -.92) 0 0 calc(var(--w) * -.5);
+    border-radius: 10px 10px 0 0;
+    background: var(--b3d-color, #C9A876);
+    transform: rotateY(180deg) translateZ(calc(var(--d) / 2));
+    filter: brightness(.82);
+    mask: url(#hangSlotMask);
+    -webkit-mask: url(#hangSlotMask);
     display: none;
   }
-  #box3dModel[data-construction="hanging"] .b3d-hang-hole { display: block; }
+  #box3dModel[data-construction="hanging"] .b3d-hang-tab { display: block; }
 
   /* with handle: die-cut slot on the top face */
   .b3d-handle-hole {
@@ -631,8 +788,14 @@
     --ld: calc(var(--d) + 12px);
     --lh: calc(var(--h) * .4);
     transform: translateY(calc(-1 * var(--h) / 2 - var(--lh) * .15));
+    transition: transform .35s cubic-bezier(.4,0,.2,1);
   }
   #box3dModel[data-construction="with-lid"] .b3d-lid { display: block; }
+  /* Open lifts the separate lid piece further up and clear of the body, since it's a distinct part
+     rather than hinged flaps like Classic/Hanging/Handle */
+  #box3dModel.box-open[data-construction="with-lid"] .b3d-lid {
+    transform: translateY(calc(-1 * var(--h) - var(--lh)));
+  }
 
   .b3d-lid-front  { top: 50%; left: 50%; width: var(--lw); height: var(--lh); margin: calc(var(--lh) / -2) 0 0 calc(var(--lw) / -2); transform: translateZ(calc(var(--ld) / 2)); filter: brightness(1.1); }
   .b3d-lid-back   { top: 50%; left: 50%; width: var(--lw); height: var(--lh); margin: calc(var(--lh) / -2) 0 0 calc(var(--lw) / -2); transform: rotateY(180deg) translateZ(calc(var(--ld) / 2)); filter: brightness(.86); }
@@ -672,93 +835,46 @@
   .build-box-visual-toolbar {
     display: flex;
     align-items: center;
-    justify-content: space-between;
     gap: var(--space-3);
     padding: var(--space-4) var(--space-5);
     flex-wrap: wrap;
   }
 
-  /* ---------- frosted-glass pill: shared container style for every preview control ---------- */
-  .build-box-visual-toolbar .toggle-switch,
-  .build-box-open-slider,
-  .build-box-zoom {
-    height: 48px;
-    padding: var(--space-2);
-    gap: var(--space-2);
-    border-radius: var(--radius-full);
-    background: rgba(255,255,255,.30);
-    box-shadow: 0 8px 24px 0 rgba(0,0,0,.03);
-    backdrop-filter: blur(5px);
-    -webkit-backdrop-filter: blur(5px);
-    box-sizing: border-box;
-    align-items: center;
+  /* three equal-width slots so the center control (zoom) is always truly centered regardless of
+     how wide the left/right controls are, rather than relying on justify-content:space-between
+     (which only centers the middle item when its neighbors happen to be the same width) */
+  .build-box-toolbar-slot {
+    flex: 1 1 0;
+    min-width: 0;
+    display: flex;
   }
+  .build-box-toolbar-slot.start  { justify-content: flex-start; }
+  .build-box-toolbar-slot.center { justify-content: center; }
+  .build-box-toolbar-slot.end    { justify-content: flex-end; }
 
-  /* raised "button" finish: shared style for the active toggle pill and slider thumb */
-  .build-box-visual-toolbar .toggle-indicator,
-  .build-box-open-slider input[type="range"]::-webkit-slider-thumb,
-  .build-box-open-slider input[type="range"]::-moz-range-thumb {
-    border-radius: var(--radius-full);
-    background: linear-gradient(180deg, #FFF 50%, #F8F8F8 100%);
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
-  }
-
+  /* the toolbar's toggle-switch sits inline in a horizontal row, not stacked above other step
+     content like the base .toggle-switch usually is — so it alone opts out of the bottom margin.
+     Everything else (the segment-tab background, indicator, text) now lives on the base classes
+     directly, since it's shared by every toggle-switch/zoom control on the page, not just this one. */
   .build-box-visual-toolbar .toggle-switch {
     margin-bottom: 0;
   }
 
-  .build-box-visual-toolbar .toggle-option {
-    padding: var(--space-2);
-    font-size: 0.875rem;
-  }
-
-  .build-box-visual-toolbar .toggle-option.active {
-    font-weight: 400;
-  }
-
-  .build-box-open-slider {
-    display: flex;
-    align-items: center;
-    font-size: 0.875rem;
-    color: var(--color-text-muted);
-    flex: 1;
-    min-width: 180px;
-    max-width: 280px;
-    padding-left: var(--space-4);
-    padding-right: var(--space-4);
-  }
-
-  .build-box-open-slider input[type="range"] {
-    flex: 1;
-    -webkit-appearance: none;
-    appearance: none;
-    height: 4px;
-    border-radius: var(--radius-full);
-    background: rgba(0,0,0,.12);
-    outline: none;
-  }
-
-  .build-box-open-slider input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    border: none;
-  }
-
-  .build-box-open-slider input[type="range"]::-moz-range-thumb {
-    width: 20px;
-    height: 20px;
-    cursor: pointer;
-    border: none;
-  }
-
   .build-box-zoom {
     display: flex;
     align-items: center;
-    font-size: 0.875rem;
+    font-size: 0.8125rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-primary);
+    background: rgba(0, 0, 0, .04);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    border-radius: var(--radius-full);
+  }
+
+  .build-box-zoom span {
+    padding: 0 8px;
   }
 
   .build-box-zoom .icon-btn {
@@ -771,7 +887,7 @@
     align-items: center;
     border: none;
     border-radius: var(--radius-full);
-    background: linear-gradient(180deg, #FFF 50%, #F8F8F8 100%);
+    background: linear-gradient(180deg, var(--color-bg-surface) 50%, var(--color-bg-muted) 100%);
     box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
   }
 
@@ -804,29 +920,33 @@
     margin: 0 0 var(--space-1);
     font-weight: 500;
     font-size: 2rem;
-    line-height: 2.5rem;
-    letter-spacing: -0.02em;
+    line-height: 1.08;
+    letter-spacing: -0.05em;
     color: var(--color-text-primary);
   }
 
   .build-box-subheading {
     margin: 0 0 var(--space-8);
-    font-size: 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-muted);
   }
 
   .build-box-field-label {
     margin: 0 0 var(--space-2);
     font-size: 1.25rem;
-    line-height: 1.5rem;
-    font-weight: 400;
+    letter-spacing: -0.02em;
+    line-height: 1.16;
+    font-weight: 450;
     color: var(--color-text-primary);
   }
 
   .build-box-field-desc {
     margin: 0 0 var(--space-4);
-    font-size: 0.875rem;
-    line-height: 1.375rem;
+    font-size: 0.8125rem;
+    letter-spacing: -0.02em;
+    line-height: 1.32;
     color: var(--color-text-muted);
   }
 
@@ -860,7 +980,9 @@
   }
 
   .quantity-card-qty {
-    font-size: 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-primary);
   }
 
@@ -872,12 +994,16 @@
 
   .quantity-card-unit {
     font-size: 0.9375rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-muted);
   }
 
   .quantity-card-total {
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.16;
+    letter-spacing: -0.02em;
+    font-weight: 500;
     color: var(--color-text-primary);
   }
 
@@ -887,6 +1013,8 @@
     gap: var(--space-2);
     margin: var(--space-4) 0 0;
     font-size: 0.8125rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-muted);
   }
 
@@ -919,7 +1047,9 @@
 
   .build-box-subfield-label {
     margin: 0 0 var(--space-3);
-    font-size: 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.16;
+    letter-spacing: -0.02em;
     font-weight: 500;
     color: var(--color-text-primary);
   }
@@ -948,20 +1078,20 @@
   }
 
   .box-type-card-label {
-    color: #00061A;
+    color: var(--color-text-primary);
     font-feature-settings: 'liga' off, 'clig' off;
     font-family: "ABC Favorit", sans-serif;
     font-size: 15px;
     font-style: normal;
-    font-weight: 350;
-    line-height: 132%;
-    letter-spacing: -0.3px;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
   }
 
   .box-type-card-desc {
     margin: 0;
     font-size: 13px;
-    line-height: 1.4;
+    letter-spacing: -0.02em;
+    line-height: 1.32;
     color: var(--color-text-muted);
   }
 
@@ -1009,21 +1139,21 @@
 
   .material-card-label {
     display: block;
-    color: #00061A;
+    color: var(--color-text-primary);
     font-feature-settings: 'liga' off, 'clig' off;
     font-family: "ABC Favorit", sans-serif;
     font-size: 15px;
     font-style: normal;
-    font-weight: 350;
-    line-height: 132%;
-    letter-spacing: -0.3px;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
   }
 
   .material-card-desc {
     display: block;
     margin-top: var(--space-2);
     font-size: 13px;
-    line-height: 1.4;
+    letter-spacing: -0.02em;
+    line-height: 1.32;
     color: var(--color-text-muted);
   }
 
@@ -1091,8 +1221,9 @@
 
   .construction-card span {
     font-size: 0.8125rem;
+    letter-spacing: -0.02em;
     text-align: center;
-    line-height: 1rem;
+    line-height: 1.32;
   }
 
   .construction-card:hover { background: var(--color-bg-muted-hover); }
@@ -1106,11 +1237,14 @@
   .toggle-switch {
     position: relative;
     display: inline-flex;
+    align-items: center;
     gap: var(--space-1);
     padding: var(--space-1);
     margin-bottom: var(--space-6);
     border-radius: var(--radius-full);
-    background: var(--color-bg-muted);
+    background: rgba(0, 0, 0, .04);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
   }
 
   .toggle-indicator {
@@ -1120,19 +1254,24 @@
     left: 0;
     width: 0;
     border-radius: var(--radius-full);
-    background: #fff;
-    box-shadow: 0 1px 2px rgba(0,0,0,.08);
+    background: linear-gradient(180deg, var(--color-bg-surface) 50%, var(--color-bg-muted) 100%);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,.08);
     transition: transform 0.3s ease, width 0.3s ease;
   }
 
   .toggle-option {
+    /* "hug" width (a button with no explicit width already sizes to its content) with a tight
+       8px padding, active and inactive alike — plus the Body/Body 13 text style */
     position: relative;
     z-index: 1;
     border: none;
     background: transparent;
-    padding: var(--space-2) var(--space-5);
+    padding: 8px;
     border-radius: var(--radius-full);
-    font-size: 0.875rem;
+    font-size: 13px;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
+    font-feature-settings: 'liga' off, 'clig' off;
     color: var(--color-text-muted);
     cursor: pointer;
     transition: color 0.15s ease;
@@ -1156,6 +1295,8 @@
     display: block;
     min-width: 0;
     font-size: 0.8125rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-secondary);
   }
 
@@ -1184,18 +1325,20 @@
     outline: none;
     background: none;
     font: inherit;
-    font-size: 1rem;
+    font-size: 0.9375rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-primary);
   }
 
-  .dimension-unit { flex: none; color: var(--color-text-muted); font-size: 0.9375rem; }
+  .dimension-unit { flex: none; color: var(--color-text-muted); font-size: 0.9375rem; line-height: 1.32; letter-spacing: -0.02em; }
 
   .dimension-buffer-note {
     max-height: 0;
     margin-top: 0;
     padding: 0 var(--space-4);
     border-radius: 12px;
-    background: #F5F1C4;
+    background: var(--color-bg-notice);
     opacity: 0;
     overflow: hidden;
     transition: max-height .4s cubic-bezier(.4,0,.2,1), opacity .3s ease, margin-top .4s cubic-bezier(.4,0,.2,1), padding-top .4s cubic-bezier(.4,0,.2,1), padding-bottom .4s cubic-bezier(.4,0,.2,1);
@@ -1213,7 +1356,8 @@
   .dimension-buffer-text {
     margin: 0 0 var(--space-3);
     font-size: 13px;
-    line-height: 1.4;
+    letter-spacing: -0.02em;
+    line-height: 1.32;
     color: var(--color-text-primary);
   }
 
@@ -1225,6 +1369,8 @@
 
   .dimension-buffer-label {
     font-size: 13px;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-primary);
   }
 
@@ -1232,6 +1378,8 @@
     height: 32px;
     padding: var(--space-1);
     font-size: 13px;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
   }
 
   .build-box-zoom.sm .icon-btn {
@@ -1283,7 +1431,7 @@
     width: 56px;
     height: 56px;
     border-radius: 50%;
-    background: #fff;
+    background: var(--color-bg-surface);
     border: 1px solid rgba(0,0,0,.08);
     box-shadow: 0 4px 16px rgba(0,0,0,.15);
     display: flex;
@@ -1310,7 +1458,7 @@
     right: 24px;
     z-index: 1000;
     width: 280px;
-    background: #fff;
+    background: var(--color-bg-surface);
     border-radius: var(--radius-md);
     box-shadow: 0 8px 32px rgba(0,0,0,.18);
     padding: var(--space-5);
@@ -1330,6 +1478,8 @@
   .site-settings-title {
     margin: 0 0 var(--space-4);
     font-size: 0.9375rem;
+    line-height: 1.16;
+    letter-spacing: -0.02em;
     font-weight: 500;
     color: var(--color-text-primary);
   }
@@ -1343,14 +1493,17 @@
 
   .site-settings-label {
     margin: 0;
-    font-size: 0.875rem;
-    font-weight: 500;
+    font-size: 0.8125rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-primary);
   }
 
   .site-settings-desc {
     margin: var(--space-0-5) 0 0;
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-muted);
   }
 
@@ -1378,7 +1531,8 @@
     background: var(--color-bg-muted);
     color: var(--color-text-primary);
     font-size: 0.8125rem;
-    font-weight: 600;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
   }
 
   .build-box-accordion-badge svg {
@@ -1387,13 +1541,16 @@
   }
 
   .build-box-accordion-badge.done {
-    background: #F5E14D;
+    background: var(--color-bg-accent-subtle);
+    color: var(--color-text-primary);
   }
 
   .build-box-accordion-title {
     flex: 1;
-    font-size: 1rem;
-    font-weight: 600;
+    font-size: 0.9375rem;
+    line-height: 1.16;
+    letter-spacing: -0.02em;
+    font-weight: 500;
     color: var(--color-text-primary);
   }
 
@@ -1415,7 +1572,16 @@
 
   body.compact-mode .build-box-step {
     padding: 0 var(--space-8);
-    border-bottom: 1px solid var(--color-border-default);
+  }
+
+  /* a normal-flow block (not a border) so it's inset by the step's own padding — i.e. it
+     starts exactly where the badge starts and ends exactly where the chevron ends, matching
+     the accordion header's content width instead of bleeding to the section's full width */
+  body.compact-mode .build-box-step::after {
+    content: '';
+    display: block;
+    height: 1px;
+    background: var(--color-border-default);
   }
 
   body.compact-mode .build-box-step:first-child {
@@ -1424,6 +1590,14 @@
 
   body.compact-mode .build-box-accordion-header {
     display: flex;
+  }
+
+  /* the accordion header row already shows the step title, so the step's own header/subheader
+     (shown at the top of every step's content in the normal, non-compact view) would be
+     redundant once expanded in compact mode */
+  body.compact-mode .build-box-step-content > .build-box-field-label,
+  body.compact-mode .build-box-step-content > .build-box-field-desc {
+    display: none;
   }
 
   body.compact-mode .build-box-step-content {
@@ -1478,12 +1652,16 @@
   }
 
   .build-box-sticky-summary-label {
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-muted);
   }
 
   .build-box-sticky-summary-value {
     font-size: 0.9375rem;
+    line-height: 1.16;
+    letter-spacing: -0.02em;
     font-weight: 500;
     color: var(--color-text-primary);
   }
@@ -1495,7 +1673,9 @@
   }
 
   .build-box-sticky-summary-price {
-    font-size: 1.125rem;
+    font-size: 1.0625rem;
+    line-height: 1.16;
+    letter-spacing: -0.02em;
     font-weight: 500;
     color: var(--color-text-primary);
   }
@@ -1534,6 +1714,8 @@
   .build-box-checkout-delivery-label {
     margin: 0 0 var(--space-3);
     font-size: 0.9375rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-primary);
   }
 
@@ -1551,6 +1733,8 @@
     flex-direction: column;
     gap: var(--space-2);
     font-size: 0.9375rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
   }
 
   .build-box-checkout-dates li {
@@ -1585,14 +1769,17 @@
   .build-box-checkout-price-label {
     margin: 0 0 var(--space-1);
     font-size: 0.8125rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
     color: var(--color-text-muted);
   }
 
   .build-box-checkout-price-value {
     margin: 0;
     font-size: 2rem;
+    line-height: 1.08;
     font-weight: 500;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.05em;
     color: var(--color-text-primary);
   }
 
@@ -1869,10 +2056,30 @@
     </div>
   </div>
 
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+    <defs>
+      <!-- Real cut-out for the hanging tab's euro-slot: white = visible tab material, black = punched
+           through (fully transparent). The base rect uses objectBoundingBox fractions (0/0/1/1 always
+           covers the whole tab, whatever its size). The bar/thumb shapes' x/y/width/height/rx/ry/d are
+           instead recomputed in JS every time the box's size changes (see updateHangSlotMask() in the
+           box3d script) as fixedPx / currentTabPx — this keeps their *rendered* pixel size constant
+           regardless of box dimensions, rather than the fractions scaling with the tab like the base
+           rect does. -->
+      <mask id="hangSlotMask" maskContentUnits="objectBoundingBox">
+        <rect x="0" y="0" width="1" height="1" fill="#fff"/>
+        <rect id="hangSlotBar" fill="#000"/>
+        <path id="hangSlotThumb" fill="#000"/>
+      </mask>
+    </defs>
+  </svg>
+
   <div class="build-box-page">
     <div class="build-box-visual">
       <div class="build-box-canvas">
         <img id="canvasImage" src="build/folding-box.png" alt="">
+        <div class="build-box-dieline-stage" id="dielineStage">
+          <svg id="dielineSvg" viewBox="0 0 100 100" preserveAspectRatio="xMidYMid meet"></svg>
+        </div>
         <div class="build-box-3d-stage" id="box3dStage">
           <div class="build-box-3d-shadow"></div>
           <div class="build-box-dim-lines">
@@ -1887,9 +2094,13 @@
               <div class="b3d-face b3d-left"></div>
               <div class="b3d-face b3d-right"></div>
               <div class="b3d-face b3d-top"></div>
+              <div class="b3d-flap-hinge b3d-flap-hinge-front"><div class="b3d-flap b3d-flap-front"></div></div>
+              <div class="b3d-flap-hinge b3d-flap-hinge-back"><div class="b3d-flap b3d-flap-back"></div></div>
+              <div class="b3d-flap-hinge b3d-flap-hinge-left"><div class="b3d-flap b3d-flap-left"></div></div>
+              <div class="b3d-flap-hinge b3d-flap-hinge-right"><div class="b3d-flap b3d-flap-right"></div></div>
               <div class="b3d-face b3d-bottom"></div>
               <div class="b3d-window"></div>
-              <div class="b3d-hang-hole"></div>
+              <div class="b3d-hang-tab"></div>
               <div class="b3d-handle-hole"></div>
             </div>
             <div class="b3d-group b3d-lid">
@@ -1909,20 +2120,26 @@
         </div>
       </div>
       <div class="build-box-visual-toolbar">
-        <div class="toggle-switch" id="viewToggleSwitch" style="margin-bottom:0;">
-          <div class="toggle-indicator" id="viewToggleIndicator"></div>
-          <button class="toggle-option active">3D view</button>
-          <button class="toggle-option">2D view</button>
+        <div class="build-box-toolbar-slot start">
+          <div class="toggle-switch" id="viewToggleSwitch">
+            <div class="toggle-indicator" id="viewToggleIndicator"></div>
+            <button class="toggle-option active">3D view</button>
+            <button class="toggle-option">2D view</button>
+          </div>
         </div>
-        <div class="build-box-open-slider">
-          <span>Close</span>
-          <input type="range" min="0" max="100" value="20" aria-label="Box open amount">
-          <span>Open</span>
+        <div class="build-box-toolbar-slot center">
+          <div class="build-box-zoom sm" id="previewZoom">
+            <button class="icon-btn" id="zoomOutBtn" aria-label="Zoom out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
+            <span id="zoomValue">100%</span>
+            <button class="icon-btn" id="zoomInBtn" aria-label="Zoom in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+          </div>
         </div>
-        <div class="build-box-zoom">
-          <button class="icon-btn" id="zoomOutBtn" aria-label="Zoom out"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M5 12h14"/></svg></button>
-          <span id="zoomValue">100%</span>
-          <button class="icon-btn" id="zoomInBtn" aria-label="Zoom in"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="build-box-toolbar-slot end">
+          <div class="toggle-switch" id="openToggleSwitch">
+            <div class="toggle-indicator" id="openToggleIndicator"></div>
+            <button class="toggle-option active">Close</button>
+            <button class="toggle-option">Open</button>
+          </div>
         </div>
       </div>
     </div>
@@ -1932,7 +2149,7 @@
       <section class="build-box-step" id="stepBoxType">
         <button class="build-box-accordion-header" type="button">
           <span class="build-box-accordion-badge">1</span>
-          <span class="build-box-accordion-title">Select Box Type<span class="build-box-accordion-value"></span></span>
+          <span class="build-box-accordion-title">Box Type<span class="build-box-accordion-value"></span></span>
           <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="build-box-step-content">
@@ -1974,7 +2191,7 @@
       <section class="build-box-step" id="stepConstruction">
         <button class="build-box-accordion-header" type="button">
           <span class="build-box-accordion-badge">2</span>
-          <span class="build-box-accordion-title">Select Construction<span class="build-box-accordion-value"></span></span>
+          <span class="build-box-accordion-title">Construction<span class="build-box-accordion-value"></span></span>
           <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="build-box-step-content">
@@ -2008,7 +2225,7 @@
       <section class="build-box-step" id="stepSize">
         <button class="build-box-accordion-header" type="button">
           <span class="build-box-accordion-badge">3</span>
-          <span class="build-box-accordion-title">Select Dimensions<span class="build-box-accordion-value"></span></span>
+          <span class="build-box-accordion-title">Dimensions<span class="build-box-accordion-value"></span></span>
           <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="build-box-step-content">
@@ -2051,7 +2268,7 @@
       <section class="build-box-step" id="stepClosure">
         <button class="build-box-accordion-header" type="button">
           <span class="build-box-accordion-badge">4</span>
-          <span class="build-box-accordion-title">Select Closure<span class="build-box-accordion-value"></span></span>
+          <span class="build-box-accordion-title">Closure<span class="build-box-accordion-value"></span></span>
           <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="build-box-step-content">
@@ -2080,7 +2297,7 @@
       <section class="build-box-step" id="stepWindows">
         <button class="build-box-accordion-header" type="button">
           <span class="build-box-accordion-badge">5</span>
-          <span class="build-box-accordion-title">Select Windows &amp; Cutouts<span class="build-box-accordion-value"></span></span>
+          <span class="build-box-accordion-title">Windows &amp; Cutouts<span class="build-box-accordion-value"></span></span>
           <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="build-box-step-content">
@@ -2121,7 +2338,7 @@
       <section class="build-box-step" id="stepMaterial">
         <button class="build-box-accordion-header" type="button">
           <span class="build-box-accordion-badge">6</span>
-          <span class="build-box-accordion-title">Select Material Color<span class="build-box-accordion-value"></span></span>
+          <span class="build-box-accordion-title">Material Color<span class="build-box-accordion-value"></span></span>
           <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="build-box-step-content">
@@ -2156,7 +2373,7 @@
       <section class="build-box-step" id="stepCustomization">
         <button class="build-box-accordion-header" type="button">
           <span class="build-box-accordion-badge">7</span>
-          <span class="build-box-accordion-title">Select Customization<span class="build-box-accordion-value"></span></span>
+          <span class="build-box-accordion-title">Customization<span class="build-box-accordion-value"></span></span>
           <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="build-box-step-content">
@@ -2184,7 +2401,7 @@
       <section class="build-box-step" id="stepAdditional">
         <button class="build-box-accordion-header" type="button">
           <span class="build-box-accordion-badge">8</span>
-          <span class="build-box-accordion-title">Select Additional options<span class="build-box-accordion-value"></span></span>
+          <span class="build-box-accordion-title">Additional options<span class="build-box-accordion-value"></span></span>
           <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="build-box-step-content">
@@ -2232,7 +2449,7 @@
       <section class="build-box-step" id="stepQuantity">
         <button class="build-box-accordion-header" type="button">
           <span class="build-box-accordion-badge">9</span>
-          <span class="build-box-accordion-title">Select Quantity<span class="build-box-accordion-value"></span></span>
+          <span class="build-box-accordion-title">Quantity<span class="build-box-accordion-value"></span></span>
           <svg class="build-box-accordion-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="build-box-step-content">
@@ -2353,6 +2570,20 @@
 
   initToggleSwitch('viewToggleSwitch', 'viewToggleIndicator');
   initToggleSwitch('sizeToggleSwitch', 'sizeToggleIndicator');
+  initToggleSwitch('openToggleSwitch', 'openToggleIndicator');
+
+  (function () {
+    var openSwitch = document.getElementById('openToggleSwitch');
+    var model = document.getElementById('box3dModel');
+    if (!openSwitch || !model) { return; }
+
+    openSwitch.querySelectorAll('.toggle-option').forEach(function (option, index) {
+      // index 0 = "Close", index 1 = "Open" (matches the two buttons' markup order)
+      option.addEventListener('click', function () {
+        model.classList.toggle('box-open', index === 1);
+      });
+    });
+  })();
 
   (function () {
     var sizeToggle = document.getElementById('sizeToggleSwitch');
@@ -2612,25 +2843,47 @@
 
     var FIT = 200;
     var ROOF_RISE_RATIO = .35;
-    var DEFAULT_ROT_X = -18;
-    var DEFAULT_ROT_Y = -32;
+    // True isometric angles (rotateY(-45deg) then rotateX(-35.264deg), i.e. atan(1/sqrt(2))):
+    // with no `perspective` on the stage this makes the box a genuine isometric projection
+    // at rest, while still allowing free drag-rotation away from it.
+    var DEFAULT_ROT_X = -35.264;
+    var DEFAULT_ROT_Y = -45;
 
     var wPx = 100, hPx = 100, dPx = 100;
     var rotX = DEFAULT_ROT_X;
     var rotY = DEFAULT_ROT_Y;
     var dragging = false;
     var lastX, lastY;
+    var zoomPct = 100;
 
+    // The zoom toolbar control lives in its own IIFE (it's shared UI, not box-3d-specific state) and
+    // reaches this one via a custom event rather than a direct function reference, so the two stay
+    // decoupled regardless of script order.
+    document.addEventListener('box3d:zoom', function (e) {
+      zoomPct = e.detail.pct;
+      updateSize();
+    });
+
+    // Replicates CSS `transform: rotateX(rotX) rotateY(rotY)` point-for-point: matrix
+    // composition applies rotateY first, then rotateX, to every point (this must match
+    // that order exactly, or dimension lines drift off their edges as rotX/rotY change).
+    // The stage has no `perspective`, so dropping the resulting depth (z2) below is a true
+    // orthographic projection, not an approximation of one.
     function project(x, y, z) {
       var rx = rotX * Math.PI / 180;
       var ry = rotY * Math.PI / 180;
-      var y1 = y * Math.cos(rx) - z * Math.sin(rx);
-      var z1 = y * Math.sin(rx) + z * Math.cos(rx);
-      var x2 = x * Math.cos(ry) + z1 * Math.sin(ry);
-      return { x: x2, y: y1 };
+      var x1 = x * Math.cos(ry) + z * Math.sin(ry);
+      var y1 = y;
+      var z1 = -x * Math.sin(ry) + z * Math.cos(ry);
+
+      var x2 = x1;
+      var y2 = y1 * Math.cos(rx) - z1 * Math.sin(rx);
+      return { x: x2, y: y2 };
     }
 
-    function setLine(el, p1, p2) {
+    var DIM_LINE_OFFSET = 12; // px, screen-space gap kept between the width/length lines and the box
+
+    function setLine(el, p1, p2, offsetPx) {
       if (!el) { return; }
       var a = project(p1[0], p1[1], p1[2]);
       var b = project(p2[0], p2[1], p2[2]);
@@ -2638,17 +2891,39 @@
       var dy = b.y - a.y;
       var len = Math.sqrt(dx * dx + dy * dy);
       var angle = Math.atan2(dy, dx) * 180 / Math.PI;
+
+      if (offsetPx) {
+        // Shift both endpoints by `offsetPx` along the edge's own screen-space perpendicular
+        // (derived from the projected dx/dy, not a hardcoded axis), so the line stays exactly
+        // parallel to the real edge — just offset — under any rotation/proportions. The two
+        // perpendicular candidates point to either side; picking the one with the larger (more
+        // downward) y-component always points away from the box, since width/length are both
+        // bottom edges with the box body sitting above them on screen.
+        var nx = -dy / len, ny = dx / len;
+        if (ny < 0) { nx = -nx; ny = -ny; }
+        a = { x: a.x + nx * offsetPx, y: a.y + ny * offsetPx };
+        b = { x: b.x + nx * offsetPx, y: b.y + ny * offsetPx };
+      }
+
       el.style.width = len + 'px';
       el.style.transform = 'translate(' + a.x + 'px, ' + a.y + 'px) rotate(' + angle + 'deg)';
       var pill = el.querySelector('.build-box-dim-pill');
-      if (pill) { pill.style.transform = 'translate(var(--space-2), -50%) rotate(' + (-angle) + 'deg)'; }
+      if (pill) { pill.style.setProperty('--pill-angle', (-angle) + 'deg'); }
     }
 
     function updateDimLines() {
       var hw = wPx / 2, hh = hPx / 2, hd = dPx / 2;
-      setLine(lineHeight, [hw, -hh, hd], [hw, hh, hd]);
-      setLine(lineWidth, [-hw, hh, hd], [-hw - 49, hh + 27, hd]);
-      setLine(lineLength, [hw, hh, hd], [hw + 49, hh + 27, hd]);
+      // Each line is anchored to the box's own two corners, so it always lies exactly on
+      // that edge (projected through the same rotX/rotY as the model) for any w/l/h and
+      // any rotation — never a hardcoded position.
+      //   height: the near vertical edge shared by the front-left and front-right faces
+      setLine(lineHeight, [hw, hh, hd], [hw, -hh, hd]);
+      //   width:  bottom edge of the front-left face (b3d-front), its two bottom corners —
+      //   kept a constant 12px off the actual edge (see DIM_LINE_OFFSET above)
+      setLine(lineWidth, [-hw, hh, hd], [hw, hh, hd], DIM_LINE_OFFSET);
+      //   length: bottom edge of the front-right face (b3d-right), its two bottom corners —
+      //   same 12px parallel offset
+      setLine(lineLength, [hw, hh, hd], [hw, hh, -hd], DIM_LINE_OFFSET);
     }
 
     function apply() {
@@ -2656,11 +2931,64 @@
       updateDimLines();
     }
 
+    var TAB_HEIGHT_RATIO = .42; // matches .b3d-hang-tab { height: calc(var(--h) * .42) } in CSS
+
+    // Euro-slot hole (bar + thumb): fixed real pixel size, independent of box dimensions/zoom.
+    // The mask's base rect uses objectBoundingBox fractions (always 0/0/1/1, so it covers the whole
+    // tab regardless of size) — but for the hole shapes themselves, a fixed *fraction* would scale
+    // right along with the tab. Instead we recompute fraction = fixedPx / currentTabPx every time the
+    // tab's actual pixel size changes, which keeps the *rendered* hole size constant. rx/ry (and the
+    // thumb's arc radius) are computed from tabWpx and tabHpx separately, since objectBoundingBox
+    // applies a non-uniform scale — using one shared fraction for both axes would otherwise stretch
+    // a circular thumb-cap into an ellipse whenever the tab's aspect ratio isn't 1:1.
+    var HANG_SLOT_DOME_R = 8.5;
+    var HANG_SLOT_POST_H = 12;
+    var HANG_SLOT_OVERLAP = 2;   // how far the thumb's post sinks into the bar (guarantees a seamless union)
+    var HANG_SLOT_BAR_W = 100;
+    var HANG_SLOT_BAR_H = 19;
+    var HANG_SLOT_MARGIN_TOP = 18; // gap from the tab's own top edge to the peak of the thumb's dome
+
+    function updateHangSlotMask() {
+      var bar = document.getElementById('hangSlotBar');
+      var thumb = document.getElementById('hangSlotThumb');
+      if (!bar || !thumb) { return; }
+
+      var tabWpx = wPx;
+      var tabHpx = hPx * TAB_HEIGHT_RATIO;
+      if (tabWpx <= 0 || tabHpx <= 0) { return; }
+
+      var domeTopY = HANG_SLOT_MARGIN_TOP;
+      var diameterY = domeTopY + HANG_SLOT_DOME_R;
+      var postBottomY = diameterY + HANG_SLOT_POST_H;
+      var barTopY = postBottomY - HANG_SLOT_OVERLAP;
+
+      var fx = function (localX) { return 0.5 + localX / tabWpx; };
+      var fy = function (localY) { return localY / tabHpx; };
+      var rxFrac = HANG_SLOT_BAR_H / 2 / tabWpx;
+      var ryFrac = HANG_SLOT_BAR_H / 2 / tabHpx;
+
+      bar.setAttribute('x', fx(-HANG_SLOT_BAR_W / 2));
+      bar.setAttribute('y', fy(barTopY));
+      bar.setAttribute('width', HANG_SLOT_BAR_W / tabWpx);
+      bar.setAttribute('height', HANG_SLOT_BAR_H / tabHpx);
+      bar.setAttribute('rx', rxFrac);
+      bar.setAttribute('ry', ryFrac);
+
+      var x1 = fx(-HANG_SLOT_DOME_R), x2 = fx(HANG_SLOT_DOME_R);
+      var yDiameter = fy(diameterY), yPostBottom = fy(postBottomY);
+      var domeRx = HANG_SLOT_DOME_R / tabWpx, domeRy = HANG_SLOT_DOME_R / tabHpx;
+      thumb.setAttribute('d',
+        'M ' + x1 + ' ' + yDiameter +
+        ' A ' + domeRx + ' ' + domeRy + ' 0 0 1 ' + x2 + ' ' + yDiameter +
+        ' L ' + x2 + ' ' + yPostBottom +
+        ' L ' + x1 + ' ' + yPostBottom + ' Z');
+    }
+
     function updateSize() {
       var w = parseFloat(widthInput.value) || 1;
       var l = parseFloat(lengthInput.value) || 1;
       var h = parseFloat(heightInput.value) || 1;
-      var scale = FIT / Math.max(w, l, h);
+      var scale = (FIT / Math.max(w, l, h)) * (zoomPct / 100);
       wPx = w * scale;
       dPx = l * scale;
       hPx = h * scale;
@@ -2682,14 +3010,86 @@
       if (pillLength) { pillLength.textContent = 'Length: ' + l + ' cm'; }
       if (pillHeight) { pillHeight.textContent = 'Height: ' + h + ' cm'; }
 
+      updateHangSlotMask();
       updateDimLines();
+      updateDieline(w, l, h);
     }
 
-    [widthInput, lengthInput, heightInput].forEach(function (input) {
+    // 2D view: a generic flat unfolded net (dieline), recomputed live from the same width/length/height
+    // — the same simplified layout for every construction, not a per-construction accurate cut file.
+    // Standard 4-panel strip (Front/Right/Back/Left) with a top+bottom flap row and one glue tab, all
+    // drawn as a single solid "cut" outline plus dashed "fold" score lines.
+    function updateDieline(w, l, h) {
+      var svg = document.getElementById('dielineSvg');
+      if (!svg) { return; }
+
+      var flapH = Math.min(w, l) * 0.5;
+      var glueW = Math.min(w, l) * 0.25;
+      var bodyW = 2 * w + 2 * l;
+      var bodyH = h + 2 * flapH;
+      var pad = Math.max(w, l, h) * 0.12;
+
+      var viewW = bodyW + glueW + pad * 2;
+      var viewH = bodyH + pad * 2;
+      svg.setAttribute('viewBox', '0 0 ' + viewW + ' ' + viewH);
+
+      var ox = pad, oy = pad;
+      var pt = function (x, y) { return (x + ox) + ',' + (y + oy); };
+
+      var outline = 'M ' + [
+        pt(0, 0), pt(bodyW, 0), pt(bodyW, flapH),
+        pt(bodyW + glueW, flapH), pt(bodyW + glueW, flapH + h), pt(bodyW, flapH + h),
+        pt(bodyW, bodyH), pt(0, bodyH)
+      ].join(' L ') + ' Z';
+
+      var foldSegments = [
+        [w, 0, w, bodyH],
+        [w + l, 0, w + l, bodyH],
+        [2 * w + l, 0, 2 * w + l, bodyH],
+        [0, flapH, bodyW, flapH],
+        [0, flapH + h, bodyW, flapH + h],
+        [bodyW, flapH, bodyW, flapH + h]
+      ];
+      var foldLines = foldSegments.map(function (s) {
+        return '<line x1="' + (s[0] + ox) + '" y1="' + (s[1] + oy) + '" x2="' + (s[2] + ox) + '" y2="' + (s[3] + oy) + '" />';
+      }).join('');
+
+      // proportional to viewW only — the SVG's viewBox units are arbitrary (it's scaled to fill its
+      // container via CSS width/height regardless), so an absolute-unit minimum here would make the
+      // text huge relative to the drawing whenever viewW happens to be small (e.g. a compact box)
+      var fontSize = viewW * 0.022;
+      var labels = [
+        { x: w / 2, panelW: w, text: 'Front' },
+        { x: w + l / 2, panelW: l, text: 'Right' },
+        { x: w + l + w / 2, panelW: w, text: 'Back' },
+        { x: 2 * w + l + l / 2, panelW: l, text: 'Left' },
+        { x: bodyW + glueW / 2, panelW: glueW, text: 'Glue' }
+      ];
+      // skip a label rather than let it collide with its neighbors when the panel is too narrow to fit it
+      var labelEls = labels.filter(function (lb) {
+        return lb.panelW > fontSize * (lb.text.length * 0.62 + 1);
+      }).map(function (lb) {
+        return '<text x="' + (lb.x + ox) + '" y="' + (flapH + h / 2 + oy) + '" font-size="' + fontSize +
+          '" text-anchor="middle" dominant-baseline="middle" fill="rgba(0,0,0,.4)">' + lb.text + '</text>';
+      }).join('');
+
+      svg.innerHTML =
+        '<path d="' + outline + '" fill="#fff" stroke="#2a2a2a" stroke-width="' + (viewW * 0.004) + '"/>' +
+        '<g stroke="#8a8a8a" stroke-width="' + (viewW * 0.0022) + '" stroke-dasharray="' + (viewW * 0.012) + ' ' + (viewW * 0.008) + '">' + foldLines + '</g>' +
+        labelEls;
+    }
+
+    [
+      { input: widthInput, dim: 'width' },
+      { input: lengthInput, dim: 'length' },
+      { input: heightInput, dim: 'height' }
+    ].forEach(function (entry) {
+      var input = entry.input;
       input.addEventListener('input', updateSize);
 
       input.addEventListener('focus', function () {
         stage.classList.add('show-dims');
+        stage.setAttribute('data-active-dim', entry.dim);
         if (!dragging) {
           rotX = DEFAULT_ROT_X;
           rotY = DEFAULT_ROT_Y;
@@ -2699,6 +3099,7 @@
 
       input.addEventListener('blur', function () {
         stage.classList.remove('show-dims');
+        stage.removeAttribute('data-active-dim');
       });
     });
 
@@ -2863,7 +3264,10 @@
     var zoomInBtn = document.getElementById('zoomInBtn');
     var zoom = 100;
 
-    function render() { zoomValue.textContent = zoom + '%'; }
+    function render() {
+      zoomValue.textContent = zoom + '%';
+      document.dispatchEvent(new CustomEvent('box3d:zoom', { detail: { pct: zoom } }));
+    }
 
     zoomOutBtn.addEventListener('click', function () {
       zoom = Math.max(50, zoom - 10);
