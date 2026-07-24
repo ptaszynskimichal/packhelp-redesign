@@ -80,7 +80,6 @@
     width: 18px;
     height: 18px;
     border-width: 1.5px;
-    margin-left: -8px;
   }
 
   @media (max-width: 900px) {
@@ -220,8 +219,8 @@
     display: inline-flex;
     align-items: center;
     gap: var(--space-2);
-    height: 2.25rem;
-    padding: 0 var(--space-4);
+    height: 2rem;
+    padding: 0 var(--space-3);
     border-radius: var(--radius-full);
     border: 1px solid var(--color-border-default);
     background: var(--color-bg-page);
@@ -295,6 +294,131 @@
 
   .filter-pill-wrap {
     position: relative;
+  }
+
+  .active-filter-pills {
+    display: none;
+    flex: 1 0 100%;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .pkg-filters-bar.show-active-pills .active-filter-pills:not(:empty) {
+    display: flex;
+  }
+
+  .active-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    height: 1.75rem;
+    padding: 0 var(--space-3);
+    border-radius: var(--radius-full);
+    border: none;
+    background: var(--color-bg-accent-subtle);
+    color: var(--color-text-primary);
+    font: inherit;
+    font-size: 0.75rem;
+    letter-spacing: -0.02em;
+    white-space: nowrap;
+    cursor: pointer;
+    transition: background-color .15s ease;
+  }
+
+  .active-filter-chip:hover {
+    background: rgba(39, 87, 255, .18);
+  }
+
+  .active-filter-chip svg {
+    width: 11px;
+    height: 11px;
+    flex: none;
+    opacity: .6;
+  }
+
+  /* ---------- FILTER SETTINGS GEAR ---------- */
+  .filter-settings-btn {
+    position: fixed;
+    bottom: 24px;
+    right: 24px;
+    z-index: 1000;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    background: var(--color-bg-surface);
+    border: 1px solid rgba(0,0,0,.08);
+    box-shadow: 0 4px 16px rgba(0,0,0,.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--color-text-muted);
+    transition: transform 0.15s ease, box-shadow 0.15s ease;
+  }
+
+  .filter-settings-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,.18);
+  }
+
+  .filter-settings-btn svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .filter-settings-panel {
+    position: fixed;
+    bottom: 92px;
+    right: 24px;
+    z-index: 1000;
+    width: 280px;
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-md);
+    box-shadow: 0 8px 32px rgba(0,0,0,.18);
+    padding: var(--space-5);
+    box-sizing: border-box;
+    opacity: 0;
+    transform: translateY(12px);
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+  }
+
+  .filter-settings-panel.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .filter-settings-title {
+    margin: 0 0 var(--space-4);
+    font-size: 0.9375rem;
+    line-height: 1.16;
+    letter-spacing: -0.02em;
+    font-weight: 500;
+    color: var(--color-text-primary);
+  }
+
+  .filter-settings-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+  }
+
+  .filter-settings-label {
+    margin: 0;
+    font-size: 0.8125rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
+    color: var(--color-text-primary);
+  }
+
+  .filter-settings-desc {
+    margin: var(--space-1) 0 0;
+    font-size: 0.6875rem;
+    line-height: 1.32;
+    letter-spacing: -0.02em;
+    color: var(--color-text-muted);
   }
 
   .filter-panel {
@@ -851,11 +975,6 @@
 
   .footer-newsletter-btn {
     flex: 0 0 auto;
-    height: 2.5rem;
-    padding: 0 var(--space-5);
-    font-size: 0.8125rem;
-    line-height: 1;
-    letter-spacing: -0.02em;
   }
 
   .footer-badges {
@@ -1255,6 +1374,8 @@
         <button class="sort-option" data-sort="za">Alphabetically Z–A</button>
       </div>
     </div>
+
+    <div class="active-filter-pills" id="activeFilterPills"></div>
   </section>
 
   <section class="pkg-products reveal">
@@ -1459,7 +1580,7 @@
 
         <form class="footer-newsletter">
           <input type="email" class="footer-newsletter-input" placeholder="Your email" required>
-          <button type="submit" class="btn-pill footer-newsletter-btn">Sign up</button>
+          <button type="submit" class="btn-pill md footer-newsletter-btn">Sign up</button>
         </form>
 
         <div class="footer-badges">
@@ -1909,6 +2030,102 @@
       } else {
         checkOverflow();
       }
+    });
+  })();
+</script>
+
+<button id="filterSettingsBtn" class="filter-settings-btn" aria-label="Filter settings">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+</button>
+
+<div id="filterSettingsPanel" class="filter-settings-panel">
+  <p class="filter-settings-title">Filter display</p>
+  <div class="filter-settings-row">
+    <div>
+      <p class="filter-settings-label">Selected filters as pills</p>
+      <p class="filter-settings-desc">Show active filter values below the filter bar</p>
+    </div>
+    <label class="site-toggle">
+      <input type="checkbox" id="toggleActiveFilterPills">
+      <span class="site-toggle-track"><span class="site-toggle-thumb"></span></span>
+    </label>
+  </div>
+</div>
+
+<script>
+  (function () {
+    var btn = document.getElementById('filterSettingsBtn');
+    var panel = document.getElementById('filterSettingsPanel');
+    var toggle = document.getElementById('toggleActiveFilterPills');
+    var filtersBar = document.querySelector('.pkg-filters-bar');
+    var activeRow = document.getElementById('activeFilterPills');
+    var filterInputs = document.querySelectorAll('.filter-panel input');
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      panel.classList.toggle('open');
+    });
+
+    document.addEventListener('click', function (e) {
+      if (!panel.contains(e.target) && e.target !== btn) {
+        panel.classList.remove('open');
+      }
+    });
+
+    function renderActivePills() {
+      activeRow.innerHTML = '';
+
+      filterInputs.forEach(function (input) {
+        var isActive = input.type === 'checkbox'
+          ? input.checked
+          : (input.checked && !input.hasAttribute('data-any'));
+        if (!isActive) { return; }
+
+        var label = input.closest('label');
+        var chip = document.createElement('button');
+        chip.type = 'button';
+        chip.className = 'active-filter-chip';
+        chip.textContent = label.textContent.trim();
+
+        var icon = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        icon.setAttribute('viewBox', '0 0 24 24');
+        icon.setAttribute('fill', 'none');
+        icon.setAttribute('stroke', 'currentColor');
+        icon.setAttribute('stroke-width', '2');
+        icon.setAttribute('stroke-linecap', 'round');
+        icon.setAttribute('stroke-linejoin', 'round');
+        icon.innerHTML = '<path d="M18 6 6 18M6 6l12 12"/>';
+        chip.appendChild(icon);
+
+        chip.addEventListener('click', function () {
+          if (input.type === 'radio') {
+            var anyInput = input.closest('.filter-panel').querySelector('input[data-any]');
+            if (anyInput) { anyInput.checked = true; }
+          } else {
+            input.checked = false;
+          }
+          input.dispatchEvent(new Event('change', { bubbles: true }));
+        });
+
+        activeRow.appendChild(chip);
+      });
+    }
+
+    filterInputs.forEach(function (input) {
+      input.addEventListener('change', renderActivePills);
+    });
+
+    function applyPillsSetting(show) {
+      filtersBar.classList.toggle('show-active-pills', show);
+      toggle.checked = show;
+      if (show) { renderActivePills(); }
+    }
+
+    applyPillsSetting(localStorage.getItem('showActiveFilterPills') === '1');
+
+    toggle.addEventListener('change', function () {
+      applyPillsSetting(toggle.checked);
+      localStorage.setItem('showActiveFilterPills', toggle.checked ? '1' : '0');
     });
   })();
 </script>

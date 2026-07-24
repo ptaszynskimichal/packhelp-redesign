@@ -183,7 +183,8 @@ faktycznie potrzebuje wybić się kolorem, czy wystarczy mu przestrzeń wokół.
 | Komponent | Warianty | Kiedy użyć |
 |---|---|---|
 | `.btn-pill` | domyślny (primary, niebieski) | Główna akcja CTA na jasnym tle. |
-| `.btn-pill.sm` | mały (36px) | Nawigacja, sticky-bar, karty produktów ("More info"). |
+| `.btn-pill.sm` | mały (32px) | Nawigacja, sticky-bar, karty produktów ("More info"). |
+| `.btn-pill.md` | średni (40px) | Formularze/inline akcje obok inputa (np. "Sign up" w footer newsletter). |
 | `.btn-pill.lg` | duży (48px) | Hero, sekcje CTA, final-cta — główny rozmiar dla "dużych" wezwań do akcji. |
 | `.btn-pill.secondary` | obrys/transparent, tekst ciemny | Drugorzędna akcja **na jasnym tle**, zawsze w parze z primary (patrz pkt. 4). |
 | `.btn-pill.outline-light` | obrys biały, tekst biały | Drugorzędna akcja **tylko na ciemnym/kolorowym tle** (używane wyłącznie w `cta-section`). Nie mieszać z `.secondary` — `.secondary` na ciemnym tle byłby nieczytelny. |
