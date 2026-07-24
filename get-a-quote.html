@@ -18,17 +18,7 @@
     overflow: hidden;
   }
 
-  /* ---------- top bar ---------- */
-  .quote-topbar {
-    flex: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: var(--space-16);
-    border-bottom: 1px solid var(--color-border-default);
-  }
-
-  .quote-topbar .logo { height: 22px; width: auto; }
+  /* top nav (simplified variant) styles live in components.css */
 
   /* ---------- body split ---------- */
   .quote-body {
@@ -425,11 +415,8 @@
 
 <div class="quote-page">
 
-  <header class="quote-topbar">
-    <a href="index.html" aria-label="Packhelp" style="display:flex;">
-      <img class="logo" src="logo-packhelp.1iheyVke.svg" alt="Packhelp">
-    </a>
-  </header>
+  <div id="ph-nav-simple"></div>
+  <script src="nav-header.js"></script>
 
   <div class="quote-body">
 

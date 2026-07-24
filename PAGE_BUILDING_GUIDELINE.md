@@ -195,6 +195,7 @@ faktycznie potrzebuje wybić się kolorem, czy wystarczy mu przestrzeń wokół.
 | `.toggle-switch` | 2-3 opcje, pigułka z przesuwanym wskaźnikiem | Przełączanie kontekstu treści bez przeładowania (branża/kategoria, 3D/2D, Open/Close, External size/Product size). Zawsze JS liczy `offsetWidth/offsetLeft`, żeby animować wskaźnik — nie hardkoduj szerokości. |
 | pole tekstowe bordered (`.password-gate-input`, wzorzec) | obrys 1px, `radius-sm` | Formularze standardowe (nie pigułkowe). |
 | pole tekstowe pill (`.footer-newsletter-input`, `.search-wrap input`) | tło muted, `radius-full` | Newsletter, search — konteksty "lekkie", nie formalne formularze. |
+| **floating pill-bar** (wzorzec `.sticky-bar` pinned) | `background: rgba(255,255,255,.80)`, `backdrop-filter: blur(8px)` (+ `-webkit-`), `border-radius: var(--radius-full)`, cień `0 1px 2px rgba(0,0,0,.08)`, padding **równy na wszystkich bokach** (np. `var(--space-2)` — nie asymetryczny top/bottom vs left/right) | Każdy pasek, który "unosi się" nad przewijaną treścią: `.sticky-bar` (HP), `.build-box-sticky-summary` (konfigurator, wjeżdża z dołu), `.quote-footer-bar` (Get a Quote). **3. wystąpienie tego samego stylu — kandydat do wydzielenia do `components.css`** (patrz próg w pamięci projektu: atom graduuje po powtórzeniu na >1 stronie). **Warunek konieczny:** element musi faktycznie **nakładać się** na przewijaną treść — `position: fixed` (viewport) albo `position: absolute` we wrapperze z `position: relative` i paddingiem-bottom na scrollowanym kontenerze, żeby treść realnie przesuwała się pod spodem. Sam styl (blur+przezroczystość) bez tego overlayu jest bez znaczenia — tło i tak jest jednolite, więc blur nic nie pokazuje (błąd popełniony przy pierwszym podejściu do `.quote-footer-bar`: wyglądał "stylistycznie" dobrze, ale siedział w normalnym flow pod scrollem, więc blur nie miał czego rozmazywać). |
 
 ---
 
@@ -249,10 +250,24 @@ zestawu i kończy tym samym zestawem:
 
 1. **`.announcement-bar`** — opcjonalny cienki pasek promocyjny nad nawigacją. Dodawaj
    tylko gdy jest realna, czasowa promocja do zakomunikowania — nie jako stały element.
-2. **Topbar dwuwarstwowy**: `.nav-row1` (logo, sign-in, flaga kraju, koszyk) +
-   `nav.topbar` (linki + `.nav-megamenu` na hover + CTA para sm). Ten sam markup na
-   każdej stronie — **musi być bajt w bajt identyczny między stronami** (patrz uwaga w
-   pamięci projektu o driftach między `index.html` i `build-your-box.html`).
+2. **Nawigacja to jeden komponent, dwa warianty — zawsze `nav-header.js`, nigdy
+   budowana od nowa inline.** Nowa strona nie dostaje własnego, ręcznie sklejonego
+   headera — dostaje placeholder(y) + `<script src="nav-header.js"></script>`, a
+   markup/style edytuje się wyłącznie w `nav-header.js` i `components.css`
+   (sekcja "Top nav"). Kopiowanie nawigacji z powrotem inline do strony odtworzy
+   dokładnie ten problem driftu, który ten plik naprawił (patrz pkt 8).
+   - **Wariant pełny** — `.nav-row1` (logo, sign-in, flaga kraju, koszyk) +
+     `nav.topbar` (linki + `.nav-megamenu` na hover + CTA para sm) + `.sticky-bar`
+     (pkt 3 niżej). Placeholdery: `#ph-sticky-bar` + `#ph-nav-wrapper`. Używany na
+     `index.html`, `packaging.html`, `build-your-box.html` — stron
+     marketingowych/katalogowych, gdzie pełna nawigacja ma sens.
+   - **Wariant uproszczony** — samo wycentrowane logo, bez linków/megamenu/koszyka
+     (`.quote-topbar`). Placeholder: `#ph-nav-simple`. Używany na stronach typu
+     "flow"/zadaniowych, gdzie nawigacja ma **nie rozpraszać** (np.
+     `get-a-quote.html`).
+   - **Który wybrać dla nowej strony:** strona ma zachęcać do eksploracji katalogu/
+     oferty → wariant pełny. Strona to pojedyncze zadanie do dokończenia (checkout,
+     formularz, krótki flow) → wariant uproszczony.
 3. **`.sticky-bar`** — pojawia się (fade-in + `.is-pinned`) dopiero po przewinięciu poza
    `.nav-row1`. Zawiera skróconą nawigację, search i duplikat CTA. Znika całkowicie pod
    900px (brak zamiennika mobile w obecnym prototypie — świadoma lub czeka na
@@ -262,6 +277,12 @@ zestawu i kończy tym samym zestawem:
    separatorem. Zawsze ten sam na każdej stronie, poza `build-your-box.html`, która
    **celowo nie ma stopki** (strona zadaniowa, użytkownik ma dokończyć konfigurację, nie
    wychodzić w linki).
+5. **Strony na wariancie uproszczonym** (np. `get-a-quote.html` — tylko logo
+   wyśrodkowane, bez linków/koszyka/sign-in, patrz pkt 2): `.quote-topbar` i tak
+   dostaje `height: var(--space-16)` (4rem/64px), **dokładnie tyle co `.nav-row1`**
+   w wariancie pełnym — nie wpisuj dowolnej wysokości "na oko" (np. `72px`) tylko
+   dlatego, że w danym momencie w barze nie ma nic poza logo. Wysokość topbara jest
+   stała niezależnie od wariantu.
 
 Odstęp: 64px (`space-16`) między ostatnią sekcją treści a stopką, niezależnie od strony
 (potwierdzone i na HP, i na Shopie).
@@ -437,9 +458,13 @@ wizualny bez przerwy?" — pierwsza dostaje `space-40` z góry, druga `space-8` 
   stopką (wizualnie nieszkodliwe, ale porządkować przy przepisywaniu na komponenty).
 - `.categories-grid` nazwą sugeruje CSS grid, a jest flex + overflow-x — nie kieruj się
   nazwą klasy przy kopiowaniu wzorca, tylko rzeczywistym mechanizmem (patrz pkt. 1.2).
-- Nawigacja/topbar potrafi dryfować między stronami (brak hamburgera na jednej, brak
-  dividera na drugiej) — zawsze synchronizuj cały blok nav 1:1 z `index.html`, nie
-  "ulepszaj" go lokalnie na nowej stronie.
+- **[Naprawione]** Nawigacja/topbar potrafiła dryfować między stronami — kopiowana
+  ręcznie w 4 miejscach (w tym uproszczony header na `get-a-quote.html`), m.in.
+  przycisk "Get a quote" był na `packaging.html` i `build-your-box.html` martwym
+  `<button>` bez `href` zamiast linku do `get-a-quote.html`. Naprawione przez
+  wydzielenie do jednego komponentu `nav-header.js` z dwoma wariantami — pełnym i
+  uproszczonym (patrz pkt 5.1.2). Nawigacja jest teraz jednym źródłem prawdy: nigdy
+  nie buduj jej od nowa ani nie kopiuj markupu z powrotem inline do strony.
 
 ---
 

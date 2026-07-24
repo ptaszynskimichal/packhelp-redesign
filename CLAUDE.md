@@ -16,3 +16,20 @@ To static HTML/CSS/JS prototype — bez build toolingu. `tokens.css`, `base.css`
 layout specyficzny dla sekcji zostaje inline w `<style>` danej strony, dopóki nie
 powtórzy się na więcej niż jednej stronie (wtedy dopiero awansuje do
 `components.css`).
+
+**Nawigacja to jeden komponent — `nav-header.js` — nigdy nie buduj jej od nowa
+inline na stronie.** Każda strona, która potrzebuje topbara, dostaje wyłącznie
+placeholder(y) + `<script src="nav-header.js"></script>`; markup i style
+nawigacji edytujesz tylko w `nav-header.js` / `components.css` (sekcja "Top
+nav"), zmiana propaguje się automatycznie wszędzie. Ma dwa warianty:
+
+- **Pełna** (sticky bar + nav-wrapper z megamenu, search, CTA) — na
+  `index.html`, `packaging.html`, `build-your-box.html`. Placeholdery:
+  `<div id="ph-sticky-bar"></div>` i `<div id="ph-nav-wrapper"></div>`.
+- **Uproszczona** (samo wycentrowane logo, bez linków/megamenu) — na stronach
+  typu "flow"/checkout, gdzie nawigacja ma nie rozpraszać, np. `get-a-quote.html`.
+  Placeholder: `<div id="ph-nav-simple"></div>`.
+
+Nowa strona dostaje jeden z tych wariantów (nigdy oba naraz, nigdy własny,
+ręcznie sklejony header) — wybór zależy od tego, czy strona jest
+marketingowa/katalogowa (pełna) czy zadaniowa/flow (uproszczona).
