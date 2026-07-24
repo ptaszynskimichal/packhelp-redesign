@@ -112,6 +112,17 @@ filtry, badge). W całym projekcie praktycznie nie ma prostokątów z ostrym rog
 projektujesz nowy element (kartę, panel, pole), **domyślnym pytaniem powinno być "jaki
 promień", nie "czy w ogóle promień"**.
 
+**Panele wizualne w layoutach dwukolumnowych (split-screen)** — np. prawa kolumna ze
+zdjęciem/placeholderem w flow typu Get a Quote (`get-a-quote.html`): panel dostaje
+jednolity padding po wszystkich stronach (`--space-6` = 24px) i jest owinięty w osobny
+wrapper z `--radius-2xl` + `overflow: hidden`, żeby zaokrąglić rogi zdjęcia/gradientu/
+karty w środku. Taki panel **nigdy nie dotyka krawędzi okna przeglądarki** — to nie jest
+full-bleed w rozumieniu pkt. 2.5 (tam wyjątek dotyczy tylko naprawdę pełnoekranowych
+elementów, np. hero na stronie głównej, marquee). Jeśli kolumna ma treść nakładkową
+(gradient + karta z tekstem, jak trust-card w Get a Quote), gradient i karta żyją
+wewnątrz tego zaokrąglonego wrappera, nie bezpośrednio na `<aside>`/kontenerze z
+paddingiem.
+
 ### 2.3 Cienie i obramowania — subtelne, dwie różne role
 
 Cień i obrys pełnią w tym projekcie dwie wyraźnie różne role — nie mieszaj ich:
