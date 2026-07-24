@@ -850,6 +850,19 @@
     margin-bottom: var(--space-3);
   }
 
+  .product-card-img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+  }
+
+  .product-card:hover .product-card-img {
+    transform: scale(1.08);
+  }
+
   .product-card-moq {
     position: absolute;
     left: var(--space-4);
@@ -867,7 +880,7 @@
     color: var(--color-text-primary);
   }
 
-  .product-card-price {
+  .product-card-customisation {
     margin: 0;
     font-size: 0.8125rem;
     letter-spacing: -0.02em;
@@ -1118,10 +1131,6 @@
       </button>
       <div class="scroll-fade left"></div>
     <div class="thumb-strip" id="pkgThumbStrip">
-      <a class="thumb-item active" href="#" data-key="root">
-        <div class="thumb-photo" style="--thumb-img:url('4976409-packhelp-29353.avif')"></div>
-        <span class="thumb-caption">All</span>
-      </a>
       <a class="thumb-item" href="#" data-key="boxes">
         <div class="thumb-photo" style="--thumb-img:url('793725-pre-printed-mailer-box.avif')"></div>
         <span class="thumb-caption">Boxes</span>
@@ -1139,7 +1148,7 @@
         <span class="thumb-caption">Product Bags</span>
       </a>
       <a class="thumb-item" href="#">
-        <div class="thumb-photo" style="--thumb-img:url('04917e61ae687fdcb83a00a4edd3d6e7.jpg')"></div>
+        <div class="thumb-photo" style="--thumb-img:url('https://cdn-pim.packhelp.com/assets/578699a4-615c-48de-8991-c30e0eee26fd/432173-bags?w=1112&h=800&fit=min&auto=format')"></div>
         <span class="thumb-caption">Carrier Bags</span>
       </a>
       <a class="thumb-item" href="#">
@@ -1159,15 +1168,15 @@
         <span class="thumb-caption">Food Packaging</span>
       </a>
       <a class="thumb-item" href="#">
-        <div class="thumb-photo" style="--thumb-img:url('5121637-packhelp-27910.avif')"></div>
+        <div class="thumb-photo" style="--thumb-img:url('https://cdn-pim.packhelp.com/assets/95ea6469-d772-4b06-a2bb-d60a3fdd390a/312546-containers?w=1112&h=800&fit=min&auto=format')"></div>
         <span class="thumb-caption">Containers</span>
       </a>
       <a class="thumb-item" href="#">
-        <div class="thumb-photo" style="--thumb-img:url('4854400-packhelp-27683.avif')"></div>
+        <div class="thumb-photo" style="--thumb-img:url('https://cdn-pim.packhelp.com/assets/10cdb256-3433-490f-a59b-6e0820ba985a/488281-sample?w=1112&h=800&fit=min&auto=format')"></div>
         <span class="thumb-caption">Samples</span>
       </a>
       <a class="thumb-item" href="#">
-        <div class="thumb-photo" style="--thumb-img:url('5065069-packhelp-29640.avif')"></div>
+        <div class="thumb-photo"></div>
         <span class="thumb-caption">Bundles</span>
       </a>
     </div>
@@ -1379,54 +1388,54 @@
   </section>
 
   <section class="pkg-products reveal">
-    <div class="product-grid">
+    <div class="product-grid" id="pkgProductGrid">
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">25 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Mailer Box</h3>
-          <p class="product-card-price">From £0.89</p>
+          <p class="product-card-customisation">Custom</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Shipping Box</h3>
-          <p class="product-card-price">From £0.95</p>
+          <p class="product-card-customisation">Plain</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Folding Carton</h3>
-          <p class="product-card-price">From £0.62</p>
+          <p class="product-card-customisation">Custom</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Rigid Box</h3>
-          <p class="product-card-price">From £1.85</p>
+          <p class="product-card-customisation">Pre-printed</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">25 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">E-commerce Box Set</h3>
-          <p class="product-card-price">From £1.10</p>
+          <p class="product-card-customisation">Custom</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Paper Mailing Bag</h3>
-          <p class="product-card-price">From £0.42</p>
+          <p class="product-card-customisation">Plain</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Zip Lock Bag</h3>
-          <p class="product-card-price">From £0.18</p>
+          <p class="product-card-customisation">Plain</p>
         </div>
       </div>
       <div class="promo-card">
@@ -1438,49 +1447,49 @@
         <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Stand-up Pouch</h3>
-          <p class="product-card-price">From £0.35</p>
+          <p class="product-card-customisation">Custom</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Poly Mailer</h3>
-          <p class="product-card-price">From £0.22</p>
+          <p class="product-card-customisation">Plain</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Cotton Carrier Bag</h3>
-          <p class="product-card-price">From £2.40</p>
+          <p class="product-card-customisation">Pre-printed</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Padded Envelope</h3>
-          <p class="product-card-price">From £0.55</p>
+          <p class="product-card-customisation">Plain</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">25 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Mailing Tube</h3>
-          <p class="product-card-price">From £1.15</p>
+          <p class="product-card-customisation">Custom</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Cardboard Envelope</h3>
-          <p class="product-card-price">From £0.48</p>
+          <p class="product-card-customisation">Plain</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">25 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Tube Box</h3>
-          <p class="product-card-price">From £1.60</p>
+          <p class="product-card-customisation">Pre-printed</p>
         </div>
       </div>
       <div class="promo-card">
@@ -1492,42 +1501,42 @@
         <div class="product-card-media"><span class="product-card-moq">50 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Rigid Tube</h3>
-          <p class="product-card-price">From £2.10</p>
+          <p class="product-card-customisation">Custom</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">500 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Custom Cup</h3>
-          <p class="product-card-price">From £0.09</p>
+          <p class="product-card-customisation">Custom</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Pizza Box</h3>
-          <p class="product-card-price">From £0.38</p>
+          <p class="product-card-customisation">Plain</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">250 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Tissue Paper</h3>
-          <p class="product-card-price">From £0.06</p>
+          <p class="product-card-customisation">Pre-printed</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">100 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Custom Sticker Sheet</h3>
-          <p class="product-card-price">From £0.05</p>
+          <p class="product-card-customisation">Custom</p>
         </div>
       </div>
       <div class="product-card">
         <div class="product-card-media"><span class="product-card-moq">250 minimum</span><a href="#" class="btn-pill sm product-card-btn">More info</a></div>
         <div class="product-card-info">
           <h3 class="product-card-name">Custom Label Roll</h3>
-          <p class="product-card-price">From £0.04</p>
+          <p class="product-card-customisation">Custom</p>
         </div>
       </div>
     </div>
@@ -1802,25 +1811,101 @@
   })();
 
   (function () {
+    var mailerBoxesProducts = [
+      { name: 'Custom Mailer Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom E-commerce Mailer Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom Mailer Box Inserts', type: 'Customisable', moq: 240 },
+      { name: 'Custom Mailer Box with Hot Stamping', type: 'Customisable', moq: 120 },
+      { name: 'Plain E-commerce Mailer Box', type: 'Plain', moq: 30 },
+      {
+        name: 'Plain Mailer Box with Custom Sleeve',
+        type: 'Customisable',
+        moq: 30,
+        img: 'https://cdn-pim.packhelp.com/assets/d0f438f9-26bc-4854-9ac4-6317cd338d14/852084-sleeved-mailer?w=640&fit=min&auto=format',
+        hoverImages: [
+          'https://cdn-pim.packhelp.com/assets/4e5dffc9-7c79-4efb-8b9d-bd396d6a7a9c/1841480-sleeved-mailer-box-1?w=1920&h=1459&fit=min&auto=format',
+          'https://cdn-pim.packhelp.com/assets/948ec8da-687e-4d46-bad7-e0d789f040d9/2758183-sleeved-mailer-box-2?w=1920&h=1459&fit=min&auto=format',
+          'https://cdn-pim.packhelp.com/assets/ceef21a7-cc6a-4888-950d-29f13361f56d/2973577-sleeved-mailer-box-3?w=1920&h=1459&fit=min&auto=format'
+        ]
+      },
+      { name: 'Plain Mailer Box', type: 'Plain', moq: 30 },
+      { name: 'Pre-Printed Full-Colour Mailer Box', type: 'Pre-printed', moq: 30 },
+      { name: 'Custom Book Wrap Mailer', type: 'Customisable', moq: 30 },
+      { name: 'Pre-Printed Economic Mailer Box', type: 'Pre-printed', moq: 30 },
+      { name: 'Plain Mailer Box with Custom Stamp', type: 'Bundle', moq: null }
+    ];
+
+    var shippingBoxesProducts = [
+      { name: 'Custom Phone Shipping Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom Shipping Box', type: 'Customisable', moq: 30 },
+      { name: 'Plain Laptop Shipping Box', type: 'Plain', moq: 50 },
+      { name: 'Custom Laptop Shipping Box', type: 'Customisable', moq: 50 },
+      { name: 'Plain Flat Shipping Box', type: 'Plain', moq: 10 },
+      { name: 'Plain Phone Shipping Box', type: 'Plain', moq: 30 },
+      { name: 'Plain Shipping Box', type: 'Plain', moq: 25 },
+      { name: 'Plain Laptop Shipping Box (Variant)', type: 'Plain', moq: 20 },
+      { name: 'Plain Ecommerce Shipping Box', type: 'Plain', moq: 20 },
+      { name: 'Plain Shipping Box with Filler and Tape', type: 'Bundle', moq: null },
+      { name: 'Plain Cardboard Wrap Box', type: 'Plain', moq: 50 },
+      { name: 'Plain Shipping Box with Stretch Film', type: 'Plain', moq: 20 }
+    ];
+
+    var foldingCartonsProducts = [
+      { name: 'Custom Snap Lock Product Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom Auto Bottom Wine Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom Snap Lock Bottle Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom Drawer Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom Snap Lock Product Box with Embellishments', type: 'Customisable', moq: 30 },
+      { name: 'Custom Snap Lock Box with Window', type: 'Customisable', moq: 30 },
+      { name: 'Custom Hanger Snap Lock Product Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom Reverse Tuck End Product Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom Auto-Lock Bottom Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom Product Box with Lid', type: 'Customisable', moq: 30 },
+      { name: 'Plain Snap Lock Product Box', type: 'Plain', moq: 30 },
+      { name: 'Custom Snap Lock Bottom Product Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom Pillow Box', type: 'Customisable', moq: 30 },
+      { name: 'Custom Wine Tube Box', type: 'Customisable', moq: 30 }
+    ];
+
+    var rigidCartonsProducts = [
+      { name: 'Custom Rigid Magnetic Box', type: 'Customisable', moq: 120 },
+      { name: 'Custom Rigid Gift Box with Lid', type: 'Customisable', moq: 120 },
+      { name: 'Custom Rigid Magnetic Wine Box', type: 'Customisable', moq: 120 },
+      { name: 'Custom Rigid Magnetic Cosmetic Box', type: 'Customisable', moq: 120 },
+      { name: 'Custom Rigid Magnetic Gift Box', type: 'Customisable', moq: 120 },
+      { name: 'Custom Rigid Shirt Box with Lid', type: 'Customisable', moq: 120 },
+      { name: 'Custom Rigid Flower Box with Lid', type: 'Customisable', moq: 120 },
+      { name: 'Custom Rigid Jewellery Box with Lid and Foam Insert', type: 'Customisable', moq: 120 },
+      { name: 'Custom Magnetic Wine Box with Wood Wool', type: 'Bundle', moq: null },
+      { name: 'Custom Rigid Wine Box with Lid', type: 'Customisable', moq: 120 },
+      { name: 'Custom Rigid Cosmetic Box with Lid', type: 'Customisable', moq: 120 },
+      { name: 'Custom Rigid Economic Magnetic Box', type: 'Customisable', moq: 120 },
+      { name: 'Custom Rigid Box with Lid', type: 'Customisable', moq: 120 },
+      { name: 'Custom Magnetic Cosmetics Box with Filler', type: 'Bundle', moq: null },
+      { name: 'Custom Magnetic Gift Box with Custom Tissue and Label', type: 'Bundle', moq: null }
+    ];
+
+    var productBoxesProducts = foldingCartonsProducts.concat(rigidCartonsProducts);
+    var boxesProducts = mailerBoxesProducts.concat(shippingBoxesProducts, productBoxesProducts);
+
     var categoryTree = {
       root: {
         title: 'Packaging',
         desc: '150+ packaging products across boxes, bags, tubes and more — printed with your brand, in days.',
         breadcrumb: [{ label: 'Packaging' }],
         tiles: [
-          { key: 'root', label: 'All', img: '4976409-packhelp-29353.avif' },
           { key: 'boxes', label: 'Boxes', img: '793725-pre-printed-mailer-box.avif' },
           { label: 'Packaging Tubes', img: '507697-packhelp-28291.avif' },
           { label: 'Mailing Bags', img: '208230-paper-bag-01.avif' },
           { label: 'Product Bags', img: '2948760-ziplock-bag-0.avif' },
-          { label: 'Carrier Bags', img: '04917e61ae687fdcb83a00a4edd3d6e7.jpg' },
+          { label: 'Carrier Bags', img: 'https://cdn-pim.packhelp.com/assets/578699a4-615c-48de-8991-c30e0eee26fd/432173-bags?w=1112&h=800&fit=min&auto=format' },
           { label: 'Accessories', img: '404068-export.avif' },
           { label: 'Pouches', img: '193249-stand-up-pouch-brown 1.png' },
           { label: 'Envelopes', img: '240486-padded-envelope.avif' },
           { label: 'Food Packaging', img: '225638-pp-single-walled-cup-custom-200-ml.avif' },
-          { label: 'Containers', img: '5121637-packhelp-27910.avif' },
-          { label: 'Samples', img: '4854400-packhelp-27683.avif' },
-          { label: 'Bundles', img: '5065069-packhelp-29640.avif' }
+          { label: 'Containers', img: 'https://cdn-pim.packhelp.com/assets/95ea6469-d772-4b06-a2bb-d60a3fdd390a/312546-containers?w=1112&h=800&fit=min&auto=format' },
+          { label: 'Samples', img: 'https://cdn-pim.packhelp.com/assets/10cdb256-3433-490f-a59b-6e0820ba985a/488281-sample?w=1112&h=800&fit=min&auto=format' },
+          { label: 'Bundles' }
         ]
       },
       boxes: {
@@ -1831,7 +1916,8 @@
           { key: 'mailer-boxes', label: 'Mailer Boxes', img: 'https://cdn-pim.packhelp.com/assets/d0f438f9-26bc-4854-9ac4-6317cd338d14/852084-sleeved-mailer?w=640&fit=min&auto=format' },
           { key: 'shipping-boxes', label: 'Shipping Boxes', img: 'https://cdn-pim.packhelp.com/assets/2d1711ec-c078-4ed1-8dae-f4689e0dbc52/181212-b-6-c-9359-f-e-4-c-4-4-a-23-a-928-e-1-af-6410-a-4-cc-png?w=640&fit=min&auto=format' },
           { key: 'product-boxes', label: 'Product Boxes', img: 'https://cdn-pim.packhelp.com/assets/a0e98036-3664-4d14-82be-146aa0b1a31c/603891-om-packaging-1?w=640&fit=min&auto=format' }
-        ]
+        ],
+        products: boxesProducts
       },
       'product-boxes': {
         title: 'Product Boxes',
@@ -1839,32 +1925,37 @@
         breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes', key: 'boxes' }, { label: 'Product Boxes' }],
         tiles: [
           { key: 'folding-cartons', label: 'Folding Cartons', img: 'https://cdn-pim.packhelp.com/assets/a0e98036-3664-4d14-82be-146aa0b1a31c/603891-om-packaging-1?w=640&fit=min&auto=format' },
-          { key: 'rigid-boxes', label: 'Rigid Boxes', img: 'https://cdn-pim.packhelp.com/assets/0df7f906-e452-4388-a8d8-1b90d109de53/89199-718-caa-93-5442-48-c-4-9990-27-f-41-f-66-b-385-png?w=640&fit=min&auto=format' }
-        ]
+          { key: 'rigid-boxes', label: 'Rigid Cartons', img: 'https://cdn-pim.packhelp.com/assets/0df7f906-e452-4388-a8d8-1b90d109de53/89199-718-caa-93-5442-48-c-4-9990-27-f-41-f-66-b-385-png?w=640&fit=min&auto=format' }
+        ],
+        products: productBoxesProducts
       },
       'mailer-boxes': {
         title: 'Mailer Boxes',
         desc: 'Mailer boxes are robust corrugated cardboard containers, perfect for shipping products. These die-cut mailing boxes are available plain, pre-printed, or as custom mailer boxes with your branding, in various sizes for e-commerce packaging, alongside other types of cardboard boxes.',
         breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes', key: 'boxes' }, { label: 'Mailer Boxes' }],
-        tiles: []
+        tiles: [],
+        products: mailerBoxesProducts
       },
       'shipping-boxes': {
         title: 'Cardboard Shipping Boxes',
         desc: 'Cardboard shipping boxes for products like phones and laptops, plus other items, are available here. Find custom shipping boxes or plain boxes for shipping, ideal for ecommerce packaging and sending parcels across the UK.',
         breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes', key: 'boxes' }, { label: 'Shipping Boxes' }],
-        tiles: []
+        tiles: [],
+        products: shippingBoxesProducts
       },
       'folding-cartons': {
         title: 'Folding Cartons',
         desc: 'Folding cartons are lightweight paperboard product boxes, ideal for retail and gifting. Choose from many custom folding boxes, including snap lock, auto bottom, and drawer styles, available plain or with custom printed product boxes.',
         breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes', key: 'boxes' }, { label: 'Product Boxes', key: 'product-boxes' }, { label: 'Folding Cartons' }],
-        tiles: []
+        tiles: [],
+        products: foldingCartonsProducts
       },
       'rigid-boxes': {
-        title: 'Rigid Boxes',
+        title: 'Rigid Cartons',
         desc: 'Rigid boxes provide sturdy custom packaging for gifts and premium products. These custom rigid boxes are available with a lid or other closure types in various sizes, ideal for retail and wholesale product boxes.',
-        breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes', key: 'boxes' }, { label: 'Product Boxes', key: 'product-boxes' }, { label: 'Rigid Boxes' }],
-        tiles: []
+        breadcrumb: [{ label: 'Packaging', key: 'root' }, { label: 'Boxes', key: 'boxes' }, { label: 'Product Boxes', key: 'product-boxes' }, { label: 'Rigid Cartons' }],
+        tiles: [],
+        products: rigidCartonsProducts
       }
     };
 
@@ -1876,6 +1967,53 @@
     var subtitleEl = document.getElementById('pkgSubtitle');
     var subtitleTextEl = document.getElementById('pkgSubtitleText');
     var descToggle = document.getElementById('pkgDescToggle');
+    var productGrid = document.getElementById('pkgProductGrid');
+    var defaultProductGridHTML = productGrid.innerHTML;
+
+    function renderProducts(products) {
+      if (!products) {
+        productGrid.innerHTML = defaultProductGridHTML;
+        return;
+      }
+
+      productGrid.innerHTML = products.map(function (product) {
+        var moqBadge = product.moq
+          ? '<span class="product-card-moq">' + product.moq + ' minimum</span>'
+          : '';
+        var mediaImg = product.img
+          ? '<img class="product-card-img" src="' + product.img + '" alt="">'
+          : '';
+        return '<div class="product-card">' +
+          '<div class="product-card-media">' + mediaImg + moqBadge + '<a href="#" class="btn-pill sm product-card-btn">More info</a></div>' +
+          '<div class="product-card-info">' +
+          '<h3 class="product-card-name">' + product.name + '</h3>' +
+          '<p class="product-card-customisation">' + product.type + '</p>' +
+          '</div>' +
+          '</div>';
+      }).join('');
+
+      var cards = productGrid.querySelectorAll('.product-card');
+      products.forEach(function (product, i) {
+        if (!product.hoverImages || !product.hoverImages.length) { return; }
+
+        var img = cards[i].querySelector('.product-card-img');
+        var timer = null;
+        var idx = 0;
+
+        cards[i].addEventListener('mouseenter', function () {
+          idx = 0;
+          timer = setInterval(function () {
+            img.src = product.hoverImages[idx % product.hoverImages.length];
+            idx++;
+          }, 1000);
+        });
+
+        cards[i].addEventListener('mouseleave', function () {
+          clearInterval(timer);
+          img.src = product.img;
+        });
+      });
+    }
 
     function renderHeader(node) {
       titleEl.textContent = node.title;
@@ -1935,17 +2073,18 @@
       }
     }
 
-    function renderTiles(tiles) {
+    function renderTiles(tiles, currentKey) {
       if (!tiles.length) {
         tilesSection.style.display = 'none';
         return;
       }
       tilesSection.style.display = '';
-      strip.innerHTML = tiles.map(function (tile, i) {
-        var activeClass = i === 0 ? ' active' : '';
+      strip.innerHTML = tiles.map(function (tile) {
+        var activeClass = tile.key && tile.key === currentKey ? ' active' : '';
         var keyAttr = tile.key ? ' data-key="' + tile.key + '"' : '';
+        var imgAttr = tile.img ? ' style="--thumb-img:url(\'' + tile.img + '\')"' : '';
         return '<a class="thumb-item' + activeClass + '" href="#"' + keyAttr + '>' +
-          '<div class="thumb-photo" style="--thumb-img:url(\'' + tile.img + '\')"></div>' +
+          '<div class="thumb-photo"' + imgAttr + '></div>' +
           '<span class="thumb-caption">' + tile.label + '</span>' +
           '</a>';
       }).join('');
@@ -1974,7 +2113,8 @@
       if (!node) { return; }
       renderHeader(node);
       renderBreadcrumb(node.breadcrumb);
-      renderTiles(node.tiles);
+      renderTiles(node.tiles, key);
+      renderProducts(node.products);
     }
 
     renderHeader(categoryTree.root);
