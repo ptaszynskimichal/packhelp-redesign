@@ -550,9 +550,9 @@
     display: inline-flex;
     align-items: center;
     justify-content: center;
-    min-width: 18px;
+    width: 18px;
     height: 18px;
-    padding: 0 4px;
+    flex: none;
     box-sizing: border-box;
     border-radius: 50%;
     background: var(--color-text-primary);
@@ -560,10 +560,32 @@
     font-size: 0.6875rem;
     font-weight: 500;
     line-height: 1;
+    cursor: pointer;
   }
 
   .filter-count[hidden] {
     display: none;
+  }
+
+  .filter-count .filter-count-num {
+    display: inline-flex;
+  }
+
+  .filter-count .filter-count-clear {
+    display: none;
+    width: 9px;
+    height: 9px;
+    flex: none;
+    opacity: 1;
+    stroke: var(--white);
+  }
+
+  .filter-pill:hover .filter-count-num {
+    display: none;
+  }
+
+  .filter-pill:hover .filter-count-clear {
+    display: inline-flex;
   }
 
   .filter-pill-wrap {
@@ -1510,7 +1532,10 @@
       <div class="filter-pill-wrap">
         <button class="filter-pill" aria-expanded="false">
           Customisation
-          <span class="filter-count" hidden>0</span>
+          <span class="filter-count" hidden>
+            <span class="filter-count-num">0</span>
+            <svg class="filter-count-clear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="filter-panel">
@@ -1527,7 +1552,10 @@
       <div class="filter-pill-wrap">
         <button class="filter-pill" aria-expanded="false">
           Industry
-          <span class="filter-count" hidden>0</span>
+          <span class="filter-count" hidden>
+            <span class="filter-count-num">0</span>
+            <svg class="filter-count-clear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="filter-panel">
@@ -1550,7 +1578,10 @@
       <div class="filter-pill-wrap">
         <button class="filter-pill" aria-expanded="false">
           Size
-          <span class="filter-count" hidden>0</span>
+          <span class="filter-count" hidden>
+            <span class="filter-count-num">0</span>
+            <svg class="filter-count-clear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="filter-panel">
@@ -1566,7 +1597,10 @@
       <div class="filter-pill-wrap">
         <button class="filter-pill" aria-expanded="false">
           Use case
-          <span class="filter-count" hidden>0</span>
+          <span class="filter-count" hidden>
+            <span class="filter-count-num">0</span>
+            <svg class="filter-count-clear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="filter-panel filter-panel-scroll">
@@ -1610,7 +1644,10 @@
       <div class="filter-pill-wrap">
         <button class="filter-pill" aria-expanded="false">
           Type
-          <span class="filter-count" hidden>0</span>
+          <span class="filter-count" hidden>
+            <span class="filter-count-num">0</span>
+            <svg class="filter-count-clear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="filter-panel">
@@ -1635,7 +1672,10 @@
       <div class="filter-pill-wrap">
         <button class="filter-pill" aria-expanded="false">
           Sustainability
-          <span class="filter-count" hidden>0</span>
+          <span class="filter-count" hidden>
+            <span class="filter-count-num">0</span>
+            <svg class="filter-count-clear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="filter-panel">
@@ -1654,7 +1694,10 @@
       <div class="filter-pill-wrap">
         <button class="filter-pill" aria-expanded="false">
           Collections
-          <span class="filter-count" hidden>0</span>
+          <span class="filter-count" hidden>
+            <span class="filter-count-num">0</span>
+            <svg class="filter-count-clear" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18M6 6l12 12"/></svg>
+          </span>
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m6 9 6 6 6-6"/></svg>
         </button>
         <div class="filter-panel">
@@ -2057,6 +2100,7 @@
 
     wraps.forEach(function (wrap) {
       var badge = wrap.querySelector('.filter-count');
+      var badgeNum = badge.querySelector('.filter-count-num');
       var inputs = wrap.querySelectorAll('.filter-panel input');
 
       function updateCount() {
@@ -2064,12 +2108,20 @@
         inputs.forEach(function (input) {
           if (input.checked && !input.hasAttribute('data-any')) { count++; }
         });
-        badge.textContent = count;
+        badgeNum.textContent = count;
         badge.hidden = count === 0;
       }
 
       inputs.forEach(function (input) {
         input.addEventListener('change', updateCount);
+      });
+
+      badge.addEventListener('click', function (e) {
+        e.stopPropagation();
+        inputs.forEach(function (input) {
+          input.checked = input.type === 'radio' && input.hasAttribute('data-any');
+        });
+        updateCount();
       });
 
       updateCount();
